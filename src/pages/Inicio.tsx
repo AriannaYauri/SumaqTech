@@ -1,0 +1,122 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Play, Users, BookOpen, Target, MessageCircle } from 'lucide-react';
+import RobotMascot from '../components/RobotMascot';
+
+const Inicio: React.FC = () => {
+  return (
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-br from-teal-100 via-teal-50 to-cyan-100 py-16 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col lg:flex-row items-center justify-between">
+            <div className="lg:w-1/2 space-y-8">
+              <RobotMascot />
+            </div>
+            <div className="lg:w-1/2 text-center lg:text-left space-y-6 mt-8 lg:mt-0">
+              <h1 className="text-4xl lg:text-5xl font-bold text-gray-800">
+                <span className="text-teal-500">¿Listo para dominar</span>
+                <br />
+                la tecnología?
+              </h1>
+              <p className="text-xl text-gray-600 leading-relaxed">
+                Empieza tu camino tech con SumaqTech.
+              </p>
+              <Link
+                to="/registrate"
+                className="inline-block bg-teal-500 hover:bg-teal-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors duration-200 transform hover:scale-105"
+              >
+                Comienza
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Video Section */}
+      <section className="py-16 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="relative bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-300 rounded-2xl overflow-hidden shadow-2xl">
+            <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+            <div className="relative h-96 flex items-center justify-center">
+              <img
+                src="https://images.pexels.com/photos/3184416/pexels-photo-3184416.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Estudiantes trabajando en tecnología"
+                className="absolute inset-0 w-full h-full object-cover mix-blend-multiply"
+              />
+              <button className="relative z-10 w-16 h-16 bg-white bg-opacity-90 rounded-full flex items-center justify-center hover:bg-opacity-100 transition-all duration-200 transform hover:scale-110 shadow-lg">
+                <Play className="w-6 h-6 text-gray-700 ml-1" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What is SumaqTech Section */}
+      <section className="py-16 px-4 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-gray-800 mb-6">
+            ¿Qué es SumaqTech?
+          </h2>
+          <p className="text-lg text-gray-600 leading-relaxed mb-8">
+            SumaqTech es una plataforma educativa gratuita creada por estudiantes para estudiantes de secundaria y preuniversitarios. Nuestra
+            misión es acercar el mundo de la ciencia, la tecnología, la ingeniería y las matemáticas (STEM) a estudiantes de secundaria y
+            preuniversitarios. Queremos ayudarte a descubrir tus intereses, conocer carreras y tomar decisiones informadas sobre tu futuro.
+          </p>
+        </div>
+      </section>
+
+      {/* Features Grid */}
+      <section className="py-16 px-4 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-gray-800 text-center mb-12">
+            Explora nuestras funciones
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200">
+              <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4">
+                <BookOpen className="w-6 h-6 text-teal-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">Módulos</h3>
+              <p className="text-gray-600 text-sm">
+                Contenido educativo estructurado para aprender tecnología paso a paso.
+              </p>
+            </div>
+
+            <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                <Target className="w-6 h-6 text-blue-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">Test Vocacional</h3>
+              <p className="text-gray-600 text-sm">
+                Descubre tu vocación y las carreras que mejor se adaptan a ti.
+              </p>
+            </div>
+
+            <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                <Users className="w-6 h-6 text-purple-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">Mentorías</h3>
+              <p className="text-gray-600 text-sm">
+                Conecta con mentores expertos que te guiarán en tu camino.
+              </p>
+            </div>
+
+            <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200">
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                <MessageCircle className="w-6 h-6 text-green-600" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">Foro</h3>
+              <p className="text-gray-600 text-sm">
+                Participa en discusiones y comparte conocimientos con la comunidad.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Inicio;
