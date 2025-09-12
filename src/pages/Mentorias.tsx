@@ -5,7 +5,7 @@ const Mentorias: React.FC = () => {
   const mentors = [
     {
       id: 1,
-      name: 'María González',
+      name: 'Belen González',
       title: 'Senior Software Engineer',
       company: 'Google',
       expertise: ['React', 'Node.js', 'AWS'],
