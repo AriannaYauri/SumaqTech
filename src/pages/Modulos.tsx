@@ -79,10 +79,10 @@ const Modulos: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen py-12 px-4">
+    <div className="min-h-screen py-12 px-4 bg-gradient-to-r from-blue-100 to-purple-100">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 animate-bounce">
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
             Módulos de Aprendizaje
           </h1>
@@ -93,16 +93,16 @@ const Modulos: React.FC = () => {
 
         {/* Filter Buttons */}
         <div className="flex flex-wrap justify-center gap-4 mb-8">
-          <button className="px-6 py-2 bg-teal-500 text-white rounded-full hover:bg-teal-600 transition-colors">
+          <button className="px-6 py-2 bg-teal-500 text-white rounded-full hover:bg-teal-600 transition-transform transform hover:scale-110">
             Todos
           </button>
-          <button className="px-6 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-colors">
+          <button className="px-6 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-transform transform hover:scale-110">
             Principiante
           </button>
-          <button className="px-6 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-colors">
+          <button className="px-6 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-transform transform hover:scale-110">
             Intermedio
           </button>
-          <button className="px-6 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-colors">
+          <button className="px-6 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-transform transform hover:scale-110">
             Avanzado
           </button>
         </div>
@@ -110,11 +110,11 @@ const Modulos: React.FC = () => {
         {/* Modules Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {modules.map((module) => (
-            <div key={module.id} className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200 overflow-hidden">
+            <div key={module.id} className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200 overflow-hidden transform hover:scale-105">
               <img
                 src={module.image}
                 alt={module.title}
-                className="w-full h-48 object-cover"
+                className="w-full h-48 object-cover transition-transform transform hover:scale-110"
               />
               <div className="p-6">
                 <div className="flex items-center justify-between mb-3">
@@ -122,7 +122,7 @@ const Modulos: React.FC = () => {
                     {module.level}
                   </span>
                   <div className="flex items-center space-x-1">
-                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                    <Star className="w-4 h-4 text-yellow-400 fill-current animate-spin" />
                     <span className="text-sm text-gray-600">{module.rating}</span>
                   </div>
                 </div>
@@ -137,17 +137,17 @@ const Modulos: React.FC = () => {
                 
                 <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
                   <div className="flex items-center space-x-1">
-                    <Clock className="w-4 h-4" />
+                    <Clock className="w-4 h-4 animate-pulse" />
                     <span>{module.duration}</span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <Users className="w-4 h-4" />
+                    <Users className="w-4 h-4 animate-pulse" />
                     <span>{module.students.toLocaleString()}</span>
                   </div>
                 </div>
                 
-                <button className="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
-                  <BookOpen className="w-4 h-4 inline mr-2" />
+                <button className="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2 px-4 rounded-lg transition-transform transform hover:scale-105">
+                  <BookOpen className="w-4 h-4 inline mr-2 animate-bounce" />
                   Comenzar Módulo
                 </button>
               </div>
