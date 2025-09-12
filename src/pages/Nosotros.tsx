@@ -10,7 +10,7 @@ const Nosotros: React.FC = () => {
       description: 'Ingeniera de Software con pasión por la educación tecnológica'
     },
     {
-      name: 'Roberto Silva',
+      name: 'Henrry Silva',
       role: 'CTO',
       image: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=300',
       description: 'Experto en desarrollo de plataformas educativas y arquitectura de software'
@@ -68,7 +68,7 @@ const Nosotros: React.FC = () => {
             Sobre <span className="text-teal-600">SumaqTech</span>
           </h1>
           <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-            Somos una plataforma educativa gratuita creada por estudiantes para estudiantes, 
+            Somos una plataforma educativa e innovadora gratuita creada por estudiantes para estudiantes, 
             con la misión de democratizar el acceso a la educación tecnológica de calidad.
           </p>
           <div className="w-20 h-1 bg-teal-500 mx-auto"></div>
