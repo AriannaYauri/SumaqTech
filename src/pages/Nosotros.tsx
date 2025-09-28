@@ -65,7 +65,7 @@ const Nosotros: React.FC = () => {
       <section className="bg-gradient-to-br from-teal-100 via-teal-50 to-cyan-100 py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl lg:text-5xl font-bold text-gray-800 mb-6">
-            Sobre <span className="text-teal-600">SumaqTech</span>
+            <span className="text-teal-600">Sobre SumaqTech</span>
           </h1>
           <p className="text-xl text-gray-600 mb-8 leading-relaxed">
             Somos una plataforma educativa e innovadora gratuita creada por estudiantes para estudiantes, 
