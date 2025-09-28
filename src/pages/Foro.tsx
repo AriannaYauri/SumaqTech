@@ -66,7 +66,7 @@ const Foro: React.FC = () => {
     {
       id: 5,
       title: 'Ayuda con vulnerabilidades web',
-      author: 'Luis Paredes',
+      author: 'Luis Paredes 💡 Buena pregunta',
       category: 'cybersecurity',
       replies: 12,
       likes: 19,
@@ -192,7 +192,15 @@ const Foro: React.FC = () => {
               {filteredDiscussions.map((discussion) => (
                 <div
                   key={discussion.id}
-                  className={`bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-200${discussion.author.includes('Carlos Mendoza') ? ' border-2 border-teal-400' : ''}${discussion.author.includes('Ana Rodríguez') ? ' border-2 border-purple-400' : ''}`}
+                  className={`bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-200 border-2`}
+                  style={
+                    discussion.author.includes('Carlos Mendoza') ? { borderColor: '#7EC8E3' } :
+                    discussion.author.includes('María González') ? { borderColor: '#A259F7' } :
+                    discussion.author.includes('Ana Rodríguez') ? { borderColor: '#FF7F50' } :
+                    discussion.author.includes('Luis Paredes') ? { borderColor: '#32CD32' } :
+                    (discussion.author.includes('Diego Torres') || discussion.author.includes('Ana Torres')) ? { borderColor: '#1E90FF' } :
+                    undefined
+                  }
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center space-x-3">
@@ -200,7 +208,12 @@ const Foro: React.FC = () => {
                         <User className="w-5 h-5 text-gray-600" />
                       </div>
                       <div>
-                        <p className="font-medium text-gray-800">{discussion.author}</p>
+                        <p className="font-medium text-gray-800">
+                          {discussion.author.includes('Buena pregunta') ? (
+                            <span style={{ backgroundColor: '#e0f7fa', color: '#00796b', borderRadius: '6px', padding: '2px 6px', marginRight: '6px', fontWeight: 'bold' }}>💡 Buena pregunta</span>
+                          ) : null}
+                          {discussion.author.replace('💡 Buena pregunta', '').trim()}
+                        </p>
                         <div className="flex items-center space-x-2 text-sm text-gray-500">
                           <Calendar className="w-4 h-4" />
                           <span>{discussion.time}</span>
@@ -216,7 +229,12 @@ const Foro: React.FC = () => {
 
                   <h2 className="text-xl font-semibold text-gray-800 mb-2 hover:text-teal-600 cursor-pointer">
                     {discussion.title}
-                  </h2>
+                                  <p className="font-medium text-gray-800">
+                                    {discussion.author.includes('Luis Paredes') && (
+                                      <span style={{ backgroundColor: '#e0f7fa', color: '#00796b', borderRadius: '6px', padding: '2px 6px', marginRight: '6px', fontWeight: 'bold' }}>💡 Buena pregunta</span>
+                                    )}
+                                    {discussion.author}
+                                  </p>
                   
                   <p className="text-gray-600 mb-4">{discussion.excerpt}</p>
                   
