@@ -18,7 +18,7 @@ const Foro: React.FC = () => {
     {
       id: 1,
       title: '¿Cuál es la mejor forma de empezar en React?',
-      author: 'Carlos Mendoza',
+      author: 'Carlos Mendoza ✨ Primer post',
       category: 'programming',
       replies: 23,
       likes: 15,
@@ -42,7 +42,7 @@ const Foro: React.FC = () => {
     {
       id: 3,
       title: 'Tips para hacer un buen portfolio de diseño',
-      author: 'Ana Rodríguez',
+      author: 'Ana Rodríguez 💡 Respuesta útil',
       category: 'design',
       replies: 17,
       likes: 28,
@@ -190,7 +190,10 @@ const Foro: React.FC = () => {
             {/* Discussions */}
             <div className="space-y-4">
               {filteredDiscussions.map((discussion) => (
-                <div key={discussion.id} className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-200">
+                <div
+                  key={discussion.id}
+                  className={`bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-200${discussion.author.includes('Carlos Mendoza') ? ' border-2 border-teal-400' : ''}${discussion.author.includes('Ana Rodríguez') ? ' border-2 border-purple-400' : ''}`}
+                >
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
