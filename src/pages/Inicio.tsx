@@ -8,23 +8,38 @@ const Inicio: React.FC = () => {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-teal-100 via-teal-50 to-cyan-100 py-16 px-4">
+        {/* Contenedor principal centrado con ancho máximo */}
         <div className="max-w-6xl mx-auto">
+          
+          {/* Flexbox: en móviles en columna, en pantallas grandes en fila */}
           <div className="flex flex-col lg:flex-row items-center justify-between">
+            
+            {/* Columna izquierda: Mascota del robot */}
             <div className="lg:w-1/2 space-y-8">
               <RobotMascot />
             </div>
-            <div className="lg:w-1/2 text-center lg:text-left space-y-6 mt-8 lg:mt-0">
-              <h1 className="text-4xl lg:text-5xl font-bold text-gray-800">
-                <span className="text-teal-500">¿Listo para dominar</span>
-                <br />
-                la tecnología?
+            
+            {/* Columna derecha: Texto + botón */}
+            {/* Ahora ocupa 2/3 del ancho en pantallas grandes para dar más espacio al título */}
+            <div className="lg:w-2/
+            
+            
+            3 text-center space-y-6 mt-8 lg:mt-0">
+              
+              {/* Título principal más grande y centrado */}
+              <h1 className="text-5xl lg:text-5xl font-bold text-center">
+                <span className="text-teal-500">¿Listo para dominar la tecnología?</span>
               </h1>
-              <p className="text-xl text-gray-600 leading-relaxed">
+              
+              {/* Subtítulo motivador */}
+              <p className="text-xl text-gray-600 leading-relaxed text-center">
                 Empieza tu camino tech con SumaqTech.
               </p>
+              
+              {/* Botón de llamada a la acción */}
               <Link
                 to="/registrate"
-                className="inline-block bg-teal-500 hover:bg-teal-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors duration-200 transform hover:scale-105"
+                className="inline-block bg-teal-500 hover:bg-teal-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors duration-200 transform hover:scale-105 mx-auto block text-center"
               >
                 Comienza
               </Link>
@@ -32,6 +47,7 @@ const Inicio: React.FC = () => {
           </div>
         </div>
       </section>
+
 
       {/* Video Section */}
       <section className="py-16 px-4">
