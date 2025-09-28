@@ -14,7 +14,7 @@ const Foro: React.FC = () => {
     { id: 'projects', name: 'Proyectos', count: 9 }
   ];
 
-  const discussions = [
+  const initialDiscussions = [
     {
       id: 1,
       title: '¿Cuál es la mejor forma de empezar en React?',
@@ -53,14 +53,14 @@ const Foro: React.FC = () => {
     },
     {
       id: 4,
-      title: '¿Cómo prepararse para una entrevista tech?',
-      author: 'Diego Torres',
+      title: 'Consejos para prepararse en una entrevista tech',
+      author: 'Diego Torres 🎓 Mentor',
       category: 'career',
       replies: 41,
       likes: 67,
       time: 'hace 2 días',
-      excerpt: 'Tengo mi primera entrevista para un puesto de desarrollador junior. ¿Qué debo esperar?',
-      tags: ['Entrevista', 'Carrera', 'Desarrollador'],
+      excerpt: 'Muchos estudiantes y jóvenes desarrolladores me preguntan cómo afrontar su primera entrevista.\nAquí algunos tips que recomiendo:\n- Repasar fundamentos de programación y estructuras de datos.\n- Practicar ejercicios de lógica en plataformas como HackerRank o LeetCode.\n- Preparar ejemplos de proyectos personales para mostrar.\n- Ensayar respuestas a preguntas típicas de trabajo en equipo y resolución de problemas.\n\n¿Qué otros consejos agregarían?',
+      tags: ['🏷️ Mentoría', '🏷️ Carrera', '🏷️ Entrevista'],
       isAnswered: true
     },
     {
@@ -97,6 +97,7 @@ const Foro: React.FC = () => {
     { name: 'Job Interview', posts: 23 }
   ];
 
+  const [discussions, setDiscussions] = useState(initialDiscussions);
   const filteredDiscussions = selectedCategory === 'all' 
     ? discussions 
     : discussions.filter(d => d.category === selectedCategory);
@@ -227,14 +228,29 @@ const Foro: React.FC = () => {
                     </div>
                     
                     <div className="flex items-center space-x-4">
-                      <div className="flex items-center space-x-1 text-gray-500">
+                      <button
+                        className="flex items-center space-x-1 text-gray-500 hover:text-teal-600 focus:outline-none"
+                        onClick={() => {
+                          setDiscussions(prev => prev.map(d =>
+                            d.id === discussion.id ? { ...d, likes: d.likes + 1 } : d
+                          ));
+                        }}
+                        type="button"
+                      >
                         <ThumbsUp className="w-4 h-4" />
                         <span className="text-sm">{discussion.likes}</span>
-                      </div>
-                      <div className="flex items-center space-x-1 text-gray-500">
+                      </button>
+                      <button
+                        className="flex items-center space-x-1 text-gray-500 hover:text-blue-600 focus:outline-none"
+                        onClick={() => {
+                          // Aquí podrías abrir un modal o enfocar el área de comentarios
+                          alert('Funcionalidad de comentarios próximamente');
+                        }}
+                        type="button"
+                      >
                         <MessageCircle className="w-4 h-4" />
                         <span className="text-sm">{discussion.replies}</span>
-                      </div>
+                      </button>
                     </div>
                   </div>
                 </div>
