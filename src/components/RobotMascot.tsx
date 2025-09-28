@@ -1,58 +1,44 @@
 import React from 'react';
 
-const RobotMascot: React.FC = () => {
-  return (
-    <div className="relative">
-      {/* Robot Body */}
-      <div className="w-48 h-64 mx-auto relative">
-        {/* Head */}
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-24 h-20 bg-gray-200 rounded-t-full border-4 border-gray-300">
-          {/* Antennae */}
-          <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 w-1 h-6 bg-gray-400 rounded-full">
-            <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-orange-400 rounded-full"></div>
-          </div>
-          
-          {/* Eyes */}
-          <div className="absolute top-6 left-3 w-5 h-5 bg-teal-400 rounded-full shadow-inner">
-            <div className="absolute top-1 left-1 w-3 h-3 bg-teal-300 rounded-full"></div>
-          </div>
-          <div className="absolute top-6 right-3 w-5 h-5 bg-teal-400 rounded-full shadow-inner">
-            <div className="absolute top-1 left-1 w-3 h-3 bg-teal-300 rounded-full"></div>
-          </div>
-          
-          {/* Ears */}
-          <div className="absolute top-3 -left-6 w-6 h-6 bg-gray-300 rounded-full border-2 border-gray-400"></div>
-          <div className="absolute top-3 -right-6 w-6 h-6 bg-gray-300 rounded-full border-2 border-gray-400"></div>
-        </div>
-        
-        {/* Body */}
-        <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-32 h-32 bg-white rounded-2xl border-4 border-gray-300 shadow-lg">
-          {/* Chest Panel */}
-          <div className="absolute top-4 left-1/2 transform -translate-x-1/2 w-20 h-20 bg-gray-100 rounded-xl border-2 border-gray-200">
-            <div className="absolute top-2 left-2 w-4 h-4 bg-blue-400 rounded-full"></div>
-            <div className="absolute top-2 right-2 w-4 h-4 bg-green-400 rounded-full"></div>
-            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-12 h-6 bg-gray-300 rounded-lg">
-              <div className="absolute top-1 left-1 w-2 h-4 bg-gray-400 rounded-sm"></div>
-              <div className="absolute top-1 left-4 w-2 h-4 bg-gray-400 rounded-sm"></div>
-              <div className="absolute top-1 right-1 w-2 h-4 bg-gray-400 rounded-sm"></div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Arms */}
-        <div className="absolute top-20 -left-6 w-6 h-16 bg-gray-200 rounded-full border-2 border-gray-300"></div>
-        <div className="absolute top-20 -right-6 w-6 h-16 bg-gray-200 rounded-full border-2 border-gray-300"></div>
-        
-        {/* Legs */}
-        <div className="absolute top-44 left-6 w-6 h-16 bg-gray-200 rounded-full border-2 border-gray-300"></div>
-        <div className="absolute top-44 right-6 w-6 h-16 bg-gray-200 rounded-full border-2 border-gray-300"></div>
-        
-        {/* Feet */}
-        <div className="absolute top-58 left-4 w-10 h-4 bg-gray-300 rounded-full border-2 border-gray-400"></div>
-        <div className="absolute top-58 right-4 w-10 h-4 bg-gray-300 rounded-full border-2 border-gray-400"></div>
-      </div>
-    </div>
-  );
-};
+const RobotMascot: React.FC = () => (
+  <div className="flex flex-col items-center">
+    <svg
+      width="180"
+      height="180"
+      viewBox="0 0 180 180"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="drop-shadow-lg"
+    >
+      {/* Cabeza */}
+      <rect x="40" y="40" width="100" height="80" rx="30" fill="#A7F3D0" stroke="#14B8A6" strokeWidth="4" />
+      {/* Antena */}
+      <rect x="87" y="20" width="6" height="20" rx="3" fill="#14B8A6" />
+      <circle cx="90" cy="20" r="6" fill="#FDE68A" stroke="#F59E42" strokeWidth="2" />
+      {/* Ojos grandes y amigables */}
+      <ellipse cx="70" cy="80" rx="12" ry="14" fill="#fff" />
+      <ellipse cx="110" cy="80" rx="12" ry="14" fill="#fff" />
+      <circle cx="70" cy="82" r="6" fill="#14B8A6" />
+      <circle cx="110" cy="82" r="6" fill="#14B8A6" />
+      {/* Brillo en los ojos */}
+      <circle cx="73" cy="79" r="2" fill="#fff" />
+      <circle cx="113" cy="79" r="2" fill="#fff" />
+      {/* Sonrisa amigable */}
+      <path d="M75 105 Q90 120 105 105" stroke="#14B8A6" strokeWidth="3" fill="none" />
+      {/* Mejillas rosadas */}
+      <ellipse cx="60" cy="95" rx="5" ry="3" fill="#FCA5A5" opacity="0.7" />
+      <ellipse cx="120" cy="95" rx="5" ry="3" fill="#FCA5A5" opacity="0.7" />
+      {/* Cuerpo simple y redondeado */}
+      <rect x="65" y="120" width="50" height="30" rx="15" fill="#A7F3D0" stroke="#14B8A6" strokeWidth="3" />
+      {/* Brazos */}
+      <rect x="30" y="110" width="20" height="10" rx="5" fill="#A7F3D0" stroke="#14B8A6" strokeWidth="2" />
+      <rect x="130" y="110" width="20" height="10" rx="5" fill="#A7F3D0" stroke="#14B8A6" strokeWidth="2" />
+      {/* Manos redondas */}
+      <circle cx="40" cy="115" r="7" fill="#FDE68A" stroke="#F59E42" strokeWidth="2" />
+      <circle cx="140" cy="115" r="7" fill="#FDE68A" stroke="#F59E42" strokeWidth="2" />
+    </svg>
+    <span className="mt-4 text-teal-600 font-bold text-lg">¡Hola! Soy SumaqBot 🤖</span>
+  </div>
+);
 
 export default RobotMascot;
