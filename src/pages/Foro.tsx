@@ -5,7 +5,7 @@ const Foro: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const categories = [
-    { id: 'all', name: 'Todos', count: 142 },
+  { id: 'all', name: 'Comunidad', count: 142 },
     { id: 'programming', name: 'Programación', count: 45 },
     { id: 'data-science', name: 'Ciencia de Datos', count: 23 },
     { id: 'design', name: 'Diseño UX/UI', count: 18 },
@@ -30,7 +30,7 @@ const Foro: React.FC = () => {
     {
       id: 2,
       title: 'Compartiendo mi primer proyecto de Data Science',
-      author: 'María González',
+      author: 'María González 🚀 Innovador',
       category: 'data-science',
       replies: 8,
       likes: 32,
@@ -74,6 +74,18 @@ const Foro: React.FC = () => {
       excerpt: 'Estoy aprendiendo sobre seguridad web. ¿Pueden explicarme qué es XSS de forma simple?',
       tags: ['Seguridad', 'XSS', 'Web'],
       isAnswered: false
+    },
+    {
+      id: 6,
+      title: '¿Qué carrera STEM combina más con mi interés en arte y ciencia?',
+      author: 'Ana Torres ✨ Primer Post',
+      category: 'career',
+      replies: 0,
+      likes: 0,
+      time: 'hace unos minutos',
+      excerpt: 'Estoy en secundaria y no sé si estudiar Diseño o Ingeniería Biomédica...',
+      tags: ['STEM', 'Arte', 'Ciencia', 'Orientación'],
+      isAnswered: false
     }
   ];
 
@@ -98,7 +110,7 @@ const Foro: React.FC = () => {
             <MessageSquare className="w-8 h-8 text-teal-600" />
           </div>
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            Foro de la Comunidad
+            <span style={{ color: '#00BFA5' }}>Foro de la Comunidad</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Conecta, aprende y comparte conocimientos con estudiantes y profesionales de tecnología.
@@ -128,7 +140,16 @@ const Foro: React.FC = () => {
                         : 'hover:bg-gray-100 text-gray-700'
                     }`}
                   >
-                    <span className="font-medium">{category.name}</span>
+                    <span className="font-medium">
+                      {category.id === 'programming' && '💻 '}
+                      {category.id === 'data-science' && '📊 '}
+                      {category.id === 'design' && '🎨 '}
+                      {category.id === 'cybersecurity' && '🛡️ '}
+                      {category.id === 'career' && '🎓 '}
+                      {category.id === 'all' && '🌐 '}
+                      {category.id === 'projects' && '🚀 '}
+                      {category.name}
+                    </span>
                     <span className="text-sm bg-gray-200 text-gray-600 px-2 py-1 rounded-full">
                       {category.count}
                     </span>
