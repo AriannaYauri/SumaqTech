@@ -5,7 +5,7 @@ const Foro: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const categories = [
-  { id: 'all', name: 'Comunidad', count: 142 },
+    { id: 'all', name: 'Comunidad', count: 142 },
     { id: 'programming', name: 'Programación', count: 45 },
     { id: 'data-science', name: 'Ciencia de Datos', count: 23 },
     { id: 'design', name: 'Diseño UX/UI', count: 18 },
@@ -98,9 +98,10 @@ const Foro: React.FC = () => {
   ];
 
   const [discussions, setDiscussions] = useState(initialDiscussions);
-  const filteredDiscussions = selectedCategory === 'all' 
-    ? discussions 
-    : discussions.filter(d => d.category === selectedCategory);
+  const filteredDiscussions =
+    selectedCategory === 'all'
+      ? discussions
+      : discussions.filter((d) => d.category === selectedCategory);
 
   return (
     <div className="min-h-screen py-12 px-4 bg-gray-50">
@@ -111,13 +112,24 @@ const Foro: React.FC = () => {
             <MessageSquare className="w-8 h-8 text-teal-600" />
           </div>
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            <span style={{ color: '#00BFA5' }}>Foro de la Comunidad</span>
+            <span style={{ color: '#000' }}>Foro de la Comunidad SumaqTech</span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Conecta, aprende y comparte conocimientos con estudiantes y profesionales de tecnología.
-          </p>
+
+          {/* Texto introductorio */}
+          <div className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <span className="block text-center">
+              Tu espacio para crecer en tecnología: comparte, aprende y encuentra tu camino en el mundo STEM.
+            </span>
+          </div>
+
+          {/* Banner Tema de la Semana */}
+          <div className="bg-gradient-to-r from-teal-400 to-cyan-500 text-white p-6 rounded-2xl shadow-lg mb-6">
+            <div className="font-bold text-lg mb-1">Tema de la Semana</div>
+            <div className="text-base">¿Cómo descubriste tu interés por la tecnología?</div>
+          </div>
         </div>
 
+        {/* Grid principal */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
@@ -192,14 +204,20 @@ const Foro: React.FC = () => {
               {filteredDiscussions.map((discussion) => (
                 <div
                   key={discussion.id}
-                  className={`bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-200 border-2`}
+                  className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-200 border-2"
                   style={
-                    discussion.author.includes('Carlos Mendoza') ? { borderColor: '#7EC8E3' } :
-                    discussion.author.includes('María González') ? { borderColor: '#A259F7' } :
-                    discussion.author.includes('Ana Rodríguez') ? { borderColor: '#FF7F50' } :
-                    discussion.author.includes('Luis Paredes') ? { borderColor: '#32CD32' } :
-                    (discussion.author.includes('Diego Torres') || discussion.author.includes('Ana Torres')) ? { borderColor: '#1E90FF' } :
-                    undefined
+                    discussion.author.includes('Carlos Mendoza')
+                      ? { borderColor: '#B3E5FC' } // celeste pastel
+                      : discussion.author.includes('María González')
+                      ? { borderColor: '#D1B3FF' } // lila pastel
+                      : discussion.author.includes('Ana Rodríguez')
+                      ? { borderColor: '#FFB6C1' } // rosa pastel
+                      : discussion.author.includes('Luis Paredes')
+                      ? { borderColor: '#B9FBC0' } // verde pastel
+                      : discussion.author.includes('Diego Torres') ||
+                        discussion.author.includes('Ana Torres')
+                      ? { borderColor: '#B3C6FF' } // azul pastel
+                      : undefined
                   }
                 >
                   <div className="flex items-start justify-between mb-4">
@@ -209,10 +227,41 @@ const Foro: React.FC = () => {
                       </div>
                       <div>
                         <p className="font-medium text-gray-800">
-                          {discussion.author.includes('Buena pregunta') ? (
-                            <span style={{ backgroundColor: '#e0f7fa', color: '#00796b', borderRadius: '6px', padding: '2px 6px', marginRight: '6px', fontWeight: 'bold' }}>💡 Buena pregunta</span>
-                          ) : null}
-                          {discussion.author.replace('💡 Buena pregunta', '').trim()}
+                          {/* Nombre del autor con insignias */}
+                          {(() => {
+                            const [name, ...restParts] = discussion.author.split(' ');
+                            let rest = discussion.author.replace(name, '').trim();
+                            return (
+                              <>
+                                {name}
+                                {rest.includes('Buena pregunta') && (
+                                  <span style={{ marginLeft: '8px', fontWeight: 'bold' }}>
+                                    💡 Buena pregunta
+                                  </span>
+                                )}
+                                {rest.includes('Primer') && (
+                                  <span style={{ marginLeft: '8px', fontWeight: 'bold' }}>
+                                    ✨ Primer post
+                                  </span>
+                                )}
+                                {rest.includes('Respuesta') && (
+                                  <span style={{ marginLeft: '8px', fontWeight: 'bold' }}>
+                                    💡 Respuesta útil
+                                  </span>
+                                )}
+                                {rest.includes('Innovador') && (
+                                  <span style={{ marginLeft: '8px', fontWeight: 'bold' }}>
+                                    🚀 Innovador
+                                  </span>
+                                )}
+                                {rest.includes('Mentor') && (
+                                  <span style={{ marginLeft: '8px', fontWeight: 'bold' }}>
+                                    🎓 Mentor
+                                  </span>
+                                )}
+                              </>
+                            );
+                          })()}
                         </p>
                         <div className="flex items-center space-x-2 text-sm text-gray-500">
                           <Calendar className="w-4 h-4" />
@@ -229,32 +278,37 @@ const Foro: React.FC = () => {
 
                   <h2 className="text-xl font-semibold text-gray-800 mb-2 hover:text-teal-600 cursor-pointer">
                     {discussion.title}
-                                  <p className="font-medium text-gray-800">
-                                    {discussion.author.includes('Luis Paredes') && (
-                                      <span style={{ backgroundColor: '#e0f7fa', color: '#00796b', borderRadius: '6px', padding: '2px 6px', marginRight: '6px', fontWeight: 'bold' }}>💡 Buena pregunta</span>
-                                    )}
-                                    {discussion.author}
-                                  </p>
-                  
+                  </h2>
+
                   <p className="text-gray-600 mb-4">{discussion.excerpt}</p>
-                  
+
                   <div className="flex items-center justify-between">
                     <div className="flex flex-wrap gap-2">
-                      {discussion.tags.map((tag, index) => (
-                        <span key={index} className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-sm">
-                          <Tag className="w-3 h-3 inline mr-1" />
-                          {tag}
-                        </span>
-                      ))}
+                      {discussion.tags.map((tag, index) => {
+                        if (discussion.author.includes('Diego Torres') && tag.includes('🏷️')) {
+                          return null;
+                        }
+                        return (
+                          <span
+                            key={index}
+                            className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-sm"
+                          >
+                            <Tag className="w-3 h-3 inline mr-1" />
+                            {tag}
+                          </span>
+                        );
+                      })}
                     </div>
-                    
+
                     <div className="flex items-center space-x-4">
                       <button
                         className="flex items-center space-x-1 text-gray-500 hover:text-teal-600 focus:outline-none"
                         onClick={() => {
-                          setDiscussions(prev => prev.map(d =>
-                            d.id === discussion.id ? { ...d, likes: d.likes + 1 } : d
-                          ));
+                          setDiscussions((prev) =>
+                            prev.map((d) =>
+                              d.id === discussion.id ? { ...d, likes: d.likes + 1 } : d
+                            )
+                          );
                         }}
                         type="button"
                       >
@@ -264,7 +318,6 @@ const Foro: React.FC = () => {
                       <button
                         className="flex items-center space-x-1 text-gray-500 hover:text-blue-600 focus:outline-none"
                         onClick={() => {
-                          // Aquí podrías abrir un modal o enfocar el área de comentarios
                           alert('Funcionalidad de comentarios próximamente');
                         }}
                         type="button"
@@ -285,7 +338,7 @@ const Foro: React.FC = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div> {/* 👈 Cierre del grid */}
       </div>
     </div>
   );
