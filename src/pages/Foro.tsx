@@ -52,16 +52,16 @@ const Foro: React.FC = () => {
       isAnswered: true
     },
     {
-      id: 4,
-      title: 'Consejos para prepararse en una entrevista tech',
-      author: 'Diego Torres 🎓 Mentor',
-      category: 'career',
-      replies: 41,
-      likes: 67,
-      time: 'hace 2 días',
-      excerpt: 'Muchos estudiantes y jóvenes desarrolladores me preguntan cómo afrontar su primera entrevista.\nAquí algunos tips que recomiendo:\n- Repasar fundamentos de programación y estructuras de datos.\n- Practicar ejercicios de lógica en plataformas como HackerRank o LeetCode.\n- Preparar ejemplos de proyectos personales para mostrar.\n- Ensayar respuestas a preguntas típicas de trabajo en equipo y resolución de problemas.\n\n¿Qué otros consejos agregarían?',
-      tags: ['🏷️ Mentoría', '🏷️ Carrera', '🏷️ Entrevista'],
-      isAnswered: true
+  id: 4,
+  title: 'Consejos para prepararse en una entrevista tech',
+  author: 'Diego Mendoza 🎓 Mentor',
+  category: 'career',
+  replies: 41,
+  likes: 67,
+  time: 'hace 2 días',
+  excerpt: 'Muchos estudiantes y jóvenes desarrolladores me preguntan cómo afrontar su primera entrevista.\nAquí algunos tips que recomiendo:\n- Repasar fundamentos de programación y estructuras de datos.\n- Practicar ejercicios de lógica en plataformas como HackerRank o LeetCode.\n- Preparar ejemplos de proyectos personales para mostrar.\n- Ensayar respuestas a preguntas típicas de trabajo en equipo y resolución de problemas.\n\n¿Qué otros consejos agregarían?',
+  tags: ['Carrera Tech', 'Entrevistas', 'Preparación Laboral'],
+  isAnswered: true
     },
     {
       id: 5,
@@ -118,14 +118,21 @@ const Foro: React.FC = () => {
           {/* Texto introductorio */}
           <div className="text-xl text-gray-600 max-w-3xl mx-auto">
             <span className="block text-center">
-              Tu espacio para crecer en tecnología: comparte, aprende y encuentra tu camino en el mundo STEM.
+                Tu espacio para crecer en tecnología: comparte, aprende y encuentra tu camino en el mundo STEM.
             </span>
+              <div style={{ height: '24px' }}></div>
           </div>
 
           {/* Banner Tema de la Semana */}
-          <div className="bg-gradient-to-r from-teal-400 to-cyan-500 text-white p-6 rounded-2xl shadow-lg mb-6">
-            <div className="font-bold text-lg mb-1">Tema de la Semana</div>
-            <div className="text-base">¿Cómo descubriste tu interés por la tecnología?</div>
+          <div className="bg-gradient-to-r from-teal-200 to-cyan-100 text-teal-900 p-6 rounded-2xl shadow-lg mb-6">
+            <div className="flex items-center mb-2">
+              <span className="text-2xl mr-2">🗨️</span>
+              <span className="font-bold text-lg">Tema de la Semana</span>
+            </div>
+            <div className="text-base mb-2 text-left">¿Cómo descubriste tu interés por la tecnología?</div>
+            <div className="flex items-center text-white text-sm">
+              {/* Comentarios removidos */}
+            </div>
           </div>
         </div>
 
@@ -134,7 +141,7 @@ const Foro: React.FC = () => {
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
             {/* New Discussion Button */}
-            <button className="w-full bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2">
+            <button className="w-full bg-teal-200 hover:bg-teal-300 text-teal-900 font-semibold py-3 px-4 rounded-lg shadow-md transition-colors duration-200 flex items-center justify-center space-x-2">
               <Plus className="w-5 h-5" />
               <span>Nueva Discusión</span>
             </button>
@@ -214,7 +221,7 @@ const Foro: React.FC = () => {
                       ? { borderColor: '#FFB6C1' } // rosa pastel
                       : discussion.author.includes('Luis Paredes')
                       ? { borderColor: '#B9FBC0' } // verde pastel
-                      : discussion.author.includes('Diego Torres') ||
+                      : discussion.author.includes('Diego Mendoza') ||
                         discussion.author.includes('Ana Torres')
                       ? { borderColor: '#B3C6FF' } // azul pastel
                       : undefined
@@ -229,11 +236,13 @@ const Foro: React.FC = () => {
                         <p className="font-medium text-gray-800">
                           {/* Nombre del autor con insignias */}
                           {(() => {
-                            const [name, ...restParts] = discussion.author.split(' ');
-                            let rest = discussion.author.replace(name, '').trim();
+                            // Mostrar nombre completo antes de las insignias
+                            const [nombre, apellido] = discussion.author.split(' ');
+                            const nameFull = apellido ? `${nombre} ${apellido}` : nombre;
+                            let rest = discussion.author.replace(nameFull, '').trim();
                             return (
                               <>
-                                {name}
+                                {nameFull}
                                 {rest.includes('Buena pregunta') && (
                                   <span style={{ marginLeft: '8px', fontWeight: 'bold' }}>
                                     💡 Buena pregunta
@@ -285,9 +294,7 @@ const Foro: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex flex-wrap gap-2">
                       {discussion.tags.map((tag, index) => {
-                        if (discussion.author.includes('Diego Torres') && tag.includes('🏷️')) {
-                          return null;
-                        }
+                        // Mostrar todas las etiquetas para Diego Mendoza
                         return (
                           <span
                             key={index}
