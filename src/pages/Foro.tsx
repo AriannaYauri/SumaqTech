@@ -5,13 +5,14 @@ const Foro: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const categories = [
-    { id: 'all', name: 'Comunidad', count: 142 },
-    { id: 'programming', name: 'Programación', count: 45 },
-    { id: 'data-science', name: 'Ciencia de Datos', count: 23 },
-    { id: 'design', name: 'Diseño UX/UI', count: 18 },
-    { id: 'cybersecurity', name: 'Ciberseguridad', count: 15 },
-    { id: 'career', name: 'Carrera Profesional', count: 32 },
-    { id: 'projects', name: 'Proyectos', count: 9 }
+  { id: 'all', name: 'Comunidad', count: 142 },
+  { id: 'programming', name: 'Programación', count: 45 },
+  { id: 'data-science', name: 'Ciencia de Datos', count: 23 },
+  { id: 'design', name: 'Diseño UX/UI', count: 18 },
+  { id: 'cybersecurity', name: 'Ciberseguridad', count: 15 },
+  { id: 'career', name: 'Carrera Profesional', count: 32 },
+  { id: 'mentorias', name: 'Mentorías', count: 12 },
+  { id: 'projects', name: 'Proyectos', count: 9 }
   ];
 
   const initialDiscussions = [
@@ -31,7 +32,7 @@ const Foro: React.FC = () => {
       id: 2,
       title: 'Compartiendo mi primer proyecto de Data Science',
       author: 'María González 🚀 Innovador',
-      category: 'data-science',
+      category: 'projects',
       replies: 8,
       likes: 32,
       time: 'hace 5 horas',
@@ -55,7 +56,7 @@ const Foro: React.FC = () => {
   id: 4,
   title: 'Consejos para prepararse en una entrevista tech',
   author: 'Diego Mendoza 🎓 Mentor',
-  category: 'career',
+  category: 'mentorias',
   replies: 41,
   likes: 67,
   time: 'hace 2 días',
@@ -108,11 +109,9 @@ const Foro: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <MessageSquare className="w-8 h-8 text-teal-600" />
-          </div>
+          {/* Icono removido */}
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            <span style={{ color: '#000' }}>Foro de la Comunidad SumaqTech</span>
+            <span style={{ color: '#14b8a6' }}>Foro de la Comunidad SumaqTech</span>
           </h1>
 
           {/* Texto introductorio */}
@@ -124,13 +123,13 @@ const Foro: React.FC = () => {
           </div>
 
           {/* Banner Tema de la Semana */}
-          <div className="bg-gradient-to-r from-teal-200 to-cyan-100 text-teal-900 p-6 rounded-2xl shadow-lg mb-6">
+           <div className="bg-[#E3F6FD] text-black p-6 rounded-2xl shadow-lg mb-6 transition-transform duration-200 hover:scale-105">
             <div className="flex items-center mb-2">
               <span className="text-2xl mr-2">🗨️</span>
               <span className="font-bold text-lg">Tema de la Semana</span>
             </div>
             <div className="text-base mb-2 text-left">¿Cómo descubriste tu interés por la tecnología?</div>
-            <div className="flex items-center text-white text-sm">
+            <div className="flex items-center text-sm">
               {/* Comentarios removidos */}
             </div>
           </div>
@@ -141,7 +140,7 @@ const Foro: React.FC = () => {
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
             {/* New Discussion Button */}
-            <button className="w-full bg-teal-200 hover:bg-teal-300 text-teal-900 font-semibold py-3 px-4 rounded-lg shadow-md transition-colors duration-200 flex items-center justify-center space-x-2">
+            <button className="w-full bg-teal-100 hover:bg-teal-200 text-teal-900 font-semibold py-3 px-4 rounded-lg shadow-md transition-colors duration-200 flex items-center justify-center space-x-2">
               <Plus className="w-5 h-5" />
               <span>Nueva Discusión</span>
             </button>
@@ -166,6 +165,7 @@ const Foro: React.FC = () => {
                       {category.id === 'design' && '🎨 '}
                       {category.id === 'cybersecurity' && '🛡️ '}
                       {category.id === 'career' && '🎓 '}
+                      {category.id === 'mentorias' && '🎓 '}
                       {category.id === 'all' && '🌐 '}
                       {category.id === 'projects' && '🚀 '}
                       {category.name}
@@ -214,16 +214,16 @@ const Foro: React.FC = () => {
                   className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow duration-200 border-2"
                   style={
                     discussion.author.includes('Carlos Mendoza')
-                      ? { borderColor: '#B3E5FC' } // celeste pastel
+                      ? { borderColor: '#B3E5FC' }
                       : discussion.author.includes('María González')
-                      ? { borderColor: '#D1B3FF' } // lila pastel
+                      ? { borderColor: '#D1B3FF' }
                       : discussion.author.includes('Ana Rodríguez')
-                      ? { borderColor: '#FFB6C1' } // rosa pastel
+                      ? { borderColor: '#FFB6C1' }
                       : discussion.author.includes('Luis Paredes')
-                      ? { borderColor: '#B9FBC0' } // verde pastel
+                      ? { borderColor: '#B9FBC0' }
                       : discussion.author.includes('Diego Mendoza') ||
                         discussion.author.includes('Ana Torres')
-                      ? { borderColor: '#B3C6FF' } // azul pastel
+                      ? { borderColor: '#B3C6FF' }
                       : undefined
                   }
                 >
@@ -236,7 +236,6 @@ const Foro: React.FC = () => {
                         <p className="font-medium text-gray-800">
                           {/* Nombre del autor con insignias */}
                           {(() => {
-                            // Mostrar nombre completo antes de las insignias
                             const [nombre, apellido] = discussion.author.split(' ');
                             const nameFull = apellido ? `${nombre} ${apellido}` : nombre;
                             let rest = discussion.author.replace(nameFull, '').trim();
@@ -284,32 +283,22 @@ const Foro: React.FC = () => {
                       </span>
                     )}
                   </div>
-
                   <h2 className="text-xl font-semibold text-gray-800 mb-2 hover:text-teal-600 cursor-pointer">
                     {discussion.title}
                   </h2>
-
                   <p className="text-gray-600 mb-4">{discussion.excerpt}</p>
-
                   <div className="flex items-center justify-between">
                     <div className="flex flex-wrap gap-2">
-                      {discussion.tags.map((tag, index) => {
-                        // Mostrar todas las etiquetas para Diego Mendoza
-                        return (
-                          <span
-                            key={index}
-                            className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-sm"
-                          >
-                            <Tag className="w-3 h-3 inline mr-1" />
-                            {tag}
-                          </span>
-                        );
-                      })}
+                      {discussion.tags.map((tag, index) => (
+                        <span key={index} className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-sm">
+                          <Tag className="w-3 h-3 inline mr-1" />
+                          {tag}
+                        </span>
+                      ))}
                     </div>
-
                     <div className="flex items-center space-x-4">
                       <button
-                        className="flex items-center space-x-1 text-gray-500 hover:text-teal-600 focus:outline-none"
+                        className={`flex items-center space-x-1 focus:outline-none ${discussion.likes > 0 ? 'text-teal-600' : 'text-gray-500'} hover:text-teal-600`}
                         onClick={() => {
                           setDiscussions((prev) =>
                             prev.map((d) =>

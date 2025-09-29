@@ -4,25 +4,25 @@ import { Heart, Target, Users, Award, Lightbulb, Globe } from 'lucide-react';
 const Nosotros: React.FC = () => {
   const team = [
     {
-      name: 'Alejandra Ramírez',
+      name: 'Arianna Yauri',
       role: 'Fundadora & CEO',
       image: 'https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg?auto=compress&cs=tinysrgb&w=300',
       description: 'Ingeniera de Software con pasión por la educación tecnológica'
     },
     {
-      name: 'Henrry Silva',
+      name: 'Fernando Flores',
       role: 'CTO',
       image: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=300',
       description: 'Experto en desarrollo de plataformas educativas y arquitectura de software'
     },
     {
-      name: 'Camila Torres',
+      name: 'María Evangelista',
       role: 'Head of Content',
       image: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=300',
       description: 'Especialista en diseño curricular y metodologías de aprendizaje'
     },
     {
-      name: 'Diego Mendoza',
+      name: 'Alisson Cabrera',
       role: 'Community Manager',
       image: 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=300',
       description: 'Constructor de comunidades tech y mentor de estudiantes'
@@ -64,7 +64,7 @@ const Nosotros: React.FC = () => {
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-teal-100 via-teal-50 to-cyan-100 py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl lg:text-5xl font-bold text-gray-800 mb-6">
+          <h1 className="text-4xl lg:text-5xl font-bold text-gray-800 mb-6 rounded-2xl p-8">
             <span className="text-teal-600">Sobre SumaqTech</span>
           </h1>
           <p className="text-xl text-gray-600 mb-8 leading-relaxed">
@@ -75,29 +75,68 @@ const Nosotros: React.FC = () => {
         </div>
       </section>
 
-      {/* Mission & Vision */}
+      {/* Nuestra Historia arriba */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-800 mb-6">Nuestra Misión</h2>
-              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                Acercar el mundo de la ciencia, la tecnología, la ingeniería y las matemáticas (STEM) 
-                a estudiantes de secundaria y preuniversitarios en América Latina.
+        <div className="max-w-6xl mx-auto bg-white rounded-2xl p-8">
+          <h2 className="text-3xl font-bold text-gray-800 text-left mb-8">
+            Nuestra Historia
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className="prose max-w-none order-2 md:order-1">
+              <p className="text-lg text-gray-600 leading-relaxed mb-6">
+                SumaqTech nació en 2025, cuando un grupo de estudiantes universitarios se dio cuenta de algo: en la escuela nos enseñan muchas cosas, pero casi nunca lo que realmente necesitas para entrar y destacar en el mundo de la tecnología.
+              </p>
+              <p className="text-lg text-gray-600 leading-relaxed mb-6">
+                Nosotros también pasamos por esa etapa de dudas: ¿qué carrera elegir?, ¿qué significa STEM?, ¿de verdad puedo dedicarme a esto? Y lo más difícil… no tener a alguien que ya hubiera recorrido ese camino para guiarnos.
               </p>
               <p className="text-lg text-gray-600 leading-relaxed">
-                Queremos ayudarte a descubrir tus intereses, conocer carreras y tomar decisiones 
-                informadas sobre tu futuro profesional en el mundo tecnológico.
+                Por eso decidimos crear la plataforma que nos hubiera encantado tener: un espacio donde aprender tecnología de forma práctica, conocer mentores reales que te entienden, y descubrir paso a paso qué futuro quieres construir en el mundo STEM.
               </p>
             </div>
-            <div className="relative">
+            <div className="flex justify-center order-1 md:order-2">
               <img
-                src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt="Estudiantes aprendiendo tecnología"
-                className="rounded-2xl shadow-lg"
+                src="https://raw.githubusercontent.com/MockupUI/assets/main/laptop-mockup.png"
+                alt="Mockup computadora SumaqTech"
+                className="w-full max-w-xs md:max-w-md rounded-2xl shadow-lg"
+                style={{ background: '#f8fafc' }}
               />
-              <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-teal-500 rounded-full flex items-center justify-center">
-                <Globe className="w-12 h-12 text-white" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission & Vision */}
+      <section className="bg-gray-50 w-full py-16">
+        <div className="max-w-6xl mx-auto py-16 px-4">
+          <div className="grid grid-cols-2 gap-0 items-center">
+            <div className="flex justify-center items-center h-full">
+              {/* Espacio para imagen */}
+              <div className="w-64 h-40 bg-gray-200 rounded-2xl flex items-center justify-center">
+                <span className="text-gray-400">Imagen aquí</span>
+              </div>
+            </div>
+            <div className="flex flex-col items-end text-right">
+              <h2 className="text-3xl font-bold text-gray-800 mb-6 text-right">Nuestra Misión</h2>
+              <p className="text-lg text-gray-600 leading-relaxed mb-6">
+                Acercar el mundo de la ciencia, la tecnología, la ingeniería y las matemáticas (STEM) a estudiantes de secundaria y preuniversitarios en América Latina. Queremos ayudarte a descubrir tus intereses, conocer carreras y tomar decisiones informadas sobre tu futuro profesional en el mundo tecnológico.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="py-16 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-12">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-800 mb-6">Nuestra Visión</h2>
+              <p className="text-lg text-gray-600 leading-relaxed">
+                Convertirnos en la comunidad estudiantil más influyente de Latinoamérica en el ámbito STEM, inspirando a jóvenes a desarrollar su potencial y formar parte del cambio tecnológico global.
+              </p>
+            </div>
+            <div className="relative flex justify-end">
+              {/* Espacio para imagen */}
+              <div className="w-64 h-40 bg-gray-200 rounded-2xl flex items-center justify-center">
+                <span className="text-gray-400">Imagen aquí</span>
               </div>
             </div>
           </div>
@@ -158,6 +197,12 @@ const Nosotros: React.FC = () => {
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">{member.name}</h3>
                 <p className="text-teal-600 font-medium mb-3">{member.role}</p>
                 <p className="text-gray-600 text-sm leading-relaxed">{member.description}</p>
+                <style jsx>{`
+                  .team-card:hover {
+                    box-shadow: 0 8px 32px rgba(20, 184, 166, 0.25), 0 2px 8px rgba(0,0,0,0.10);
+                    transform: scale(1.04);
+                  }
+                `}</style>
               </div>
             ))}
           </div>
@@ -165,31 +210,6 @@ const Nosotros: React.FC = () => {
       </section>
 
       {/* Story */}
-      <section className="py-16 px-4 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-gray-800 text-center mb-8">
-            Nuestra Historia
-          </h2>
-          <div className="prose max-w-none">
-            <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-              SumaqTech nació en 2023 de la frustración de un grupo de estudiantes universitarios que 
-              notaron la brecha entre lo que se enseña en las escuelas y lo que realmente necesitas 
-              saber para triunfar en el mundo tecnológico.
-            </p>
-            <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-              Como estudiantes que habíamos pasado por el mismo proceso de descubrimiento y decisión 
-              vocacional, entendíamos perfectamente los desafíos: falta de información actualizada, 
-              contenido desconectado de la realidad laboral, y sobre todo, la ausencia de mentores 
-              que hubieran recorrido el mismo camino.
-            </p>
-            <p className="text-lg text-gray-600 leading-relaxed">
-              Decidimos crear la plataforma que nos hubiera gustado tener cuando estábamos en su lugar. 
-              Una comunidad donde los estudiantes puedan aprender tecnología de forma práctica, 
-              conectarse con mentores reales, y tomar decisiones informadas sobre su futuro profesional.
-            </p>
-          </div>
-        </div>
-      </section>
 
       {/* CTA */}
       <section className="py-16 px-4 bg-gradient-to-r from-teal-500 to-blue-600">
