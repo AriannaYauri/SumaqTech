@@ -1,14 +1,21 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
-import Navbar from './Navbar';
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 const Layout: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      {/* Navbar arriba */}
       <Navbar />
-      <main>
+
+      {/* Contenido principal que ocupa todo el espacio disponible */}
+      <div className="flex-1">
         <Outlet />
-      </main>
+      </div>
+
+      {/* Footer siempre al final */}
+      <Footer />
     </div>
   );
 };

@@ -4,10 +4,6 @@ import { Play, Users, BookOpen, Target, MessageCircle } from 'lucide-react';
 import Bot1 from "../components/bot/bot_1.svg";
 import Brillito from "../components/brillitos.svg";
 import FocoIdea from "../components/foco-idea.svg";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
 import SaraL from "../components/historias_inicio/SARA_L.jpg";
 import JulioR from "../components/historias_inicio/JULIO_R.jpg";
 import CarlosF from "../components/historias_inicio/CARLOS_F.jpg";
@@ -16,7 +12,7 @@ import Linkedin from "../components/iconos/linkedin.svg";
 import IG from "../components/iconos/ig.svg";
 import Github from "../components/iconos/github.svg";
 
-import { Autoplay, Pagination, Navigation } from "swiper";
+
 
 const Inicio: React.FC = () => {
   return (
@@ -327,63 +323,106 @@ const Inicio: React.FC = () => {
         </div>
       </section>
 
-      {/* Footer Section */}
-      <footer className="bg-gray-800 text-gray-200 py-10">
-        <div className="max-w-6xl mx-auto px-6 md:flex md:justify-between md:items-start">
-          
-          {/* Logo y descripción */}
-          <div className="mb-6 md:mb-0">
-            <h3 className="text-2xl font-bold text-white mb-2">SumaqTech</h3>
-            <p className="text-gray-400 max-w-xs">
-              Inspirando a jóvenes a descubrir la ciencia, tecnología, ingeniería y matemáticas.
+      <section className="max-w-6xl mx-auto px-6 py-14 mb-10 bg-white rounded-xl shadow-md border-t-4 border-[#00BFA5] hover:shadow-lg hover:-translate-y-2 transition-all duration-300">
+        <h2 className="text-4xl font-extrabold text-gray-800 text-center mb-10">
+          Preguntas Frecuentes
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
+          {/* Columna del bot */}
+          <div className="flex flex-col items-center text-center">
+            <img
+              src="src/components/bot/bot_5.svg"
+              alt="Asistente virtual"
+              className="w-52 h-52 mb-6"
+            />
+            <p className="text-gray-600 text-center md:text-left mb-4">
+              Soy tu asistente virtual 🤖. Aquí resolvemos las dudas más comunes sobre{" "}
+              <span className="font-semibold text-[#00BFA5]">SumaqTech</span>.
             </p>
+            {/* Botón debajo */}
+            <button className="px-6 py-3 bg-[#00BFA5] text-white font-semibold rounded-xl shadow-md hover:bg-[#009e88] transition">
+              Comienza
+            </button>
           </div>
 
-          {/* Enlaces */}
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
-            <div>
-              <h4 className="font-semibold text-white mb-2">Explorar</h4>
-              <ul className="text-gray-400 space-y-1">
-                <li><a href="#" className="hover:text-[#00BFA5]">Inicio</a></li>
-                <li><a href="#" className="hover:text-[#00BFA5]">Historias</a></li>
-                <li><a href="#" className="hover:text-[#00BFA5]">Talleres</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-white mb-2">Comunidad</h4>
-              <ul className="text-gray-400 space-y-1">
-                <li><a href="#" className="hover:text-[#00BFA5]">Mentores</a></li>
-                <li><a href="#" className="hover:text-[#00BFA5]">Estudiantes</a></li>
-                <li><a href="#" className="hover:text-[#00BFA5]">Voluntarios</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-white mb-2">Contacto</h4>
-              <ul className="text-gray-400 space-y-1">
-                <li>Email: contacto@sumaqtech.com</li>
-                <li>Tel: +51 987 654 321</li>
-                <li className="flex items-center gap-3 mt-2">
-                  {/* Iconos de redes sociales */}
-                  <a href="#" className="hover:text-[#00BFA5]">
-                    <img src={Linkedin} alt="LinkedIn" className="w-6 h-6" />
-                  </a>
-                  <a href="#" className="hover:text-[#00BFA5]">
-                    <img src={IG} alt="Instagram" className="w-6 h-6" />
-                  </a>
-                  <a href="#" className="hover:text-[#00BFA5]">
-                    <img src={Github} alt="GitHub" className="w-6 h-6" />
-                  </a>
-                </li>
-              </ul>
-            </div>
+          {/* Columna de preguntas (ocupa 2/3) */}
+          <div className="md:col-span-2 space-y-4">
+            {/* Pregunta 1 */}
+            <details className="group border border-gray-200 rounded-lg p-4">
+              <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg text-gray-700">
+                ¿Los cursos son gratuitos?
+                <span className="transition-transform group-open:rotate-45 text-[#00BFA5] font-bold">
+                  +
+                </span>
+              </summary>
+              <p className="mt-3 text-gray-600">
+                Sí, todo el contenido, recursos y orientación están disponibles sin
+                costo para estudiantes e instituciones.
+              </p>
+            </details>
+
+            {/* Pregunta 2 */}
+            <details className="group border border-gray-200 rounded-lg p-4">
+              <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg text-gray-700">
+                ¿Necesito experiencia previa?
+                <span className="transition-transform group-open:rotate-45 text-[#00BFA5] font-bold">
+                  +
+                </span>
+              </summary>
+              <p className="mt-3 text-gray-600">
+                No, puedes empezar desde cero. La plataforma está diseñada para
+                acompañarte paso a paso.
+              </p>
+            </details>
+
+            {/* Pregunta 3 */}
+            <details className="group border border-gray-200 rounded-lg p-4">
+              <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg text-gray-700">
+                ¿Cómo accedo a una sesión de orientación?
+                <span className="transition-transform group-open:rotate-45 text-[#00BFA5] font-bold">
+                  +
+                </span>
+              </summary>
+              <p className="mt-3 text-gray-600">
+                Desde tu cuenta podrás solicitar orientación, eligiendo si prefieres
+                una sesión virtual o presencial.
+              </p>
+            </details>
+
+            {/* Pregunta 4 */}
+            <details className="group border border-gray-200 rounded-lg p-4">
+              <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg text-gray-700">
+                ¿Qué necesito para usar la plataforma?
+                <span className="transition-transform group-open:rotate-45 text-[#00BFA5] font-bold">
+                  +
+                </span>
+              </summary>
+              <p className="mt-3 text-gray-600">
+                Solo necesitas una conexión a internet y un dispositivo como
+                computadora, tablet o celular.
+              </p>
+            </details>
+
+            {/* Pregunta 5 */}
+            <details className="group border border-gray-200 rounded-lg p-4">
+              <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg text-gray-700">
+                ¿Quiénes pueden registrarse?
+                <span className="transition-transform group-open:rotate-45 text-[#00BFA5] font-bold">
+                  +
+                </span>
+              </summary>
+              <p className="mt-3 text-gray-600">
+                Estudiantes de secundaria, preuniversitarios y centros educativos
+                interesados en el mundo STEM.
+              </p>
+            </details>
           </div>
         </div>
+      </section>
 
-        {/* Copyright */}
-        <div className="text-center text-gray-500 mt-8">
-          © 2025 SumaqTech. Todos los derechos reservados.
-        </div>
-      </footer>
+
+      
 
 
 
