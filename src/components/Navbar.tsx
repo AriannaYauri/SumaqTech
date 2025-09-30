@@ -46,21 +46,22 @@ const Navbar: React.FC = () => {
             ))}
           </div>
 
-          {/* Auth Buttons */}
+          {/* Auth Buttons, ACTUALIZACIÓN PARA DIFERENCIACIÓN LOGIN Y SIGNUP */}
           <div className="hidden md:flex items-center space-x-4">
             <Link
-              to="/ingresa"
+              to="/auth/ingresa"
               className="text-sm font-medium text-gray-700 hover:text-teal-600 transition-colors duration-200 border border-gray-300 px-4 py-2 rounded-lg hover:border-teal-600"
             >
               Ingresa
             </Link>
             <Link
-              to="/registrate"
+              to="/auth/registrate"
               className="text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 transition-colors duration-200 px-4 py-2 rounded-lg"
             >
               Registrate
             </Link>
           </div>
+
 
           {/* Mobile menu button */}
           <div className="md:hidden">

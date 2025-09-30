@@ -14,10 +14,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Auth routes without layout */}
-        <Route path="/ingresa" element={<Auth />} />
-        <Route path="/registrate" element={<Auth />} />
-        
+        {/* Auth route without layout, actualización para diferenciación login y signup */}
+        <Route path="/auth/:type" element={<Auth />} />
+
         {/* Main routes with layout */}
         <Route path="/" element={<Layout />}>
           <Route index element={<Inicio />} />
