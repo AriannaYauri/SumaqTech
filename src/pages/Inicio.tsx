@@ -32,7 +32,7 @@ const Inicio: React.FC = () => {
                 Empieza tu camino tech con SumaqTech.
               </p>
               <Link
-                to="/registrate"
+                to="/auth/registrate"
                 className="inline-block bg-teal-500 hover:bg-teal-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors duration-200 transform hover:scale-105 mx-auto block text-center"
               >
                 Comienza
@@ -341,9 +341,12 @@ const Inicio: React.FC = () => {
               <span className="font-semibold text-[#00BFA5]">SumaqTech</span>.
             </p>
             {/* Botón debajo */}
-            <button className="px-6 py-3 bg-[#00BFA5] text-white font-semibold rounded-xl shadow-md hover:bg-[#009e88] transition">
-              Comienza
-            </button>
+            <Link
+                to="/auth/registrate"
+                className="inline-block bg-teal-500 hover:bg-teal-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors duration-200 transform hover:scale-105 mx-auto block text-center"
+              >
+                Comienza
+              </Link>
           </div>
 
           {/* Columna de preguntas (ocupa 2/3) */}
