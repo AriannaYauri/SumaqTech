@@ -24,41 +24,41 @@ const carouselData = [
   {
     robot: Bot1,
     message: "¿Listo para dominar la tecnología?",
-    color: "text-[#00BFA5]" // Usando la paleta principal de colores
+    color: "text-[#00BFA5]"
   },
   {
     robot: Bot2,
-    message: "¡Descubre tu pasión por la programación!",
+    message: "¡Ya viste el nuevo tema de la semana en el foro? ¡Participa y comparte tus ideas!",
     color: "text-[#00BFA5]"
   },
   {
     robot: Bot3,
-    message: "Explora el mundo de la ingeniería",
+    message: "Explora el mundo de la ingeniería y la innovación",
     color: "text-[#00BFA5]"
   },
   {
     robot: Bot4,
-    message: "Aprende robótica desde cero",
+    message: "Crea, programa y da vida a tus ideas",
     color: "text-[#00BFA5]"
   },
   {
     robot: Bot5,
-    message: "Conecta con la tecnología del futuro",
+    message: "Conecta con la tecnología del futuro y crea soluciones reales",
     color: "text-[#00BFA5]"
   },
   {
     robot: Bot6,
-    message: "Desarrolla habilidades STEM",
+    message: "Desarrolla habilidades STEM que te abrirán puertas",
     color: "text-[#00BFA5]"
   },
   {
     robot: Bot7,
-    message: "¡Tu futuro tech comienza aquí!",
+    message: "¡Tu futuro tech comienza aquí, en SumaqTech!",
     color: "text-[#00BFA5]"
   },
   {
     robot: Bot8,
-    message: "Transforma ideas en realidad",
+    message: "Transforma tus ideas en proyectos que impacten",
     color: "text-[#00BFA5]"
   }
 ];
@@ -101,44 +101,47 @@ const Inicio: React.FC = () => {
   // useState para controlar qué slide está activo (0-7)
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // ===== ESTADO DEL CARRUSEL DE HISTORIAS =====
-  // useState para controlar qué testimonio está activo (0-3)
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+// ===== ESTADO DEL CARRUSEL DE HISTORIAS =====
+// useState para controlar qué testimonio está activo (0-3)
+const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
-  // ===== EFECTO AUTOMÁTICO DEL CARRUSEL =====
-  // useEffect que cambia el slide automáticamente cada 4 segundos
-  useEffect(() => {
-    // setInterval ejecuta la función cada 4000ms (4 segundos)
-    const interval = setInterval(() => {
-      // Cambia al siguiente slide, si llega al final vuelve al primero (0)
-      setCurrentSlide((prev) => (prev + 1) % carouselData.length);
-    }, 4000);
-
-    // cleanup: limpia el interval cuando el componente se desmonta
-    return () => clearInterval(interval);
-  }, [carouselData.length]); // Dependencia: se ejecuta cuando cambia la longitud del array
-
-  // ===== FUNCIONES DE NAVEGACIÓN MANUAL =====
-  // Función para ir al siguiente slide
-  const nextSlide = () => {
+// ===== EFECTO AUTOMÁTICO DEL CARRUSEL DE SLIDES =====
+// useEffect que cambia el slide automáticamente cada 4 segundos
+useEffect(() => {
+  const interval = setInterval(() => {
     setCurrentSlide((prev) => (prev + 1) % carouselData.length);
-  };
+  }, 4000);
 
-  // Función para ir al slide anterior
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + carouselData.length) % carouselData.length);
-  };
+  return () => clearInterval(interval);
+}, [carouselData.length]);
 
-  // ===== FUNCIONES DE NAVEGACIÓN PARA EL CARRUSEL DE HISTORIAS =====
-  // Función para ir al siguiente testimonio
-  const nextTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev + 1) % 4); // 4 testimonios (0-3)
-  };
+// ===== FUNCIONES DE NAVEGACIÓN MANUAL (SLIDES) =====
+const nextSlide = () => {
+  setCurrentSlide((prev) => (prev + 1) % carouselData.length);
+};
 
-  // Función para ir al testimonio anterior
-  const prevTestimonial = () => {
-    setCurrentTestimonial((prev) => (prev - 1 + 4) % 4); // 4 testimonios (0-3)
-  };
+const prevSlide = () => {
+  setCurrentSlide((prev) => (prev - 1 + carouselData.length) % carouselData.length);
+};
+
+// ===== EFECTO AUTOMÁTICO DEL CARRUSEL DE HISTORIAS =====
+// Cambia el testimonio automáticamente cada 10 segundos
+useEffect(() => {
+  const testimonialInterval = setInterval(() => {
+    setCurrentTestimonial((prev) => (prev + 1) % 4);
+  }, 10000); // 10 segundos
+
+  return () => clearInterval(testimonialInterval);
+}, []);
+
+// ===== FUNCIONES DE NAVEGACIÓN MANUAL (HISTORIAS) =====
+const nextTestimonial = () => {
+  setCurrentTestimonial((prev) => (prev + 1) % 4);
+};
+
+const prevTestimonial = () => {
+  setCurrentTestimonial((prev) => (prev - 1 + 4) % 4);
+};
 
   return (
     <div className="min-h-screen">
@@ -281,14 +284,14 @@ const Inicio: React.FC = () => {
             {/* ===== MENSAJE A LA DERECHA ===== */}
             <div className="w-full lg:w-1/2 text-center lg:text-left space-y-6">
               <h2 className="text-3xl sm:text-4xl font-bold text-gray-800">
-                Aprende con proyectos reales 🚀
+                Descubre tu potencial con SumaqTech 🚀
               </h2>
               <p className="text-lg text-gray-600 leading-relaxed">
-                En <span className="font-semibold text-teal-600">SumaqTech</span> 
-                te ofrecemos recursos interactivos, mentorías personalizadas 
-                y experiencias prácticas para que desarrolles tus habilidades 
-                en programación, redes y robótica.
+                En <span className="font-semibold text-teal-600">SumaqTech</span> encontrarás cursos, mentorías 
+                y orientación vocacional que te ayudarán a desarrollar tus habilidades, explorar nuevas áreas 
+                del conocimiento y prepararte para el futuro.
               </p>
+
               <button className="bg-teal-500 hover:bg-teal-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105">
                 Explorar Cursos
               </button>
@@ -457,7 +460,7 @@ const Inicio: React.FC = () => {
               </button>
 
               {/* Contenedor del carrusel centrado */}
-              <div className="flex justify-center items-center overflow-hidden w-full">
+              <div className="flex justify-center items-center overflow-hidden w-full py-6 lg:py-8">
                 <div
                   className="flex transition-transform duration-700 ease-in-out"
                   style={{ transform: `translateX(-${currentTestimonial * 100}%)` }}
@@ -480,7 +483,8 @@ const Inicio: React.FC = () => {
                             />
                             <div>
                               <h4 className="font-semibold text-gray-800">{testimonial.name}</h4>
-                              <p className="text-base text-gray-500">{testimonial.role}</p>
+                              <p className="text-base
+                               text-gray-500">{testimonial.role}</p>
                             </div>
                           </div>
                           <img src={Brillito} alt="estrella" className="w-6 h-6" />

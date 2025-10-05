@@ -6,7 +6,7 @@ import type { NavItem } from '../types';
 const navItems: NavItem[] = [
   { name: 'Inicio', path: '/' },
   { name: 'Módulos', path: '/modulos' },
-  { name: 'Orientación Vocacional', path: '/orientacion-vocacional' },
+  { name: 'Inspírate', path: '/orientacion-vocacional' },
   { name: 'Test Vocacional', path: '/test-vocacional' },
   { name: 'Mentorías', path: '/mentorias' },
   { name: 'Foro', path: '/foro' },
