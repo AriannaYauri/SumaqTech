@@ -291,10 +291,13 @@ const prevTestimonial = () => {
                 y orientación vocacional que te ayudarán a desarrollar tus habilidades, explorar nuevas áreas 
                 del conocimiento y prepararte para el futuro.
               </p>
-
-              <button className="bg-teal-500 hover:bg-teal-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105">
+              <Link
+                to="/Modulos"
+                className="inline-block bg-teal-500 hover:bg-teal-600 text-white font-semibold px-8 py-3 rounded-lg transition-all duration-200 transform hover:scale-105"
+              >
                 Explorar Cursos
-              </button>
+              </Link>
+              
             </div>
 
           </div>
@@ -460,7 +463,7 @@ const prevTestimonial = () => {
               </button>
 
               {/* Contenedor del carrusel centrado */}
-              <div className="flex justify-center items-center overflow-hidden w-full py-6 lg:py-8">
+              <div className="flex justify-center items-center overflow-hidden w-full py-5 lg:py-8">
                 <div
                   className="flex transition-transform duration-700 ease-in-out"
                   style={{ transform: `translateX(-${currentTestimonial * 100}%)` }}
