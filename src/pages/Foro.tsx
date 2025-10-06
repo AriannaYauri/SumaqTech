@@ -117,7 +117,7 @@ const Foro: React.FC = () => {
   // Estado para mensajes emergentes (toast)
   const [showToast, setShowToast] = useState(false);
   const [toastMsg, setToastMsg] = useState('');
-
+  // Función para manejar el cierre automático del toast
 
   return (
   <div className="min-h-screen py-12 px-4 bg-gray-50">
@@ -136,7 +136,7 @@ const Foro: React.FC = () => {
           {/* Texto introductorio */}
           <div className="text-xl text-gray-600 max-w-3xl mx-auto">
             <span className="block text-center">
-                Explora, pregunta y construye tu futuro en el mundo STEM
+                Explora, pregunta y construye tu futuro en el mundo STEM con nosotros.
             </span>
               <div style={{ height: '24px' }}></div>
           </div>
