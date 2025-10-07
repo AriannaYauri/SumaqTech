@@ -380,7 +380,7 @@ const Foro: React.FC = () => {
   showAnimatedPopup(
   !yaTienePublicacion
     ? '¡Felicidades! Bienvenido/a a la comunidad SumaqTech. 🎉'
-    : '¡Publicación exitosa!'
+    : ''
 );
 
   };
@@ -1460,5 +1460,6 @@ const Foro: React.FC = () => {
     </div>
   );
 };
+
 
 export default Foro;
