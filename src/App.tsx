@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Inicio from './pages/Inicio';
@@ -9,10 +8,12 @@ import Mentorias from './pages/Mentorias';
 import Foro from './pages/Foro';
 import Nosotros from './pages/Nosotros';
 import Auth from './pages/Auth';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
     <Router>
+      <ScrollToTop /> {/* 👈 Esto hace el scroll al inicio en cada cambio de página */}
       <Routes>
         {/* Auth route without layout, actualización para diferenciación login y signup */}
         <Route path="/auth/:type" element={<Auth />} />

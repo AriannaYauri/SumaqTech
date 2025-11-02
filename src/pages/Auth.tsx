@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { User, Mail, Globe, GraduationCap, Lock, Eye, EyeOff, Sparkles, Rocket, BookOpen, Code, Lightbulb, Zap } from 'lucide-react';
+import { User, Mail, Globe, GraduationCap, Lock, Eye, EyeOff, Sparkles, Rocket, BookOpen, Code, Lightbulb} from 'lucide-react';
 
 const Auth: React.FC = () => {
   const { type } = useParams<{ type: string }>();

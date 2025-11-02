@@ -1,60 +1,63 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Heart, Target, Users, Award, Lightbulb, Globe, Code, X, Send, Check } from 'lucide-react';
+import React, { useEffect, useState} from 'react';
+import { Heart, Target, Users, Award, Lightbulb, Globe, Code, X, Send, Check} from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 // ====================================================================
 // Lógica del Intersection Observer (Función reutilizable)
 // ====================================================================
 // Custom Hook para detectar cuando un elemento entra en el viewport
-const useIntersect = (root = null, rootMargin = '0px', threshold = 0.1) => {
-    const [entry, setEntry] = useState({});
-    const [node, setNode] = useState(null);
+const useIntersect = (root: Element | null = null, rootMargin = '0px', threshold = 0.8): [(node: Element | null) => void, boolean] => {
+    // entry puede ser null o un IntersectionObserverEntry válido
+    const [entry, setEntry] = useState<IntersectionObserverEntry | null>(null);
+    const [node, setNode] = useState<Element | null>(null);
 
     useEffect(() => {
-        if (node) {
-            // Configuración del observador: qué hacer cuando intersecta
-            const observer = new IntersectionObserver(([currentEntry]) => {
-                setEntry(currentEntry);
-            }, { root, rootMargin, threshold });
+        if (!node) return;
 
-            observer.observe(node);
+        const observer = new IntersectionObserver(([currentEntry]) => {
+            setEntry(currentEntry ?? null);
+        }, { root: root ?? null, rootMargin, threshold });
 
-            // Limpieza al desmontar
-            return () => observer.disconnect();
-        }
+        observer.observe(node);
+
+        return () => {
+            observer.disconnect();
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [node, root, rootMargin, threshold]);
 
-    // setNode es la función ref que se asigna al elemento HTML
-    // entry.isIntersecting es el valor booleano que indica visibilidad
-    return [setNode, entry.isIntersecting];
+    // Devuelve la función ref (setNode) y un booleano seguro
+    return [setNode, !!entry?.isIntersecting];
 };
 
 // ====================================================================
 // COMPONENTE MODAL DE MENTORÍA (Actualizado con lógica de nombre y opciones)
 // ====================================================================
-const MentorModal = ({ isOpen, onClose }) => {
-    const [step, setStep] = useState('info'); // 'info', 'form', 'success'
+type MentorModalProps = {
+    isOpen: boolean;
+    onClose: () => void;
+};
+
+const MentorModal: React.FC<MentorModalProps> = ({ isOpen, onClose }) => {
+    const [step, setStep] = useState<'info' | 'form' | 'success'>('info');
     const [formData, setFormData] = useState({ name: '', email: '', area: '' });
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // Reiniciar estado y formulario solo cuando 'isOpen' cambia a falso (cierre)
     useEffect(() => {
         if (!isOpen) {
             setStep('info');
-            setFormData({ name: '', email: '', area: '' });
-            setIsSubmitting(false);
         }
     }, [isOpen]);
 
     // Ahora es seguro salir temprano, ya que todos los hooks han sido llamados.
     if (!isOpen) return null;
 
-    const handleInputChange = (e) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
         
@@ -68,7 +71,7 @@ const MentorModal = ({ isOpen, onClose }) => {
     };
     
     // Función para obtener solo el primer nombre
-    const getFirstName = (fullName) => {
+    const getFirstName = (fullName: string) => {
         if (!fullName) return '';
         // Divide por espacios y toma el primer elemento
         return fullName.trim().split(/\s+/)[0];
@@ -400,11 +403,13 @@ const Nosotros = () => {
   ];
   
   // --- ESTADO Y LÓGICA PARA TARJETAS DEL EQUIPO EXPANDIBLES ---
-  const [expandedMember, setExpandedMember] = useState(null);
+  // Tipado: el nombre del miembro es string o null (evita 'implicit any')
+  const [expandedMember, setExpandedMember] = useState<string | null>(null);
 
   // Función para alternar la expansión de la tarjeta
-  const toggleExpand = (name) => {
-      setExpandedMember(expandedMember === name ? null : name);
+  // Tipar el parámetro 'name' como string
+  const toggleExpand = (name: string) => {
+      setExpandedMember(prev => (prev === name ? null : name));
   };
   
   // --- ESTADO Y LÓGICA DEL STEPPER ---
@@ -716,7 +721,7 @@ const Nosotros = () => {
           
           {/* Contenedor del Carrusel */}
           <div className="relative h-40 flex items-center justify-center overflow-hidden bg-teal-50 rounded-xl shadow-lg border-2 border-teal-200">
-            {/* Elemento de la estadística actual */}
+            {/* Elemento de la estadística currente */}
             <div
               key={currentStatIndex} 
               className="absolute p-6 text-center animate-fadeInOut"
@@ -802,7 +807,13 @@ const Nosotros = () => {
                   src={member.image}
                   alt={member.name}
                   className="w-28 h-28 rounded-full mx-auto mb-4 object-cover ring-4 ring-teal-400 ring-offset-2"
-                  onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = `https://placehold.co/112x112/ccc/333?text=${member.name.split(' ')[0][0]}${member.name.split(' ')[1][0]}`; }}
+                  onError={(e) => {
+                    // fallback seguro: extraer iniciales sin lanzar excepción
+                    e.currentTarget.onerror = null;
+                    const parts = (member.name || '').split(/\s+/).filter(Boolean);
+                    const initials = `${parts[0]?.[0] ?? ''}${parts[1]?.[0] ?? ''}` || 'NA';
+                    e.currentTarget.src = `https://placehold.co/112x112/ccc/333?text=${initials}`;
+                  }}
                 />
                 <h3 className="text-xl font-bold text-gray-800 mb-1">{member.name}</h3>
                 <p className="text-teal-600 font-semibold mb-3 text-sm">{member.role}</p>
@@ -834,15 +845,19 @@ const Nosotros = () => {
             Ayúdanos a transformar la educación tecnológica y a crear oportunidades reales para la próxima generación de líderes en STEM.
           </p>
           <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+            {/* Botón que navega a /Modulos */}
+            <Link
+                to="/Modulos"
+                className="bg-white text-teal-600 font-bold px-10 py-4 rounded-full hover:bg-gray-100 transition-all duration-300 shadow-xl hover:shadow-2xl"
+              >
+                ¡Quiero Aprender!
+            </Link>
             
-            <button className="bg-white text-teal-600 font-bold px-10 py-4 rounded-full hover:bg-gray-100 transition-all duration-300 shadow-xl hover:shadow-2xl">
-              ¡Quiero Aprender!
-            </button>
-            
+
             {/* Botón para abrir el Modal de Mentoría */}
             <button 
-                onClick={() => setIsMentorModalOpen(true)}
-                className="bg-transparent border-2 border-white text-white font-bold px-10 py-4 rounded-full hover:bg-white hover:text-cyan-700 transition-all duration-300 shadow-xl hover:shadow-2xl"
+              onClick={() => setIsMentorModalOpen(true)}
+              className="bg-transparent border-2 border-white text-white font-bold px-10 py-4 rounded-full hover:bg-white hover:text-cyan-700 transition-all duration-300 shadow-xl hover:shadow-2xl"
             >
               Conviértete en Mentor
             </button>
