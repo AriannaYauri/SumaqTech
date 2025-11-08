@@ -7,11 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-# ------------------------------------------------------------------
-# CORRECCIÓN DE CORS: Acepta cualquier origen para la ruta /chat.
-# Esto soluciona problemas de comunicación entre diferentes puertos de localhost.
 CORS(app, resources={r"/chat": {"origins": "*"}})
-# ------------------------------------------------------------------
 
 def configurar_gemini():
     api_key = os.getenv('GOOGLE_API_KEY')
@@ -92,6 +88,4 @@ def chat():
         return jsonify({"error": f"Ocurrió un error inesperado en el servidor: {e}"}), 500
 
 if __name__ == '__main__':
-    # Usamos el puerto 9579, que fue el que funcionó en la última ejecución exitosa.
-    # debug=False evita que el servidor se reinicie y pierda la conexión.
     app.run(host='0.0.0.0', port=9579, debug=False)
