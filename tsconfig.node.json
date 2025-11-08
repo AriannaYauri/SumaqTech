@@ -1,22 +1,30 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2023"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-
-    /* Bundler mode */
-    "moduleResolution": "bundler",
+    
+    /* Configuración de VITE/React */
+    // CRÍTICO: Aunque Vite usa 'bundler' para el build, TS necesita 'node' para resolver los módulos instalados.
+    "moduleResolution": "node",
     "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
     "isolatedModules": true,
-    "moduleDetection": "force",
     "noEmit": true,
+    "jsx": "react-jsx",
+    
+    /* INTEROP y Tipos */
+    // Necesario para importar librerías JS sin tipos nativos o formatos antiguos (como axios, copy-to-clipboard)
+    "allowSyntheticDefaultImports": true, 
+    "esModuleInterop": true,
 
-    /* Linting */
+    /* Estricto (Mantenemos, pero ya corregimos en el código TSX) */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["vite.config.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"], // Asegura que incluya todos tus archivos de código
+  "exclude": ["src/**/*.js", "node_modules"]
 }

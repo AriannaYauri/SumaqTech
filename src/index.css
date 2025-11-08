@@ -2,118 +2,318 @@
 @tailwind components;
 @tailwind utilities;
 
+/* --- Animaciones (Mantenidas) --- */
 @keyframes fadeInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
 }
-
 @keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
 }
-
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
 }
-
 @keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
-
 @keyframes wiggle {
-  0%, 100% {
-    transform: rotate(-3deg);
-  }
-  50% {
-    transform: rotate(3deg);
-  }
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
 }
-
 @keyframes bubbleFloat {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 0.7;
-  }
-  50% {
-    transform: translateY(-50px) scale(1.1);
-    opacity: 0.5;
-  }
-  100% {
-    transform: translateY(-100px) scale(0.8);
-    opacity: 0;
-  }
+  0% { transform: translateY(0) scale(1); opacity: 0.7; }
+  50% { transform: translateY(-50px) scale(1.1); opacity: 0.5; }
+  100% { transform: translateY(-100px) scale(0.8); opacity: 0; }
 }
-
-.animate-fadeInLeft {
-  animation: fadeInLeft 0.6s ease-out;
-}
-
-.animate-fadeInRight {
-  animation: fadeInRight 0.6s ease-out;
-}
-
-.animate-fadeInUp {
-  animation: fadeInUp 0.5s ease-out;
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-.animate-pulse-slow {
-  animation: pulse 2s ease-in-out infinite;
-}
-
-.animate-wiggle {
-  animation: wiggle 1s ease-in-out infinite;
-}
-
-.animate-bubble {
-  animation: bubbleFloat 4s ease-in-out infinite;
-}
-
 @keyframes bounceSlow {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
-.animate-bounce-slow {
-  animation: bounceSlow 3s ease-in-out infinite;
+.animate-fadeInLeft { animation: fadeInLeft 0.6s ease-out; }
+.animate-fadeInRight { animation: fadeInRight 0.6s ease-out; }
+.animate-fadeInUp { animation: fadeInUp 0.5s ease-out; }
+.animate-float { animation: float 3s ease-in-out infinite; }
+.animate-pulse-slow { animation: pulse 2s ease-in-out infinite; }
+.animate-wiggle { animation: wiggle 1s ease-in-out infinite; }
+.animate-bubble { animation: bubbleFloat 4s ease-in-out infinite; }
+.animate-bounce-slow { animation: bounceSlow 3s ease-in-out infinite; }
+
+
+/* --- Estilos para el Chat Flotante (FloatingChat.tsx) --- */
+
+/* Botón de activación */
+.floating-chat-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #007bff; /* Color azul brillante */
+    color: white;
+    font-size: 24px;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 1000;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.floating-chat-toggle:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Contenedor Principal Flotante (Dark Theme) */
+.floating-chat-container {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    
+    width: 25vw; 
+    height: 50vh;
+    min-width: 300px; /* Asegura un ancho mínimo en escritorio */
+    
+    background-color: #1a1a1a; /* Fondo muy oscuro, como en la imagen */
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    display: flex;
+    flex-direction: column; 
+    box-sizing: border-box;
+    overflow: hidden;
+
+    /* Control de visibilidad */
+    transform: scale(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+}
+
+.floating-chat-container.is-open {
+    transform: scale(1);
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .floating-chat-container {
+        width: 90vw;
+        height: 80vh;
+        right: 5vw;
+        bottom: 90px;
+    }
+}
+
+/* --- Estilos de Cabecera (Similar a SumaqIA Header) --- */
+.floating-chat-container .app-header {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #282828; /* Gris oscuro para el header */
+    color: white;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom: 1px solid #333;
+}
+
+.floating-chat-container .app-header h1 {
+    font-size: 1.2rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+.floating-chat-container .close-button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+.floating-chat-container .close-button:hover {
+    opacity: 1;
+}
+
+/* --- Selectores de Rol --- */
+.role-selector-container {
+    flex-shrink: 0;
+    padding: 10px 15px;
+    background-color: #1a1a1a;
+    border-bottom: 1px solid #333;
+    color: #bbb;
+    font-size: 0.85rem;
+}
+
+.role-select {
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #555;
+    background-color: #282828;
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 5px;
+}
+
+/* --- Caja de Mensajes (Conversación) y Scroll --- */
+.chat-box {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.messages-container {
+    flex-grow: 1;
+    overflow-y: auto; /* BARRA DE DESPLAZAMIENTO */
+    padding: 15px;
+    padding-right: 10px; 
+    /* Estilo sutil de scrollbar para navegadores basados en WebKit */
+    scrollbar-width: thin;
+    scrollbar-color: #555 #1a1a1a;
+}
+.messages-container::-webkit-scrollbar {
+    width: 6px;
+}
+.messages-container::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 3px;
+}
+.messages-container::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+/* Estilos de los mensajes (Similar al diseño de burbujas oscuras) */
+.message {
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+    max-width: 85%;
+    word-wrap: break-word;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.message.user {
+    background-color: #007bff; /* Azul primario */
+    color: white;
+    margin-left: auto; 
+    border-bottom-right-radius: 2px; /* Burbuja redondeada en 3 esquinas */
+}
+
+.message.ai {
+    background-color: #282828; /* Fondo oscuro del chat */
+    color: #e0e0e0; /* Texto claro */
+    margin-right: auto; 
+    border: 1px solid #333;
+    border-bottom-left-radius: 2px;
+}
+
+/* --- Caja de Entrada (Input Container) --- */
+.input-container {
+    flex-shrink: 0;
+    padding: 10px 15px;
+    background-color: #282828; /* Fondo de la caja de entrada */
+    border-top: 1px solid #333;
+    display: flex;
+    align-items: center;
+}
+
+.input-container input {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 20px; /* Borde más redondeado */
+    background-color: #1a1a1a; /* Fondo del campo de texto */
+    color: #fff;
+    font-size: 1rem;
+    margin-right: 10px;
+    outline: none;
+    transition: background-color 0.2s;
+}
+
+.input-container input:focus {
+    background-color: #333;
+}
+
+.input-container button {
+    /* Botón de envío similar al icono de avión de la imagen */
+    width: 40px;
+    height: 40px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    transition: background-color 0.2s;
+}
+
+.input-container button:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+.input-container button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
+
+/* --- Estilos para Código y LaTeX --- */
+
+/* Resaltado de código (contenedor) */
+.code-block-container {
+  margin: 15px 0;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.code-header {
+  background-color: #3e4451; 
+  color: #fff;
+  padding: 8px 15px;
+  font-size: 0.8em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.copy-button {
+  background-color: #555c6d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 0.8em;
+}
+
+.copy-button:hover {
+  background-color: #007bff;
+}
+
+/* Asegura que el color de texto dentro de LaTeX sea blanco/claro en el tema oscuro */
+.katex {
+    color: #e0e0e0;
+}
+
+/* Asegura que los headers markdown sean visibles en el tema oscuro */
+.message h1, .message h2, .message h3 {
+    color: #f0f0f0; 
+    margin-top: 10px;
+    margin-bottom: 5px;
 }

@@ -10,10 +10,17 @@ import Nosotros from './pages/Nosotros';
 import Auth from './pages/Auth';
 import ScrollToTop from './components/ScrollToTop';
 
+// --- Importar el componente del chat flotante ---
+import FloatingChatIA from './components/FloatingChatIA'; 
+
 function App() {
   return (
     <Router>
-      <ScrollToTop /> {/* 👈 Esto hace el scroll al inicio en cada cambio de página */}
+      <ScrollToTop />
+      
+      {/* 👈 RENDERIZADO DEL CHAT FLOTANTE: Se coloca aquí para que esté siempre visible en todas las rutas. */}
+      <FloatingChatIA /> 
+
       <Routes>
         {/* Auth route without layout, actualización para diferenciación login y signup */}
         <Route path="/auth/:type" element={<Auth />} />
