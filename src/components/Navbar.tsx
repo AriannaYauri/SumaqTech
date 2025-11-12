@@ -7,8 +7,10 @@ const navItems: NavItem[] = [
   { name: 'Inicio', path: '/' },
   { name: 'Módulos', path: '/modulos' },
   { name: 'Inspírate', path: '/orientacion-vocacional' },
-  { name: 'Test Vocacional', path: '/test-vocacional' },
-  { name: 'Mentorías', path: '/mentorias' },
+  // Temporarily hidden per user request: Test Vocacional
+  // { name: 'Test Vocacional', path: '/test-vocacional' },
+  // Temporarily hidden per user request: Mentorías
+  // { name: 'Mentorías', path: '/mentorias' },
   { name: 'Foro', path: '/foro' },
   { name: 'Nosotros', path: '/nosotros' },
 ];

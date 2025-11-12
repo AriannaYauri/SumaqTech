@@ -32,7 +32,8 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="font-semibold text-white mb-2">Comunidad</h4>
             <ul className="text-gray-400 space-y-1">
-              <li><Link to="/mentorias" className="hover:text-[#00BFA5]">Mentorías</Link></li>
+              {/* Mentorías link hidden per user request (kept for later) */}
+              {/* <li><Link to="/mentorias" className="hover:text-[#00BFA5]">Mentorías</Link></li> */}
               <li><Link to="/foro" className="hover:text-[#00BFA5]">Foro</Link></li>
             </ul>
           </div>
