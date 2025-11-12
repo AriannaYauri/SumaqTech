@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MessageSquare, ThumbsUp, MessageCircle, User, Calendar, Tag, Search, Plus, Trash2, Send, Edit2, Heart, X } from 'lucide-react';
+import RecommendedMentors from '../components/RecommendedMentors';
 
 // Interfaz para la estructura de las discusiones
 interface Discussion {
@@ -199,7 +200,7 @@ const Foro: React.FC = () => {
   // --- Estados para el Toast simple ---
   const [showSimpleToast, setShowSimpleToast] = useState(false);
   const [simpleToastMsg, setSimpleToastMsg] = useState('');
-  const [simpleToastType, setSimpleToastType] = ('success'); 
+  const [simpleToastType, setSimpleToastType] = useState<'success' | 'error' | 'info'>('success');
 
   // Estados para edición de discusión
   const [editId, setEditId] = useState<number | null>(null);
@@ -229,11 +230,35 @@ const Foro: React.FC = () => {
   };
 
   const [openComments, setOpenComments] = useState<number[]>([]);
-  const [commentsByDiscussion, setCommentsByDiscussion] = useState<Record<number, Comment[]>>(initialComments);
+  const [commentsByDiscussion, setCommentsByDiscussion] = useState<Record<number, Comment[]>>(() => {
+    try {
+      const raw = localStorage.getItem('sumaq_comments');
+      return raw ? JSON.parse(raw) as Record<number, Comment[]> : initialComments;
+    } catch {
+      return initialComments;
+    }
+  });
   
   // ESTADOS para reacciones de comentarios (para el usuario actual)
-  const [commentLikedIds, setCommentLikedIds] = useState<number[]>([]);
-  const [commentHeartedIds, setCommentHeartedIds] = useState<number[]>([]);
+  const [commentLikedIds, setCommentLikedIds] = useState<number[]>(() => {
+    try {
+      const raw = localStorage.getItem('sumaq_comment_likes');
+      return raw ? JSON.parse(raw) as number[] : [];
+    } catch {
+      return [];
+    }
+  });
+  const [commentHeartedIds, setCommentHeartedIds] = useState<number[]>(() => {
+    try {
+      const raw = localStorage.getItem('sumaq_comment_hearts');
+      return raw ? JSON.parse(raw) as number[] : [];
+    } catch {
+      return [];
+    }
+  });
+  // Estado para modal de mentores (abre al hacer click en 'Ver mentores')
+  const [showMentorsModal, setShowMentorsModal] = useState(false);
+  const [mentorsModalTags, setMentorsModalTags] = useState<string[]>([]);
 
   // Función para manejar la entrada de tags
   const handleTagInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -492,14 +517,50 @@ const Foro: React.FC = () => {
     { name: 'Trabajo Remoto', posts: 23 }
   ];
 
-  const [discussions, setDiscussions] = useState(initialDiscussions);
-  const [likedDiscussions, setLikedDiscussions] = useState<number[]>([]);
+  const [discussions, setDiscussions] = useState<Discussion[]>(() => {
+    try {
+      const raw = localStorage.getItem('sumaq_discussions');
+      return raw ? JSON.parse(raw) as Discussion[] : initialDiscussions;
+    } catch {
+      return initialDiscussions;
+    }
+  });
+
+  const [likedDiscussions, setLikedDiscussions] = useState<number[]>(() => {
+    try {
+      const raw = localStorage.getItem('sumaq_liked_discussions');
+      return raw ? JSON.parse(raw) as number[] : [];
+    } catch {
+      return [];
+    }
+  });
   
   // Filtra discusiones
   const filteredDiscussions =
     selectedCategory === 'all'
       ? discussions.filter((d, idx, arr) => arr.findIndex(dd => dd.id === d.id) === idx)
       : discussions.filter((d) => d.category === selectedCategory);
+
+  // Guardar en localStorage cuando cambian discusiones, likes o comentarios
+  React.useEffect(() => {
+    try { localStorage.setItem('sumaq_discussions', JSON.stringify(discussions)); } catch {}
+  }, [discussions]);
+
+  React.useEffect(() => {
+    try { localStorage.setItem('sumaq_liked_discussions', JSON.stringify(likedDiscussions)); } catch {}
+  }, [likedDiscussions]);
+
+  React.useEffect(() => {
+    try { localStorage.setItem('sumaq_comments', JSON.stringify(commentsByDiscussion)); } catch {}
+  }, [commentsByDiscussion]);
+
+  React.useEffect(() => {
+    try { localStorage.setItem('sumaq_comment_likes', JSON.stringify(commentLikedIds)); } catch {}
+  }, [commentLikedIds]);
+
+  React.useEffect(() => {
+    try { localStorage.setItem('sumaq_comment_hearts', JSON.stringify(commentHeartedIds)); } catch {}
+  }, [commentHeartedIds]);
 
   /**
    * Componente interno para la sección de comentarios.
@@ -1120,6 +1181,16 @@ const Foro: React.FC = () => {
                                 </span>
                             );
                           })}
+                          {/* Botón para abrir modal de mentores (visible junto a las tags) */}
+                          <div className="mt-2 sm:mt-0 sm:ml-2">
+                            <button
+                              onClick={() => { setMentorsModalTags(discussion.tags); setShowMentorsModal(true); }}
+                              className="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold px-3 py-1 rounded-lg shadow-sm transition-colors"
+                            >
+                              <span>🧑‍🏫</span>
+                              <span>Ver mentores</span>
+                            </button>
+                          </div>
                         </div>
                         <div className="flex items-center space-x-4">
                           {/* Botón de Likes de la Discusión Principal - Usa el color TEAL de SumaqTech */}
@@ -1171,6 +1242,8 @@ const Foro: React.FC = () => {
                   {openComments.includes(discussion.id) && (
                     <CommentSection discussionId={discussion.id} />
                   )}
+
+                  {/* Mentores: movidos a modal o sidebar persistente. Ya no se muestran inline dentro de los comentarios. */}
 
                 </div>
               );
@@ -1380,6 +1453,24 @@ const Foro: React.FC = () => {
         </div>
       )}
 
+      {/* Modal: Ver mentores (abierto desde el botón en cada discusión) */}
+      {showMentorsModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-md" onClick={() => setShowMentorsModal(false)} />
+
+          <div className="relative bg-white rounded-xl shadow-lg w-full max-w-3xl mx-4 z-10 overflow-hidden" role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
+            <div className="p-6 pr-12">
+              <button onClick={() => setShowMentorsModal(false)} className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 p-2 rounded-full">×</button>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-semibold flex items-center gap-2">🧑‍🏫 Mentores Disponibles</h3>
+                <p className="text-sm text-gray-500 truncate max-w-[60%]">{mentorsModalTags.length > 0 ? `Relacionado con: ${mentorsModalTags.join(', ')}` : ''}</p>
+              </div>
+              <RecommendedMentors tags={mentorsModalTags} />
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* -------------------- Popup animado (Diseño original, para Publicar) -------------------- */}
       {showPopup && (
         <>
@@ -1434,7 +1525,7 @@ const Foro: React.FC = () => {
                 </span>
               </div>
               <h3 className="text-2xl font-bold text-gray-800 mb-3">
-                {popupMsg.includes? '¡Publicación exitosa!' : '¡Genial!'}
+                {popupMsg.includes('primera') ? '¡Publicación exitosa!' : '¡Genial!'}
               </h3>
               <p className="text-lg text-gray-700 mb-2">
                 {popupMsg.includes('primera') ? 'Tu primera publicación fue un éxito' : popupMsg}
