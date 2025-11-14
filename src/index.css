@@ -117,3 +117,125 @@
 .animate-bounce-slow {
   animation: bounceSlow 3s ease-in-out infinite;
 }
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  background-size: 300% 300%;
+  animation: gradientShift 8s ease infinite;
+}
+
+/* subtle float used for small decorative icons */
+.float-slow {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Mini-quiz option animations and selected state */
+@keyframes bounceSelect {
+  0% { transform: scale(0.98); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1.03); }
+}
+
+.quiz-option {
+  transition: transform 180ms cubic-bezier(.2,.9,.2,1), box-shadow 180ms ease, background-color 180ms ease;
+  will-change: transform, box-shadow;
+}
+
+.quiz-option:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 24px rgba(15,15,26,0.06);
+}
+
+.quiz-selected {
+  transform: scale(1.03);
+  box-shadow: 0 12px 30px rgba(124,58,237,0.18);
+  animation: bounceSelect 360ms ease;
+}
+
+/* Wider quiz container utility (small helper) */
+.quiz-wide { max-width: 64rem; }
+
+/* Revamped quiz container and option styles (youthful gradient palette) */
+.quiz-vibrant {
+  /* Requested gradient: turquoise -> celeste pastel -> violeta pastel */
+  background: linear-gradient(135deg, #4FD1C5 0%, #A7F3F0 55%, #C4B5FD 100%);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(30,30,30,0.06);
+  color: #1E1E1E;
+}
+
+.quiz-vibrant .quiz-inner {
+  /* Soft cold-white background for inner panel */
+  background: rgba(247,249,251,0.95); /* #F7F9FB */
+  border-radius: 0.9rem;
+  padding: 1.75rem;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem 1.25rem;
+  justify-content: center;
+  align-items: center;
+  /* keep options on a single row; allow horizontal scroll on very small screens */
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.quiz-options::-webkit-scrollbar { height: 8px; }
+.quiz-options::-webkit-scrollbar-thumb { background: rgba(30,30,30,0.08); border-radius: 8px; }
+
+.quiz-option {
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.94));
+  border: 1px solid rgba(30,30,30,0.06);
+  padding: 1.15rem 1.5rem;
+  border-radius: 0.9rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 250ms cubic-bezier(.2,.9,.2,1), box-shadow 250ms ease, background-color 250ms ease, border-color 250ms ease;
+  will-change: transform, box-shadow, background-color;
+  min-width: 160px;
+}
+
+.quiz-option:hover {
+  transform: scale(1.02);
+  box-shadow: 0 14px 34px rgba(37,65,178,0.08);
+}
+
+.quiz-selected {
+  background: linear-gradient(90deg, #C4B5FD 0%, #A7F3F0 60%);
+  color: #1E1E1E !important;
+  border: 2px solid rgba(79,195,247,0.8);
+  box-shadow: 0 20px 44px rgba(76,153,233,0.12);
+  transform: scale(1.03);
+}
+
+/* make container occupy ~85% viewport width and limit max to 1100px */
+.quiz-wide { width: 92vw; max-width: 1100px; margin-left: auto; margin-right: auto; }
+
+@media (min-width: 768px) {
+  /* medium screens: occupy ~90% */
+  .quiz-wide { width: 90%; }
+}
+
+@media (min-width: 1024px) {
+  /* large screens: occupy ~85% (still within 80-90%) */
+  .quiz-wide { width: 85%; }
+}
+
+/* subtle bounce keyframe for selected visual */
+@keyframes quizBounce {
+  0% { transform: scale(0.995); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1.03); }
+}
+
+.quiz-selected.animate-bounce {
+  animation: quizBounce 360ms ease;
+}
