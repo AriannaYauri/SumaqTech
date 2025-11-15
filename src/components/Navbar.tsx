@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, LogOut, User } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 import type { NavItem } from '../types';
 
 const navItems: NavItem[] = [
@@ -12,12 +13,19 @@ const navItems: NavItem[] = [
   // Temporarily hidden per user request: Mentorías
   // { name: 'Mentorías', path: '/mentorias' },
   { name: 'Foro', path: '/foro' },
-  { name: 'Nosotros', path: '/nosotros' },
+  { name: 'Nosotros', path: '/nosotros' }
 ];
+
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { user, logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    setIsOpen(false);
+  };
 
   return (
     <nav className="bg-white shadow-sm border-b border-gray-100">
@@ -48,20 +56,38 @@ const Navbar: React.FC = () => {
             ))}
           </div>
 
-          {/* Auth Buttons, ACTUALIZACIÓN PARA DIFERENCIACIÓN LOGIN Y SIGNUP */}
+          {/* Auth Buttons / User Menu */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link
-              to="/auth/ingresa"
-              className="text-sm font-medium text-gray-700 hover:text-teal-600 transition-colors duration-200 border border-gray-300 px-4 py-2 rounded-lg hover:border-teal-600"
-            >
-              Ingresa
-            </Link>
-            <Link
-              to="/auth/registrate"
-              className="text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 transition-colors duration-200 px-4 py-2 rounded-lg"
-            >
-              Registrate
-            </Link>
+            {user ? (
+              <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-2 text-sm text-gray-700">
+                  <User className="w-4 h-4" />
+                  <span className="font-medium">{user.name || user.email}</span>
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="text-sm font-medium text-gray-700 hover:text-red-600 transition-colors duration-200 border border-gray-300 px-4 py-2 rounded-lg hover:border-red-600 flex items-center space-x-2"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Salir</span>
+                </button>
+              </div>
+            ) : (
+              <>
+                <Link
+                  to="/auth/ingresa"
+                  className="text-sm font-medium text-gray-700 hover:text-teal-600 transition-colors duration-200 border border-gray-300 px-4 py-2 rounded-lg hover:border-teal-600"
+                >
+                  Ingresa
+                </Link>
+                <Link
+                  to="/auth/registrate"
+                  className="text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 transition-colors duration-200 px-4 py-2 rounded-lg"
+                >
+                  Registrate
+                </Link>
+              </>
+            )}
           </div>
 
 
@@ -94,21 +120,41 @@ const Navbar: React.FC = () => {
                   {item.name}
                 </Link>
               ))}
-              <div className="pt-4 space-y-2">
-                <Link
-                  to="/ingresa"
-                  onClick={() => setIsOpen(false)}
-                  className="block w-full text-center px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:border-teal-600"
-                >
-                  Ingresa
-                </Link>
-                <Link
-                  to="/registrate"
-                  onClick={() => setIsOpen(false)}
-                  className="block w-full text-center px-4 py-2 text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 rounded-lg"
-                >
-                  Registrate
-                </Link>
+              <div className="pt-4 space-y-2 border-t border-gray-200">
+                {user ? (
+                  <>
+                    <div className="px-3 py-2 text-sm text-gray-700 flex items-center space-x-2">
+                      <User className="w-4 h-4" />
+                      <span className="font-medium">{user.name || user.email}</span>
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full text-center px-4 py-2 text-sm font-medium text-red-600 border border-red-300 rounded-lg hover:bg-red-50"
+                    >
+                      <div className="flex items-center justify-center space-x-2">
+                        <LogOut className="w-4 h-4" />
+                        <span>Salir</span>
+                      </div>
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/auth/ingresa"
+                      onClick={() => setIsOpen(false)}
+                      className="block w-full text-center px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:border-teal-600"
+                    >
+                      Ingresa
+                    </Link>
+                    <Link
+                      to="/auth/registrate"
+                      onClick={() => setIsOpen(false)}
+                      className="block w-full text-center px-4 py-2 text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 rounded-lg"
+                    >
+                      Registrate
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>

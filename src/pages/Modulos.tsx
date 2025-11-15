@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Clock, Users, Star, Play, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 type Module = {
   id: number;
@@ -25,7 +26,9 @@ const STORAGE_KEY = 'sumaq_mod_progress_v2';
 
 const Modulos: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const closeBtnRef = useRef<HTMLButtonElement | null>(null);
+  
   const [selectedLevel, setSelectedLevel] = useState<'Todos' | 'Principiante' | 'Intermedio' | 'Avanzado'>('Todos');
   const [activeModule, setActiveModule] = useState<Module | null>(null);
   const [isLaunching, setIsLaunching] = useState(false);
@@ -179,29 +182,25 @@ const Modulos: React.FC = () => {
     }
   };
 
-  // animación + comprobación auth -> navegar (demo: redirigir a login si falta token)
+  // animación + comprobación auth -> navegar (redirigir a login si no está autenticado)
   const handleStartCourse = (moduleId: number) => {
-    const token = localStorage.getItem('auth_token');
-    if (!token) {
-      // si no autenticado: animación + confetti + redirigir a login
-      setIsLaunching(true);
-      setLaunchingModuleId(moduleId);
-      createConfetti();
-      setTimeout(() => {
-        setIsLaunching(false);
-        setLaunchingModuleId(null);
-        navigate('/auth/ingresa', { state: { from: `/modulos/${moduleId}` } });
-      }, 1400);
+    const targetPath = moduleId === 1 ? '/curso-python' : `/modulos/${moduleId}`;
+
+    if (!user) {
+      // Usuario no autenticado → ir al login
+      navigate('/auth/ingresa', { state: { from: targetPath } });
       return;
     }
-    // si autenticado: lanzar cohete visual y navegar al curso
+
+    // Usuario autenticado → animación + confetti
     setIsLaunching(true);
     setLaunchingModuleId(moduleId);
     createConfetti();
+
     setTimeout(() => {
       setIsLaunching(false);
       setLaunchingModuleId(null);
-      navigate(`/modulos/${moduleId}`);
+      navigate(targetPath);
     }, 900);
   };
 
@@ -238,35 +237,76 @@ const Modulos: React.FC = () => {
           --accent-2: #7C3AED;
           --danger: #FF6B6B;
         }
-        .card-animate { animation: cardIn .48s cubic-bezier(.2,.9,.2,1) both; }
-        @keyframes cardIn { from { opacity:0; transform: translateY(10px) scale(.995); } to { opacity:1; transform:none; } }
-
-        .pulse-cta { animation: pulse 2.2s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0,191,165,0.28); } 70% { box-shadow: 0 0 0 10px rgba(0,191,165,0); } 100% { box-shadow: 0 0 0 0 rgba(0,191,165,0); } }
-
-        .cover-hover { transition: transform .45s cubic-bezier(.2,.9,.2,1); }
-        .cover-overlay { transition: opacity .22s ease, transform .22s ease; opacity:0; transform: scale(.96); }
-        article:hover .cover-hover { transform: scale(1.035) translateY(-4px) rotate(-0.4deg); }
-        article:hover .cover-overlay { opacity:1; transform: scale(1); }
-
+        
+        .card-animate {
+          animation: cardIn .48s cubic-bezier(.2,.9,.2,1) both;
+        }
+        
+        @keyframes cardIn {
+          from { opacity:0; transform: translateY(10px) scale(.995); }
+          to { opacity:1; transform:none; }
+        }
+        
+        .pulse-cta {
+          animation: pulse 2.2s infinite;
+        }
+        
+        @keyframes pulse {
+          0% { box-shadow: 0 0 0 0 rgba(0,191,165,0.28); }
+          70% { box-shadow: 0 0 0 10px rgba(0,191,165,0); }
+          100% { box-shadow: 0 0 0 0 rgba(0,191,165,0); }
+        }
+        
+        .cover-hover {
+          transition: transform .45s cubic-bezier(.2,.9,.2,1);
+        }
+        
+        .cover-overlay {
+          transition: opacity .22s ease, transform .22s ease;
+          opacity:0;
+          transform: scale(.96);
+        }
+        
+        article:hover .cover-hover {
+          transform: scale(1.035) translateY(-4px) rotate(-0.4deg);
+        }
+        
+        article:hover .cover-overlay {
+          opacity:1;
+          transform: scale(1);
+        }
+        
         /* rocket / confetti animations */
         @keyframes rocketLaunch {
           0% { transform: translateY(0) scale(1) rotate(0); opacity: 1; }
           60% { transform: translateY(-160px) scale(.9) rotate(-6deg); opacity: 1; }
           100% { transform: translateY(-420px) scale(.4) rotate(-20deg); opacity: 0; }
         }
-        .rocket-launching { animation: rocketLaunch 0.9s cubic-bezier(.2,.9,.2,1) forwards; font-size: 52px; }
-
-        @keyframes confettiFall { to { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
-
-        .progress-bar-fill { transition: width 0.6s cubic-bezier(.4,0,.2,1); }
+        
+        .rocket-launching {
+          animation: rocketLaunch 0.9s cubic-bezier(.2,.9,.2,1) forwards;
+          font-size: 52px;
+        }
+        
+        @keyframes confettiFall {
+          to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+        
+        .progress-bar-fill {
+          transition: width 0.6s cubic-bezier(.4,0,.2,1);
+        }
+        
         .progress-shimmer {
           background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
           background-size: 200% 100%;
           animation: shimmer 2s linear infinite;
         }
-        @keyframes shimmer { 0% { background-position: -200% 0 } 100% { background-position: 200% 0 } }
-
+        
+        @keyframes shimmer {
+          0% { background-position: -200% 0 }
+          100% { background-position: 200% 0 }
+        }
+        
         /* preview bubble */
         .preview-bubble {
           position: absolute;
@@ -282,7 +322,7 @@ const Modulos: React.FC = () => {
           pointer-events: none;
           font-size: 13px;
         }
-
+        
         /* small accessible confetti clean-up handled by JS */
       `}</style>
 
@@ -290,14 +330,14 @@ const Modulos: React.FC = () => {
         <header className="text-center mb-10 relative">
           <div className="absolute -top-6 left-6 w-24 h-24 rounded-full bg-gradient-to-br from-[var(--primary)] to-[var(--accent)] opacity-10 blur-3xl pointer-events-none" />
           <div className="absolute -bottom-10 right-6 w-28 h-28 rounded-full bg-gradient-to-br from-[var(--accent-2)] to-[var(--primary)] opacity-8 blur-3xl pointer-events-none" />
-
+          
           <div className="inline-flex items-center gap-3 mb-4">
             <div className="w-12 h-12 rounded-full bg-[var(--primary)] flex items-center justify-center text-white shadow-lg transform hover:scale-105 transition">
               <Play className="w-6 h-6" />
             </div>
             <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">Módulos de Aprendizaje</h1>
           </div>
-
+          
           <p className="text-lg text-gray-700 max-w-2xl mx-auto">
             Cursos prácticos, interactivos y con diseño pensado para estudiantes — registra tu avance y desbloquea badges.
           </p>
@@ -309,8 +349,8 @@ const Modulos: React.FC = () => {
               key={level}
               onClick={() => setSelectedLevel(level)}
               className={`px-5 py-2 rounded-md font-medium transition-all ${
-                selectedLevel === level
-                  ? 'bg-[var(--primary)] text-white shadow-lg scale-[1.02]'
+                selectedLevel === level 
+                  ? 'bg-[var(--primary)] text-white shadow-lg scale-[1.02]' 
                   : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
               }`}
             >
@@ -322,6 +362,7 @@ const Modulos: React.FC = () => {
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
           {filteredModules.map((module, idx) => {
             const progress = progressMap[module.id] ?? module.progress;
+            
             return (
               <article
                 key={module.id}
@@ -331,7 +372,7 @@ const Modulos: React.FC = () => {
                 style={{ animationDelay: `${idx * 60}ms` }}
               >
                 <div className="h-2 bg-gradient-to-r from-[var(--primary)] via-[var(--accent)] to-[var(--accent-2)]" />
-
+                
                 <div className="relative">
                   <div
                     className="h-44 bg-cover bg-center cover-hover cursor-pointer"
@@ -340,6 +381,7 @@ const Modulos: React.FC = () => {
                     aria-label={module.title}
                     onClick={() => openModule(module)}
                   />
+                  
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                     <div className="rounded-full bg-white/90 w-14 h-14 flex items-center justify-center cover-overlay">
                       <Play className="w-5 h-5 text-gray-800" />
@@ -352,7 +394,9 @@ const Modulos: React.FC = () => {
                       <div className="font-semibold text-sm mb-1">{module.title}</div>
                       <div className="text-xs text-gray-600 mb-2 line-clamp-3">{module.fullDescription}</div>
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-[var(--primary)] text-white flex items-center justify-center"><Play className="w-4 h-4" /></div>
+                        <div className="w-8 h-8 rounded-full bg-[var(--primary)] text-white flex items-center justify-center">
+                          <Play className="w-4 h-4" />
+                        </div>
                         <div className="text-xs text-gray-700">Preview: lección 1 • 3 min</div>
                       </div>
                     </div>
@@ -369,7 +413,6 @@ const Modulos: React.FC = () => {
                       <h3 className="text-2xl font-extrabold text-gray-900 mb-1">{module.title}</h3>
                       <p className="text-sm text-gray-600">{module.category} • {module.level}</p>
                     </div>
-
                     <div className="flex flex-col items-end">
                       <span className="px-3 py-1 rounded-full text-xs font-semibold text-white bg-[var(--primary)] shadow-sm">
                         {module.badge}
@@ -386,7 +429,9 @@ const Modulos: React.FC = () => {
                   <div className="mb-4">
                     <div className="flex items-center justify-between text-xs text-gray-600 mb-1">
                       <span className="font-medium">Progreso</span>
-                      <span className="font-semibold">{Math.round((progress/100) * module.totalLessons)}/{module.totalLessons} lecciones</span>
+                      <span className="font-semibold">
+                        {Math.round((progress/100) * module.totalLessons)}/{module.totalLessons} lecciones
+                      </span>
                     </div>
                     <div className="relative w-full h-3 bg-gray-200 rounded-full overflow-hidden">
                       <div
@@ -400,14 +445,28 @@ const Modulos: React.FC = () => {
                       </div>
                     </div>
                     <div className="mt-1 text-xs text-gray-500">
-                      {progress === 0 ? '🚀 ¡Comienza tu aventura!' : progress === 100 ? '🎉 ¡Completado!' : `${progress}% completado`}
+                      {progress === 0 ? '🚀 ¡Comienza tu aventura!' : 
+                       progress === 100 ? '🎉 ¡Completado!' : 
+                       `${progress}% completado`}
                     </div>
                   </div>
 
                   <div className="flex items-center gap-4 text-sm text-gray-600 mb-5">
-                    <div className="flex items-center gap-2"><Clock className="w-4 h-4 text-gray-400" /><span className="font-medium">{module.duration}</span></div>
-                    <div className="flex items-center gap-2"><Users className="w-4 h-4 text-gray-400" /><span className="font-medium">{module.students.toLocaleString()}</span></div>
-                    <div className={`ml-auto text-xs font-semibold px-2 py-1 rounded ${module.difficulty === 'Fácil' ? 'bg-green-50 text-green-700' : module.difficulty === 'Medio' ? 'bg-yellow-50 text-yellow-700' : 'bg-red-50 text-red-700'}`}>{module.difficulty}</div>
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-gray-400" />
+                      <span className="font-medium">{module.duration}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Users className="w-4 h-4 text-gray-400" />
+                      <span className="font-medium">{module.students.toLocaleString()}</span>
+                    </div>
+                    <div className={`ml-auto text-xs font-semibold px-2 py-1 rounded ${
+                      module.difficulty === 'Fácil' ? 'bg-green-50 text-green-700' :
+                      module.difficulty === 'Medio' ? 'bg-yellow-50 text-yellow-700' :
+                      'bg-red-50 text-red-700'
+                    }`}>
+                      {module.difficulty}
+                    </div>
                   </div>
 
                   <div className="flex gap-3">
@@ -417,9 +476,10 @@ const Modulos: React.FC = () => {
                       aria-label={`Comenzar ${module.title}`}
                     >
                       <Play className="w-4 h-4" />
-                      {progress === 0 ? 'Comenzar Curso' : progress === 100 ? 'Revisar' : 'Continuar'}
+                      {progress === 0 ? 'Comenzar Curso' : 
+                       progress === 100 ? 'Revisar' : 'Continuar'}
                     </button>
-
+                    
                     <button
                       onClick={() => openModule(module)}
                       className="flex-0 px-4 py-3 rounded-lg border border-gray-200 bg-white text-gray-800 hover:shadow transition"
@@ -444,12 +504,21 @@ const Modulos: React.FC = () => {
 
       {/* modal con roadmap y accesibilidad */}
       {activeModule && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" role="dialog" aria-modal="true" aria-label={`${activeModule.title} detalles`}>
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${activeModule.title} detalles`}
+        >
           <div className="relative max-w-3xl w-full">
             <div className="rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-white/60 to-white/40 backdrop-blur-md border border-white/10">
               <div className="relative">
                 <img src={activeModule.cover} alt={activeModule.title} className="w-full h-64 object-cover" />
-                <button ref={closeBtnRef} onClick={closeModule} className="absolute top-4 right-4 p-2 rounded-full bg-white/90 shadow hover:bg-white">
+                <button
+                  ref={closeBtnRef}
+                  onClick={closeModule}
+                  className="absolute top-4 right-4 p-2 rounded-full bg-white/90 shadow hover:bg-white"
+                >
                   <X className="w-5 h-5 text-gray-800" />
                 </button>
                 <div className="absolute left-4 bottom-4 bg-black/40 text-white px-3 py-2 rounded-md backdrop-blur-sm">
@@ -463,14 +532,15 @@ const Modulos: React.FC = () => {
                     <h2 className="text-3xl font-extrabold text-gray-900 mb-2">{activeModule.title}</h2>
                     <p className="text-sm text-gray-600 mb-2">{activeModule.level} • {activeModule.duration}</p>
                     <div className="flex items-center gap-3">
-                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--primary)] text-white font-semibold">{activeModule.badge}</div>
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--primary)] text-white font-semibold">
+                        {activeModule.badge}
+                      </div>
                       <div className="flex items-center gap-2 text-sm text-gray-700">
                         <Star className="w-4 h-4 text-yellow-400" />
                         <span>{activeModule.rating}</span>
                       </div>
                     </div>
                   </div>
-
                   <div className="text-right hidden sm:block">
                     <div className="text-sm text-gray-500">Estudiantes</div>
                     <div className="text-xl font-bold">{activeModule.students.toLocaleString()}</div>
@@ -488,7 +558,9 @@ const Modulos: React.FC = () => {
                       const done = prog >= stepPerc;
                       return (
                         <li key={step} className="flex items-center gap-3">
-                          <div className={`w-8 h-8 rounded-full flex items-center justify-center ${done ? 'bg-[var(--primary)] text-white' : 'bg-gray-100 text-gray-500'}`}>
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                            done ? 'bg-[var(--primary)] text-white' : 'bg-gray-100 text-gray-500'
+                          }`}>
                             {done ? '✓' : i + 1}
                           </div>
                           <div>
@@ -503,12 +575,20 @@ const Modulos: React.FC = () => {
 
                 <div className="mt-6 flex flex-col sm:flex-row gap-3">
                   <button
-                    onClick={() => { closeModule(); handleStartCourse(activeModule.id); }}
+                    onClick={() => {
+                      closeModule();
+                      handleStartCourse(activeModule.id);
+                    }}
                     className="flex-1 bg-[var(--primary)] text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2 hover:brightness-95 transition shadow-lg"
                   >
-                    <Play className="w-4 h-4" /> Comenzar Curso
+                    <Play className="w-4 h-4" />
+                    Comenzar Curso
                   </button>
-                  <button onClick={() => advanceProgress(activeModule.id, 25)} className="flex-0 px-5 py-3 rounded-lg border border-gray-200 bg-white text-gray-800 hover:shadow transition">
+                  
+                  <button
+                    onClick={() => advanceProgress(activeModule.id, 25)}
+                    className="flex-0 px-5 py-3 rounded-lg border border-gray-200 bg-white text-gray-800 hover:shadow transition"
+                  >
                     Avanzar progreso (demo)
                   </button>
                 </div>
