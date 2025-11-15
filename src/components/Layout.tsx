@@ -1,25 +1,28 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import ScrollToTop from "./ScrollToTop"; 
+import ScrollToTop from "./ScrollToTop";
 
-const Layout: React.FC = () => {
+interface LayoutProps {
+  hideNavbar?: boolean;
+  hideFooter?: boolean;
+  children?: ReactNode; // ← aquí agregamos children
+}
+
+const Layout: React.FC<LayoutProps> = ({ hideNavbar = false, hideFooter = false, children }) => {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      {/* Componente que controla el scroll automático */}
       <ScrollToTop />
-            
-      {/* Navbar arriba */}
-      <Navbar />
 
-      {/* Contenido principal que ocupa todo el espacio disponible */}
+      {!hideNavbar && <Navbar />}
+
       <div className="flex-1">
-        <Outlet />
+        {/* Si se pasa children, renderízalo; si no, renderiza <Outlet /> */}
+        {children || <Outlet />}
       </div>
 
-      {/* Footer siempre al final */}
-      <Footer />
+      {!hideFooter && <Footer />}
     </div>
   );
 };
