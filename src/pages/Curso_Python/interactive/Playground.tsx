@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Editor from '@monaco-editor/react';
-import { Play, Trash2, Code2, Terminal, Sparkles } from 'lucide-react';
+import { Play, Trash2, Code2, Terminal } from 'lucide-react';
 
 const Playground: React.FC<{ initialCode?: string }> = ({ initialCode }) => {
   const [loading, setLoading] = useState(true);

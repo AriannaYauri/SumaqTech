@@ -6,7 +6,8 @@ import AuthGuard from './AuthGuard';
 import ModuleCard from './components/ModuleCard';
 import { 
   BookOpen, CheckCircle2, Target, TrendingUp, Sparkles, 
-  LogOut, Award, Zap, Trophy, Home, Settings, PlayCircle 
+  LogOut, Award, Zap, Trophy, Home, Settings, PlayCircle, 
+  Import
 } from 'lucide-react';
 
 const Curso_Python: React.FC<{ userName?: string }> = ({ userName = "Estudiante" }) => {
