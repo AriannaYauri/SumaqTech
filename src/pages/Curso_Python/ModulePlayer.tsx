@@ -13,12 +13,12 @@ import {
   Sparkles 
 } from 'lucide-react';
 
-const COURSE_ID = CourseData.id;
+const COURSE_ID = 'curso-python';
 
 const ModulePlayer: React.FC<{ userName?: string }> = ({ userName = "Estudiante" }) => {
   const { sectionId } = useParams<{ sectionId?: string }>();
   const navigate = useNavigate();
-  const [selected, setSelected] = useState<string | null>(sectionId ?? CourseData.sections[0].id);
+  const [selected, setSelected] = useState<string | null>(sectionId ?? CourseData.allSections[0]?.id ?? null);
   const [progress, setProgress] = useState<Record<string, { completed: boolean }>>({});
 
   // Paleta de colores
@@ -39,14 +39,19 @@ const ModulePlayer: React.FC<{ userName?: string }> = ({ userName = "Estudiante"
     setProgress(loadProgress(COURSE_ID));
   }, []);
 
-  const section = CourseData.sections.find(s => s.id === selected) ?? CourseData.sections[0];
-  const currentSectionIndex = CourseData.sections.findIndex(s => s.id === selected);
+  const section = CourseData.getSectionById(selected) ?? CourseData.allSections[0];
+  const currentSectionIndex = CourseData.allSections.findIndex(s => s.id === selected);
   const completedSections = Object.values(progress).filter(p => p?.completed).length;
+  
+  // Encontrar el módulo al que pertenece esta sección
+  const currentModule = CourseData.modules.find(m => 
+    m.sections.some(s => s.id === selected)
+  ) ?? CourseData.modules[0];
 
   const handleNextSection = () => {
     const nextIndex = currentSectionIndex + 1;
-    if (nextIndex < CourseData.sections.length) {
-      const nextSection = CourseData.sections[nextIndex];
+    if (nextIndex < CourseData.allSections.length) {
+      const nextSection = CourseData.allSections[nextIndex];
       setSelected(nextSection.id);
       navigate(`/curso-python/section/${nextSection.id}`);
     }
@@ -55,7 +60,7 @@ const ModulePlayer: React.FC<{ userName?: string }> = ({ userName = "Estudiante"
   const handlePrevSection = () => {
     const prevIndex = currentSectionIndex - 1;
     if (prevIndex >= 0) {
-      const prevSection = CourseData.sections[prevIndex];
+      const prevSection = CourseData.allSections[prevIndex];
       setSelected(prevSection.id);
       navigate(`/curso-python/section/${prevSection.id}`);
     }
@@ -95,11 +100,11 @@ const ModulePlayer: React.FC<{ userName?: string }> = ({ userName = "Estudiante"
                 <BookOpen className="w-6 h-6 text-white" />
               </div>
               <h1 className="text-3xl font-bold" style={{ color: colorPalette.text }}>
-                {CourseData.title}
+                {currentModule.title}
               </h1>
             </div>
             <p className="text-lg opacity-80 mb-2" style={{ color: colorPalette.text }}>
-              {CourseData.subtitle}
+              {currentModule.subtitle}
             </p>
             
             {/* Progress indicator */}
@@ -107,7 +112,7 @@ const ModulePlayer: React.FC<{ userName?: string }> = ({ userName = "Estudiante"
               <div className="flex items-center gap-2">
                 <Target className="w-4 h-4" style={{ color: colorPalette.primary }} />
                 <span className="text-sm font-medium" style={{ color: colorPalette.text }}>
-                  {completedSections} de {CourseData.sections.length} módulos
+                  {completedSections} de {CourseData.allSections.length} secciones completadas
                 </span>
               </div>
               <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
@@ -115,7 +120,7 @@ const ModulePlayer: React.FC<{ userName?: string }> = ({ userName = "Estudiante"
                   className="h-full rounded-full transition-all duration-1000"
                   style={{ 
                     backgroundColor: colorPalette.primary,
-                    width: `${(completedSections / CourseData.sections.length) * 100}%`
+                    width: `${(completedSections / CourseData.allSections.length) * 100}%`
                   }}
                 ></div>
               </div>
@@ -129,7 +134,7 @@ const ModulePlayer: React.FC<{ userName?: string }> = ({ userName = "Estudiante"
               background: `linear-gradient(135deg, ${colorPalette.primary}, ${colorPalette.gradientTo})`
             }}
           >
-            Módulo {currentSectionIndex + 1}
+            Sección {currentSectionIndex + 1}
           </div>
         </div>
       </div>
@@ -149,7 +154,7 @@ const ModulePlayer: React.FC<{ userName?: string }> = ({ userName = "Estudiante"
             </div>
             
             <ol className="space-y-3">
-              {CourseData.sections.map((s, index) => {
+              {currentModule.sections.map((s, index) => {
                 const completed = progress[s.id]?.completed;
                 const isSelected = s.id === selected;
                 const isUpcoming = index > currentSectionIndex && !completed;
@@ -241,10 +246,10 @@ const ModulePlayer: React.FC<{ userName?: string }> = ({ userName = "Estudiante"
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-2xl font-bold" style={{ color: colorPalette.primaryDark }}>
-                  {Math.round((completedSections / CourseData.sections.length) * 100)}%
+                  {Math.round((completedSections / CourseData.allSections.length) * 100)}%
                 </span>
                 <span className="text-sm opacity-80" style={{ color: colorPalette.primaryDark }}>
-                  {completedSections}/{CourseData.sections.length}
+                  {completedSections}/{CourseData.allSections.length}
                 </span>
               </div>
             </div>
@@ -308,13 +313,13 @@ const ModulePlayer: React.FC<{ userName?: string }> = ({ userName = "Estudiante"
 
                 <button
                   onClick={handleNextSection}
-                  disabled={currentSectionIndex === CourseData.sections.length - 1}
+                  disabled={currentSectionIndex === CourseData.allSections.length - 1}
                   className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all
-                    ${currentSectionIndex === CourseData.sections.length - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-md transform hover:translate-x-1'}
+                    ${currentSectionIndex === CourseData.allSections.length - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-md transform hover:translate-x-1'}
                   `}
                   style={{ 
-                    backgroundColor: currentSectionIndex === CourseData.sections.length - 1 ? '#f3f4f6' : colorPalette.primary,
-                    color: currentSectionIndex === CourseData.sections.length - 1 ? '#9ca3af' : 'white'
+                    backgroundColor: currentSectionIndex === CourseData.allSections.length - 1 ? '#f3f4f6' : colorPalette.primary,
+                    color: currentSectionIndex === CourseData.allSections.length - 1 ? '#9ca3af' : 'white'
                   }}
                 >
                   Siguiente

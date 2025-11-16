@@ -1,17 +1,17 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loadProgress, ProgressMap } from './useProgress';
 import CourseData from './CourseData';
 import AuthGuard from './AuthGuard';
-import ModuleCard from './components/ModuleCard';
 import { 
   BookOpen, CheckCircle2, Target, TrendingUp, Sparkles, 
-  LogOut, Award, Zap, Trophy, Home, Settings, PlayCircle 
+  LogOut, Award, Zap, Trophy, Home, Settings, PlayCircle
 } from 'lucide-react';
 
 const Curso_Python: React.FC<{ userName?: string }> = ({ userName = "Estudiante" }) => {
   const navigate = useNavigate();
   const progress: ProgressMap = loadProgress(CourseData.id);
+  const [currentView, setCurrentView] = useState<'dashboard' | 'modules'>('dashboard');
 
   // Paleta de colores
   const colorPalette = {
@@ -28,18 +28,31 @@ const Curso_Python: React.FC<{ userName?: string }> = ({ userName = "Estudiante"
   // Estadísticas y nivel
   const stats = useMemo(() => {
     const completed = Object.values(progress).filter(p => p?.completed).length;
-    const total = CourseData.sections.length;
+    const total = CourseData.allSections.length;
     const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
     const userLevel = Math.floor((completed / total) * 10) + 1;
     return { completed, total, percentage, userLevel };
   }, [progress]);
+
+
+  // Calcular progreso por módulo
+  const getModuleProgress = (moduleId: string) => {
+    const module = CourseData.getModuleById(moduleId);
+    if (!module) return { completed: 0, total: 0, percentage: 0 };
+    
+    const moduleSections = module.sections;
+    const completed = moduleSections.filter(s => progress[s.id]?.completed).length;
+    const total = moduleSections.length;
+    const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+    return { completed, total, percentage };
+  };
 
   const isSectionCompleted = (sectionId: string | number): boolean => {
     return progress[String(sectionId)]?.completed || false;
   };
 
   const getNextSection = () => {
-    return CourseData.sections.find(s => !isSectionCompleted(s.id));
+    return CourseData.allSections.find(s => !isSectionCompleted(s.id));
   };
 
   const studyStreak = 3; // ejemplo
@@ -63,10 +76,26 @@ const Curso_Python: React.FC<{ userName?: string }> = ({ userName = "Estudiante"
 
           {/* Navegación */}
           <nav className="flex flex-col gap-1 flex-1">
-            <button className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 hover:shadow-md text-gray-700 hover:text-gray-900 group" style={{ backgroundColor: colorPalette.primaryLighter, color: colorPalette.primaryDark, fontWeight: '600' }}>
+            <button 
+              onClick={() => setCurrentView('dashboard')}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 hover:shadow-md group ${
+                currentView === 'dashboard' 
+                  ? 'text-gray-700 hover:text-gray-900' 
+                  : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+              }`}
+              style={currentView === 'dashboard' ? { backgroundColor: colorPalette.primaryLighter, color: colorPalette.primaryDark, fontWeight: '600' } : {}}
+            >
               <Home className="w-5 h-5" /> <span>Dashboard</span>
             </button>
-            <button className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-gray-50 text-gray-600 hover:text-gray-800 group">
+            <button 
+              onClick={() => setCurrentView('modules')}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
+                currentView === 'modules' 
+                  ? 'text-gray-700 hover:text-gray-900 hover:shadow-md' 
+                  : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+              }`}
+              style={currentView === 'modules' ? { backgroundColor: colorPalette.primaryLighter, color: colorPalette.primaryDark, fontWeight: '600' } : {}}
+            >
               <BookOpen className="w-5 h-5" /> <span>Módulos</span>
             </button>
             <button className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-gray-50 text-gray-600 hover:text-gray-800 group">
@@ -97,25 +126,27 @@ const Curso_Python: React.FC<{ userName?: string }> = ({ userName = "Estudiante"
         {/* Contenido principal */}
         <main className="flex-1 p-8">
           
-          {/* Hero con saludo */}
-          <div className="mb-8 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${colorPalette.gradientFrom}, ${colorPalette.gradientTo})` }}>
-            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
-            <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full -translate-x-12 translate-y-12"></div>
-            <div className="relative z-10 flex items-center justify-between">
-              <div>
-                <h2 className="text-3xl font-bold mb-2">¡Bienvenido, {userName}! 👋</h2>
-                <p className="text-white/90 text-lg">Continúa tu aprendizaje en {CourseData.title}</p>
+          {/* Hero con saludo - Solo en Dashboard */}
+          {currentView === 'dashboard' && (
+            <>
+              <div className="mb-8 rounded-2xl p-8 text-white shadow-xl relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${colorPalette.gradientFrom}, ${colorPalette.gradientTo})` }}>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full -translate-x-12 translate-y-12"></div>
+                <div className="relative z-10 flex items-center justify-between">
+                  <div>
+                    <h2 className="text-3xl font-bold mb-2">¡Bienvenido, {userName}! 👋</h2>
+                    <p className="text-white/90 text-lg">Continúa tu aprendizaje en Python</p>
+                  </div>
+                  <div className="bg-white/20 backdrop-blur rounded-2xl p-4 text-center min-w-[120px] border border-white/30">
+                    <Award className="w-8 h-8 mx-auto mb-1" />
+                    <p className="font-bold text-2xl">Nivel {stats.userLevel}</p>
+                    <p className="text-xs opacity-90">Python Developer</p>
+                  </div>
+                </div>
               </div>
-              <div className="bg-white/20 backdrop-blur rounded-2xl p-4 text-center min-w-[120px] border border-white/30">
-                <Award className="w-8 h-8 mx-auto mb-1" />
-                <p className="font-bold text-2xl">Nivel {stats.userLevel}</p>
-                <p className="text-xs opacity-90">Python Developer</p>
-              </div>
-            </div>
-          </div>
 
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              {/* Stats Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             
             {/* Progreso */}
             <div className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-gray-200">
@@ -141,7 +172,7 @@ const Curso_Python: React.FC<{ userName?: string }> = ({ userName = "Estudiante"
                 </div>
                 <div className="text-right">
                   <p className="text-3xl font-bold text-gray-800">{stats.completed}<span className="text-xl text-gray-400">/{stats.total}</span></p>
-                  <p className="text-sm text-gray-500">Módulos</p>
+                  <p className="text-sm text-gray-500">Secciones</p>
                 </div>
               </div>
               <p className="text-sm font-medium flex items-center gap-1" style={{ color: colorPalette.primaryDark }}>
@@ -160,7 +191,7 @@ const Curso_Python: React.FC<{ userName?: string }> = ({ userName = "Estudiante"
                   </div>
                   <BookOpen className="w-8 h-8 opacity-30" />
                 </div>
-                <p className="text-sm opacity-90 mb-1">Siguiente módulo</p>
+                <p className="text-sm opacity-90 mb-1">Siguiente sección</p>
                 <p className="text-lg font-bold">{getNextSection()?.title || '¡Curso completo!'}</p>
               </div>
             </div>
@@ -188,7 +219,7 @@ const Curso_Python: React.FC<{ userName?: string }> = ({ userName = "Estudiante"
                   </div>
                   <div>
                     <p className="text-sm opacity-90 mb-1">Continúa donde lo dejaste</p>
-                    <p className="text-xl font-bold">{getNextSection()?.title || 'Selecciona un módulo'}</p>
+                    <p className="text-xl font-bold">{getNextSection()?.title || 'Selecciona una sección'}</p>
                   </div>
                 </div>
                 <button onClick={() => { const nextSection = getNextSection(); if(nextSection) navigate(`/curso-python/section/${nextSection.id}`); }} className="px-6 py-3 bg-white rounded-xl font-semibold hover:scale-105 transition-all shadow-lg" style={{ color: colorPalette.primary }}>
@@ -197,43 +228,124 @@ const Curso_Python: React.FC<{ userName?: string }> = ({ userName = "Estudiante"
               </div>
             </div>
           )}
-
-          {/* Grid de módulos */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {CourseData.sections.map(section => (
-              <ModuleCard 
-                key={section.id} 
-                section={section} 
-                progress={isSectionCompleted(section.id)} 
-                onStart={() => navigate(`/curso-python/section/${section.id}`)}
-                onView={() => navigate(`/curso-python/section/${section.id}`)}
-                primaryColor={colorPalette.primary} 
-              />
-            ))}
-          </div>
-
-          {/* Mensajes motivacionales */}
-          {stats.percentage > 0 && stats.percentage < 100 && (
-            <div className="mt-8 rounded-2xl p-8 text-center shadow-lg relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${colorPalette.primary}, ${colorPalette.primaryDark})` }}>
-              <div className="absolute top-0 left-0 w-32 h-32 bg-white/10 rounded-full -translate-x-16 -translate-y-16"></div>
-              <div className="absolute bottom-0 right-0 w-24 h-24 bg-white/10 rounded-full translate-x-12 translate-y-12"></div>
-              <div className="relative z-10">
-                <Trophy className="w-12 h-12 text-white mx-auto mb-3 opacity-90" />
-                <h3 className="text-2xl font-bold text-white mb-2">¡Excelente progreso! 🚀</h3>
-                <p className="text-white/90 text-lg">Has completado {stats.completed} de {stats.total} módulos. ¡Sigue así!</p>
-              </div>
-            </div>
+          </>
           )}
 
-          {stats.percentage === 100 && (
-            <div className="mt-8 rounded-2xl p-8 text-center shadow-lg relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${colorPalette.primary}, ${colorPalette.primaryDark})` }}>
-              <div className="absolute inset-0 bg-black/5"></div>
-              <Award className="w-16 h-16 text-white mx-auto mb-4 relative z-10" />
-              <h3 className="text-3xl font-bold text-white mb-2 relative z-10">¡Felicitaciones! 🎉</h3>
-              <p className="text-white/90 text-lg mb-6 relative z-10">Has completado el curso de {CourseData.title}</p>
-              <button className="bg-white rounded-xl font-bold hover:scale-105 transition-all shadow-lg px-8 py-3 relative z-10" style={{ color: colorPalette.primary }}>
-                Descargar Certificado
-              </button>
+          {/* Vista de Dashboard */}
+          {currentView === 'dashboard' && (
+            <>
+              {/* Mensajes motivacionales */}
+              {stats.percentage > 0 && stats.percentage < 100 && (
+                <div className="mt-8 rounded-2xl p-8 text-center shadow-lg relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${colorPalette.primary}, ${colorPalette.primaryDark})` }}>
+                  <div className="absolute top-0 left-0 w-32 h-32 bg-white/10 rounded-full -translate-x-16 -translate-y-16"></div>
+                  <div className="absolute bottom-0 right-0 w-24 h-24 bg-white/10 rounded-full translate-x-12 translate-y-12"></div>
+                  <div className="relative z-10">
+                    <Trophy className="w-12 h-12 text-white mx-auto mb-3 opacity-90" />
+                    <h3 className="text-2xl font-bold text-white mb-2">¡Excelente progreso! 🚀</h3>
+                    <p className="text-white/90 text-lg">Has completado {stats.completed} de {stats.total} secciones. ¡Sigue así!</p>
+                  </div>
+                </div>
+              )}
+
+              {stats.percentage === 100 && (
+                <div className="mt-8 rounded-2xl p-8 text-center shadow-lg relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${colorPalette.primary}, ${colorPalette.primaryDark})` }}>
+                  <div className="absolute inset-0 bg-black/5"></div>
+                  <Award className="w-16 h-16 text-white mx-auto mb-4 relative z-10" />
+                  <h3 className="text-3xl font-bold text-white mb-2 relative z-10">¡Felicitaciones! 🎉</h3>
+                  <p className="text-white/90 text-lg mb-6 relative z-10">Has completado el curso de Python</p>
+                  <button className="bg-white rounded-xl font-bold hover:scale-105 transition-all shadow-lg px-8 py-3 relative z-10" style={{ color: colorPalette.primary }}>
+                    Descargar Certificado
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Vista de Módulos */}
+          {currentView === 'modules' && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
+              {CourseData.modules.map((module, moduleIndex) => {
+                const moduleProgress = getModuleProgress(module.id);
+                
+                return (
+                  <div 
+                    key={module.id}
+                    className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all flex flex-col hover:shadow-md cursor-pointer"
+                    onClick={() => navigate(`/curso-python/module/${module.id}`)}
+                  >
+                    {/* Imagen del módulo - Compacta (1:1) */}
+                    <div 
+                      className="relative w-full aspect-square overflow-hidden group"
+                    >
+                      {module.image ? (
+                        <img 
+                          src={module.image} 
+                          alt={module.title}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = `https://placehold.co/300x300/${colorPalette.primary.slice(1)}/ffffff?text=M${moduleIndex + 1}`;
+                          }}
+                        />
+                      ) : (
+                        <div 
+                          className="w-full h-full flex items-center justify-center"
+                          style={{ backgroundColor: colorPalette.primary }}
+                        >
+                          <span className="text-4xl font-bold text-white opacity-80">M{moduleIndex + 1}</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Información del módulo - Debajo de la imagen */}
+                    <div 
+                      className="p-3 transition-all flex flex-col gap-2 flex-1"
+                    >
+                      {/* Título y subtítulo */}
+                      <div className="flex items-start gap-2">
+                        {/* Badge del número del módulo */}
+                        <div 
+                          className="w-7 h-7 rounded-lg flex items-center justify-center text-white text-sm font-bold shadow-md flex-shrink-0"
+                          style={{ backgroundColor: colorPalette.primary }}
+                        >
+                          {moduleIndex + 1}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-base font-bold text-gray-800 mb-1 line-clamp-1">
+                            {module.title}
+                          </h3>
+                          {module.subtitle && (
+                            <p className="text-xs text-gray-500 line-clamp-2">
+                              {module.subtitle}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Progreso e información */}
+                      <div className="flex items-center justify-between gap-2 mt-auto pt-2 border-t border-gray-100">
+                        <span className="text-xs text-gray-600 font-medium whitespace-nowrap">
+                          {module.sections.length} secciones
+                        </span>
+                        <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                          <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                            <div 
+                              className="h-full rounded-full transition-all duration-1000"
+                              style={{ 
+                                backgroundColor: colorPalette.primary,
+                                width: `${moduleProgress.percentage}%`
+                              }}
+                            ></div>
+                          </div>
+                          <span className="text-xs font-semibold text-gray-700 min-w-[2.5rem] text-right">
+                            {moduleProgress.percentage}%
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           )}
 
