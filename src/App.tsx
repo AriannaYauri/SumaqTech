@@ -13,6 +13,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Curso_Python from './pages/Curso_Python/Curso_Python';
 import ModulePlayer from './pages/Curso_Python/ModulePlayer';
+import Estudiantes from './pages/Estudiantes';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="nosotros" element={<Nosotros />} />
             <Route path="modulos" element={<Modulos />} />
             <Route path="orientacion-vocacional" element={<OrientacionVocacional />} />
+            <Route path="estudiantes" element={<Estudiantes />} />
             <Route path="test-vocacional" element={<TestVocacional />} />
             <Route path="mentorias" element={<Mentorias />} />
             <Route path="foro" element={<Foro />} />

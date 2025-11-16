@@ -69,7 +69,7 @@ const testimonialsData = [
   {
     id: 1,
     text: "Yo creía que la programación era solo para genios. Pero con SumaqTech aprendí cosas nuevas, ahora quiero estudiar ingeniería de software.",
-    name: "Sara L.",
+    name: "Tatiana Azabache",
     role: "Estudiante",
     image: SaraL
   },
