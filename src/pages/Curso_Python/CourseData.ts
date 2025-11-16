@@ -8,10 +8,22 @@ export type Section = {
   tips?: string[];
 };
 
-const CourseData = {
+export type Module = {
+  id: string;
+  title: string;
+  subtitle?: string;
+  image?: string;
+  sections: Section[];
+};
+
+const module1: Module = {
   id: 'modulo1-logica',
   title: 'Módulo 1 — Lógica de Programación',
   subtitle: 'Aprende a pensar como programador con secuencias, decisiones, bucles y diagramas de flujo',
+  // Reemplaza esta URL con la URL directa de la imagen de ImgBB
+  // La URL directa normalmente es: https://i.ibb.co/xxxxx/nombre-imagen.jpg
+  // Para obtenerla: Haz clic derecho en la imagen en ImgBB > "Copiar dirección de la imagen"
+  image: 'https://i.ibb.co/s9t2MWcN/SUMAQTECH-1.png', // CAMBIAR ESTA URL
   sections: [
     {
       id: 'm1-s1',
@@ -207,10 +219,15 @@ preparar_para(2)`
     }
   ]
 };
-const CourseDataModule2 = {
+
+const module2: Module = {
   id: 'modulo2-python-intro',
   title: 'Módulo 2 — Introducción a la Programación con Python',
   subtitle: 'Aprende Python paso a paso: instalación, sintaxis básica y mini proyectos',
+  // Reemplaza esta URL con la URL directa de la imagen de ImgBB
+  // La URL directa normalmente es: https://i.ibb.co/xxxxx/nombre-imagen.jpg
+  // Para obtenerla: Haz clic derecho en la imagen en ImgBB > "Copiar dirección de la imagen"
+  image: 'https://i.ibb.co/6cH50HJk/SUMAQTECH.png', // CAMBIAR ESTA URL
   sections: [
     {
       id: 'm2-s0',
@@ -784,5 +801,31 @@ const CourseDataModule2 = {
   ]
 };
 
+// Estructura principal que agrupa todos los módulos
+const CourseData = {
+  id: 'curso-python',
+  title: 'Curso de Python',
+  modules: [module1, module2],
+  // Función helper para obtener todas las secciones de todos los módulos (retrocompatibilidad)
+  get allSections() {
+    return this.modules.flatMap(module => module.sections);
+  },
+  // Función helper para obtener una sección por ID
+  getSectionById(sectionId: string): Section | undefined {
+    for (const module of this.modules) {
+      const section = module.sections.find(s => s.id === sectionId);
+      if (section) return section;
+    }
+    return undefined;
+  },
+  // Función helper para obtener un módulo por ID
+  getModuleById(moduleId: string): Module | undefined {
+    return this.modules.find(m => m.id === moduleId);
+  }
+};
 
-export default CourseData; CourseDataModule2;
+// Exportar también los datos del primer módulo para retrocompatibilidad
+export const CourseDataModule1 = module1;
+export const CourseDataModule2 = module2;
+
+export default CourseData;

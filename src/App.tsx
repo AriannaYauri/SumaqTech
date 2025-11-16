@@ -13,6 +13,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Curso_Python from './pages/Curso_Python/Curso_Python';
 import ModulePlayer from './pages/Curso_Python/ModulePlayer';
+import ModuleSections from './pages/Curso_Python/ModuleSections';
 import Estudiantes from './pages/Estudiantes';
 
 function App() {
@@ -43,6 +44,17 @@ function App() {
               <ProtectedRoute>
                 <Layout hideNavbar hideFooter>
                   <Curso_Python />
+                </Layout>
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/curso-python/module/:moduleId" 
+            element={
+              <ProtectedRoute>
+                <Layout hideNavbar hideFooter>
+                  <ModuleSections />
                 </Layout>
               </ProtectedRoute>
             } 
