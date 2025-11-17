@@ -34,7 +34,7 @@ const Footer: React.FC = () => {
             <ul className="text-gray-400 space-y-1">
               {/* Mentorías link hidden per user request (kept for later) */}
               {/* <li><Link to="/mentorias" className="hover:text-[#00BFA5]">Mentorías</Link></li> */}
-              <li><Link to="/foro" className="hover:text-[#00BFA5]">Foro</Link></li>
+              <li><Link to="/Mentorias" className="hover:text-[#00BFA5]">Mentorías</Link></li>
             </ul>
           </div>
           <div>

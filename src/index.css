@@ -240,3 +240,171 @@
 .quiz-selected.animate-bounce {
   animation: quizBounce 360ms ease;
 }
+
+/* ============================================
+   ANIMACIONES ESPECÍFICAS DE MÓDULOS
+   ============================================ */
+
+/* Variables de paleta para módulos */
+:root {
+  --primary: #00BFA5;
+  --primary-dark: #00D4B5;
+  --accent: #FFB300;
+  --accent-2: #7C3AED;
+  --danger: #FF6B6B;
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseModule {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 191, 165, 0.28);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 191, 165, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 191, 165, 0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes rocketLaunch {
+  0% {
+    transform: translateY(0) scale(1) rotate(0);
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(-160px) scale(0.9) rotate(-6deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-420px) scale(0.4) rotate(-20deg);
+    opacity: 0;
+  }
+}
+
+@keyframes confettiFall {
+  to {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* Clases de utilidad para módulos */
+.card-animate {
+  animation: cardIn 0.48s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+}
+
+.pulse-cta {
+  animation: pulseModule 2.2s infinite;
+}
+
+.rocket-launching {
+  animation: rocketLaunch 0.9s cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+  font-size: 52px;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cover-hover {
+  transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+.cover-overlay {
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+article:hover .cover-hover {
+  transform: scale(1.035) translateY(-4px) rotate(-0.4deg);
+}
+
+article:hover .cover-overlay {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.progress-bar-fill {
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.35),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+.preview-bubble {
+  position: absolute;
+  right: 1.25rem;
+  top: 1.25rem;
+  width: 180px;
+  padding: 10px;
+  border-radius: 12px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.98),
+    rgba(255, 255, 255, 0.92)
+  );
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.12);
+  transform: translateZ(0);
+  z-index: 30;
+  pointer-events: none;
+  font-size: 13px;
+}
+
+.confetti {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+}

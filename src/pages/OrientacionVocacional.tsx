@@ -176,7 +176,7 @@ const OrientacionVocacional: React.FC = () => {
         {!selectedCategory && (
           <div className="mb-10 text-center">
             <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
-              Explora el Mundo STEM y Encuentra tu Vocación
+              Encuentra tu Vocación en STEM
             </h1>
             <p className="max-w-3xl mx-auto text-gray-700 text-lg leading-relaxed">
               Explora carreras, aprende de profesionales y encuentra el camino que te motive a construir el futuro.

@@ -1,143 +1,82 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Clock, Users, Star, Play, X } from 'lucide-react';
+import { Users, Play, X, Lock, Zap, Sparkles, ArrowRight, Target, MessageCircle, Award, Lightbulb, Rocket } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+// Importa portadas locales (cuadradas)
+import pythonCover from '../components/cursos_iconos/python.png';
+import guardEspacioCover from '../components/cursos_iconos/guard_espacio.png';
+import amenazasCover from '../components/cursos_iconos/amenazas_invisibles.png';
+import iotCover from '../components/cursos_iconos/iot.png';
 
 type Module = {
   id: number;
   title: string;
   description: string;
   fullDescription?: string;
-  duration: string;
   students: number;
-  rating: number;
-  level: string;
   badge: string;
-  difficulty: string;
   category: string;
-  colorClass: string;
   cover: string;
-  progress: number;
-  totalLessons: number;
-  completedLessons: number;
+  features: string[];
 };
-
-const STORAGE_KEY = 'sumaq_mod_progress_v2';
 
 const Modulos: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const closeBtnRef = useRef<HTMLButtonElement | null>(null);
-  
-  const [selectedLevel, setSelectedLevel] = useState<'Todos' | 'Principiante' | 'Intermedio' | 'Avanzado'>('Todos');
+
   const [activeModule, setActiveModule] = useState<Module | null>(null);
   const [isLaunching, setIsLaunching] = useState(false);
   const [launchingModuleId, setLaunchingModuleId] = useState<number | null>(null);
-  const [progressMap, setProgressMap] = useState<Record<number, number>>({});
-  const [hoverPreviewId, setHoverPreviewId] = useState<number | null>(null);
 
-  // Paleta centralizada: --primary = #00BFA5 etc. Usado en CSS below.
   const modules: Module[] = [
     {
       id: 1,
-      title: 'Fundamentos de Python',
-      description: 'Aprende lógica, variables, funciones y proyectos prácticos con Python.',
-      fullDescription: 'Construirás proyectos reales: automatizaciones, juegos y scripts para analizar datos.',
-      duration: '8 semanas',
-      students: 1247,
-      rating: 4.8,
-      level: 'Principiante',
-      badge: 'Nuevo',
-      difficulty: 'Fácil',
+      title: 'Aventurero Python',
+      description: '¡Tu primer paso en programación! Crea juegos y apps simples mientras aprendes.',
+      fullDescription: 'Aprende a programar desde cero con Python. Crea una calculadora, juegos de adivinanzas y proyectos divertidos que podrás mostrar a tus amigos.',
+      students: 50,
+      badge: '🔥 Nuevo',
       category: 'Programación',
-      colorClass: 'bg-[var(--primary)] hover:bg-[var(--primary-dark)]',
-      cover: 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=1200&q=80',
-      progress: 0,
-      totalLessons: 24,
-      completedLessons: 0
+      cover: pythonCover,
+      features: ['Ejemplos prácticos y dinámicos', 'Proyectos paso a paso', 'Entorno interactivo', 'Certificado digital']
     },
     {
       id: 2,
-      title: 'Ciberseguridad Básica',
-      description: 'Conceptos esenciales de seguridad y ejercicios prácticos en entornos seguros.',
-      fullDescription: 'Identifica amenazas comunes, aprende buenas prácticas y realiza laboratorios de hacking ético.',
-      duration: '9 semanas',
-      students: 892,
-      rating: 4.9,
-      level: 'Intermedio',
-      badge: 'Popular',
-      difficulty: 'Medio',
-      category: 'Seguridad',
-      colorClass: 'bg-[var(--primary)] hover:bg-[var(--primary-dark)]',
-      cover: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?w=1200&q=80',
-      progress: 35,
-      totalLessons: 18,
-      completedLessons: 6
+      title: 'Guardianes del espacio',
+      description: 'Protege tu identidad en internet como un verdadero guardián digital.',
+      fullDescription:
+        'Descubre cómo cuidarte en redes sociales. Aprende a detectar perfiles falsos, configurar tu privacidad en TikTok/Instagram y proteger tu información personal.',
+      students: 35,
+      badge: '🚀 Popular',
+      category: 'Seguridad Digital',
+      cover: guardEspacioCover,
+      features: ['Casos reales de tu edad', 'Tips prácticos', 'Checklist de seguridad', 'Certificado digital']
     },
     {
       id: 3,
-      title: 'Redes y Networking',
-      description: 'Modelos OSI/TCP-IP, direccionamiento y laboratorio práctico.',
-      fullDescription: 'Configura routers, switches virtuales y diagnostica problemas reales en simuladores.',
-      duration: '6 semanas',
-      students: 654,
-      rating: 4.7,
-      level: 'Intermedio',
-      badge: 'Desafío',
-      difficulty: 'Medio',
-      category: 'Redes',
-      colorClass: 'bg-[var(--primary)] hover:bg-[var(--primary-dark)]',
-      cover: 'https://images.unsplash.com/photo-1554797589-7241bb691973?w=1200&q=80',
-      progress: 67,
-      totalLessons: 15,
-      completedLessons: 10
+      title: 'Amenazas invisibles',
+      description: 'Conviértete en un detective digital y protégete de hackers y estafas online.',
+      fullDescription: 'Aprende a identificar virus, phishing y estafas. Usa simuladores para practicar sin riesgo y protege tus dispositivos como un profesional.',
+      students: 40,
+      badge: '💎 Pro',
+      category: 'Ciberseguridad',
+      cover: amenazasCover,
+      features: ['Laboratorios virtuales', 'Retos gamificados', 'Badge de experto', 'Certificado digital']
     },
     {
       id: 4,
-      title: 'IoT y Sensórica',
-      description: 'Sensores, microcontroladores y proyectos conectados a la nube.',
-      fullDescription: 'Proyectos prácticos: estación meteorológica, alertas y visualización de datos.',
-      duration: '7 semanas',
-      students: 523,
-      rating: 4.9,
-      level: 'Avanzado',
-      badge: 'Destacado',
-      difficulty: 'Difícil',
-      category: 'IoT',
-      colorClass: 'bg-[var(--primary)] hover:bg-[var(--primary-dark)]',
-      cover: 'https://images.unsplash.com/photo-1518773553398-650c184e0bb3?w=1200&q=80',
-      progress: 100,
-      totalLessons: 21,
-      completedLessons: 21
+      title: 'Laboratorio de robots',
+      description: 'Construye y programa tu propio robot desde cero. ¡Ciencia ficción hecha realidad!',
+      fullDescription: 'Diseña robots que responden a tu voz, sensores y comandos online. Usa simuladores de Arduino y crea prototipos que funcionan.',
+      students: 45,
+      badge: '⚡ Elite',
+      category: 'Robótica / IoT',
+      cover: iotCover,
+      features: ['Simuladores online', 'Proyectos desafiantes', 'Mentoría en vivo', 'Certificado digital']
     }
   ];
 
-  // inicializar progreso desde localStorage, si existe; si no, desde modules[]
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        setProgressMap(JSON.parse(raw));
-      } else {
-        const initial: Record<number, number> = {};
-        modules.forEach(m => (initial[m.id] = m.progress || 0));
-        setProgressMap(initial);
-      }
-    } catch {
-      const initial: Record<number, number> = {};
-      modules.forEach(m => (initial[m.id] = m.progress || 0));
-      setProgressMap(initial);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(progressMap));
-    } catch {}
-  }, [progressMap]);
-
-  // Close modal on ESC and return focus to close button when opened
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -150,463 +89,408 @@ const Modulos: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (activeModule) {
-      // focus en botón de cierre para accesibilidad
-      setTimeout(() => closeBtnRef.current?.focus(), 80);
-    }
+    if (activeModule) setTimeout(() => closeBtnRef.current?.focus(), 80);
   }, [activeModule]);
 
-  const filteredModules = selectedLevel === 'Todos' ? modules : modules.filter(m => m.level === selectedLevel);
-
-  // crear confetti con colores de la paleta
   const createConfetti = () => {
-    const colors = ['#00BFA5', '#FFB300', '#7C3AED', '#FF6B6B', '#4ECDC4'];
-    const confettiCount = 40;
-    for (let i = 0; i < confettiCount; i++) {
-      const n = document.createElement('div');
-      n.className = 'confetti';
-      n.style.left = Math.random() * 100 + '%';
-      n.style.width = (6 + Math.random() * 10).toFixed(0) + 'px';
-      n.style.height = n.style.width;
-      n.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-      n.style.opacity = '0.95';
-      n.style.zIndex = '9999';
-      n.style.top = '-20px';
-      n.style.position = 'fixed';
-      n.style.borderRadius = Math.random() > 0.5 ? '2px' : '50%';
-      n.style.transform = `rotate(${Math.random() * 360}deg)`;
-      n.style.pointerEvents = 'none';
-      n.style.animation = `confettiFall ${2 + Math.random() * 2}s linear forwards`;
-      document.body.appendChild(n);
-      setTimeout(() => n.remove(), 4500);
+    const colors = ['#9EFCE4','#CFFAF1','#EAD9FF','#FFE4EC','#DBEAFE'];
+    for (let i = 0; i < 50; i++) {
+      const el = document.createElement('div');
+      el.style.position = 'fixed';
+      el.style.top = '-24px';
+      el.style.left = Math.random() * 100 + '%';
+      el.style.width = el.style.height = 8 + Math.random() * 10 + 'px';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.borderRadius = Math.random() > 0.6 ? '50%' : '4px';
+      el.style.opacity = '0.9';
+      el.style.transform = `rotate(${Math.random() * 360}deg)`;
+      el.style.pointerEvents = 'none';
+      el.style.animation = `confettiFall ${1.8 + Math.random() * 1.4}s linear forwards`;
+      el.style.zIndex = '9999';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 3200);
     }
   };
 
-  // animación + comprobación auth -> navegar (redirigir a login si no está autenticado)
   const handleStartCourse = (moduleId: number) => {
     const targetPath = moduleId === 1 ? '/curso-python' : `/modulos/${moduleId}`;
-
     if (!user) {
-      // Usuario no autenticado → ir al login
-      navigate('/auth/ingresa', { state: { from: targetPath } });
+      navigate('/auth/ingresa', {
+        state: { from: targetPath, message: '¡Crea tu cuenta gratis para comenzar!' }
+      });
       return;
     }
-
-    // Usuario autenticado → animación + confetti
     setIsLaunching(true);
     setLaunchingModuleId(moduleId);
     createConfetti();
-
     setTimeout(() => {
       setIsLaunching(false);
       setLaunchingModuleId(null);
       navigate(targetPath);
-    }, 900);
-  };
-
-  // demo: avanzar progreso (persistido)
-  const advanceProgress = (moduleId: number, amount = 20) => {
-    setProgressMap(prev => {
-      const next = Math.min(100, (prev[moduleId] ?? 0) + amount);
-      return { ...prev, [moduleId]: next };
-    });
+    }, 1000);
   };
 
   const openModule = (m: Module) => {
     setActiveModule(m);
     document.body.style.overflow = 'hidden';
   };
-
   const closeModule = () => {
     setActiveModule(null);
     document.body.style.overflow = '';
   };
 
-  // preview on hover: small animated card near cursor (simple implementation)
-  const onCardMouseEnter = (id: number) => setHoverPreviewId(id);
-  const onCardMouseLeave = () => setHoverPreviewId(null);
-
   return (
-    <div className="min-h-screen py-14 px-6 bg-gradient-to-b from-gray-50 to-white">
-      {/* CSS centralizado y variables de paleta para coherencia */}
-      <style>{`
-        :root {
-          --primary: #00BFA5;
-          --primary-dark: #00D4B5;
-          --accent: #FFB300;
-          --accent-2: #7C3AED;
-          --danger: #FF6B6B;
-        }
-        
-        .card-animate {
-          animation: cardIn .48s cubic-bezier(.2,.9,.2,1) both;
-        }
-        
-        @keyframes cardIn {
-          from { opacity:0; transform: translateY(10px) scale(.995); }
-          to { opacity:1; transform:none; }
-        }
-        
-        .pulse-cta {
-          animation: pulse 2.2s infinite;
-        }
-        
-        @keyframes pulse {
-          0% { box-shadow: 0 0 0 0 rgba(0,191,165,0.28); }
-          70% { box-shadow: 0 0 0 10px rgba(0,191,165,0); }
-          100% { box-shadow: 0 0 0 0 rgba(0,191,165,0); }
-        }
-        
-        .cover-hover {
-          transition: transform .45s cubic-bezier(.2,.9,.2,1);
-        }
-        
-        .cover-overlay {
-          transition: opacity .22s ease, transform .22s ease;
-          opacity:0;
-          transform: scale(.96);
-        }
-        
-        article:hover .cover-hover {
-          transform: scale(1.035) translateY(-4px) rotate(-0.4deg);
-        }
-        
-        article:hover .cover-overlay {
-          opacity:1;
-          transform: scale(1);
-        }
-        
-        /* rocket / confetti animations */
-        @keyframes rocketLaunch {
-          0% { transform: translateY(0) scale(1) rotate(0); opacity: 1; }
-          60% { transform: translateY(-160px) scale(.9) rotate(-6deg); opacity: 1; }
-          100% { transform: translateY(-420px) scale(.4) rotate(-20deg); opacity: 0; }
-        }
-        
-        .rocket-launching {
-          animation: rocketLaunch 0.9s cubic-bezier(.2,.9,.2,1) forwards;
-          font-size: 52px;
-        }
-        
-        @keyframes confettiFall {
-          to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-        }
-        
-        .progress-bar-fill {
-          transition: width 0.6s cubic-bezier(.4,0,.2,1);
-        }
-        
-        .progress-shimmer {
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
-          background-size: 200% 100%;
-          animation: shimmer 2s linear infinite;
-        }
-        
-        @keyframes shimmer {
-          0% { background-position: -200% 0 }
-          100% { background-position: 200% 0 }
-        }
-        
-        /* preview bubble */
-        .preview-bubble {
-          position: absolute;
-          right: 1.25rem;
-          top: 1.25rem;
-          width: 180px;
-          padding: 10px;
-          border-radius: 12px;
-          background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.92));
-          box-shadow: 0 10px 30px rgba(2,6,23,0.12);
-          transform: translateZ(0);
-          z-index: 30;
-          pointer-events: none;
-          font-size: 13px;
-        }
-        
-        /* small accessible confetti clean-up handled by JS */
-      `}</style>
-
-      <div className="max-w-6xl mx-auto">
-        <header className="text-center mb-10 relative">
-          <div className="absolute -top-6 left-6 w-24 h-24 rounded-full bg-gradient-to-br from-[var(--primary)] to-[var(--accent)] opacity-10 blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-10 right-6 w-28 h-28 rounded-full bg-gradient-to-br from-[var(--accent-2)] to-[var(--primary)] opacity-8 blur-3xl pointer-events-none" />
-          
-          <div className="inline-flex items-center gap-3 mb-4">
-            <div className="w-12 h-12 rounded-full bg-[var(--primary)] flex items-center justify-center text-white shadow-lg transform hover:scale-105 transition">
-              <Play className="w-6 h-6" />
+    <div className="min-h-screen bg-gradient-to-b from-[var(--mint-50)] via-[var(--sky-100)] to-white py-12 px-4">
+      <div className="max-w-7xl mx-auto">
+        <header className="text-center mb-16">
+          <div className="inline-flex items-center gap-4 mb-5">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#00BFA5] to-[#00D4B1] flex items-center justify-center text-white shadow-xl animate-pulse">
+              <Sparkles className="w-8 h-8" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">Módulos de Aprendizaje</h1>
+            <h1 className="text-4xl md:text-6xl font-black bg-gradient-to-r from-[#00BFA5] via-[#00D4B1] to-[#7C3AED] bg-clip-text text-transparent">
+              Cursos STEM 🚀
+            </h1>
           </div>
           
-          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-            Cursos prácticos, interactivos y con diseño pensado para estudiantes — registra tu avance y desbloquea badges.
+          <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto mb-4 leading-relaxed font-medium">
+            Aprende tecnología que <span className="text-[#00BFA5] font-bold">realmente podrás usar</span>. 
+            Desde crear tu primer juego hasta proteger tu privacidad en internet.
+
           </p>
+          <p className="text-sm text-gray-600 mb-10">
+            ✨ Sin aburrimiento. Sin teoría excesiva. Solo proyectos que importan.
+          </p>
+
+          {/* Beneficios */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto">
+            <div className="group bg-white/90 backdrop-blur-sm rounded-2xl p-5 border-2 border-[#E8F7F4] hover:border-[#9EFCE4] hover:shadow-lg hover:scale-105 transition-all duration-300">
+              <div className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-gradient-to-br from-[#00BFA5] to-[#00D4B1] flex items-center justify-center text-white group-hover:rotate-12 transition-transform">
+                <Target className="w-7 h-7" />
+              </div>
+              <h3 className="font-bold text-sm text-gray-900 mb-1">Contenido interactivo</h3>
+              <p className="text-xs text-gray-600">Aprende haciendo</p>
+            </div>
+
+            <div className="group bg-white/90 backdrop-blur-sm rounded-2xl p-5 border-2 border-[#E8F7F4] hover:border-[#FFD6DC] hover:shadow-lg hover:scale-105 transition-all duration-300">
+              <div className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-gradient-to-br from-[#FFB3C1] to-[#FFD6DC] flex items-center justify-center text-white group-hover:rotate-12 transition-transform">
+                <Lightbulb className="w-7 h-7" />
+              </div>
+              <h3 className="font-bold text-sm text-gray-900 mb-1">Ejemplos reales</h3>
+              <p className="text-xs text-gray-600">De tu vida cotidiana</p>
+            </div>
+
+            <div className="group bg-white/90 backdrop-blur-sm rounded-2xl p-5 border-2 border-[#E8F7F4] hover:border-[#C4B5FD] hover:shadow-lg hover:scale-105 transition-all duration-300">
+              <div className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-gradient-to-br from-[#C4B5FD] to-[#DDD6FE] flex items-center justify-center text-white group-hover:rotate-12 transition-transform">
+                <MessageCircle className="w-7 h-7" />
+              </div>
+              <h3 className="font-bold text-sm text-gray-900 mb-1">Ayuda 24/7</h3>
+              <p className="text-xs text-gray-600">Chatbot + comunidad</p>
+            </div>
+
+            <div className="group bg-white/90 backdrop-blur-sm rounded-2xl p-5 border-2 border-[#E8F7F4] hover:border-[#FDE68A] hover:shadow-lg hover:scale-105 transition-all duration-300">
+              <div className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-gradient-to-br from-[#FDE68A] to-[#FEF3C7] flex items-center justify-center text-white group-hover:rotate-12 transition-transform">
+                <Award className="w-7 h-7" />
+              </div>
+              <h3 className="font-bold text-sm text-gray-900 mb-1">Certificado</h3>
+              <p className="text-xs text-gray-600">Para tu CV/portafolio</p>
+            </div>
+          </div>
         </header>
 
-        <div className="flex flex-wrap justify-center gap-3 mb-8">
-          {(['Todos', 'Principiante', 'Intermedio', 'Avanzado'] as const).map(level => (
-            <button
-              key={level}
-              onClick={() => setSelectedLevel(level)}
-              className={`px-5 py-2 rounded-md font-medium transition-all ${
-                selectedLevel === level 
-                  ? 'bg-[var(--primary)] text-white shadow-lg scale-[1.02]' 
-                  : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
-              }`}
-            >
-              {level}
-            </button>
-          ))}
+        {/* CTA intermedio motivador */}
+        <div className="max-w-4xl mx-auto mb-16">
+          <div className="text-center">
+            <h3 className="text-2xl md:text-3xl font-black text-gray-900 mb-4">
+              Empieza tu aventura STEM
+            </h3>
+            
+            <p className="text-gray-700 text-base md:text-lg max-w-2xl mx-auto mb-6 leading-relajada">
+              Cada curso es una experiencia única diseñada para que aprendas{' '}
+              <span className="font-bold text-[#00BFA5]">haciendo proyectos reales</span>.
+              Sin aburrimiento, sin complicaciones. Solo tú y la tecnología.
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center gap-4 text-sm">
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full border border-[#E8F7F4] shadow-sm">
+                <Zap className="w-4 h-4 text-[#FFB3C1]" />
+                <span className="font-semibold text-gray-700">4 cursos activos</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full border border-[#E8F7F4] shadow-sm">
+                <Users className="w-4 h-4 text-[#00BFA5]" />
+                <span className="font-semibold text-gray-700">+170 estudiantes activos</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full border border-[#E8F7F4] shadow-sm">
+                <Award className="w-4 h-4 text-[#FDE68A]" />
+                <span className="font-semibold text-gray-700">Certificado al finalizar</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-          {filteredModules.map((module, idx) => {
-            const progress = progressMap[module.id] ?? module.progress;
-            
-            return (
-              <article
-                key={module.id}
-                className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200 group transform transition-transform duration-400 card-animate relative"
-                onMouseEnter={() => onCardMouseEnter(module.id)}
-                onMouseLeave={onCardMouseLeave}
-                style={{ animationDelay: `${idx * 60}ms` }}
-              >
-                <div className="h-2 bg-gradient-to-r from-[var(--primary)] via-[var(--accent)] to-[var(--accent-2)]" />
+        {/* Tarjetas: gap-6 en mobile, gap-7 en desktop */}
+        <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-7 mb-14">
+          {modules.map(module => (
+            <article
+              key={module.id}
+              className="group relative rounded-3xl bg-white border-2 border-[#D4F1EC] shadow-lg hover:shadow-2xl hover:border-[#9EFCE4] hover:-translate-y-2 transition-all duration-300 overflow-hidden"
+            >
+              {/* Badge con mejor contraste */}
+              <div className="absolute top-4 right-4 z-10">
+                <span className={`px-3.5 py-2 rounded-full text-[11px] font-bold shadow-md backdrop-blur-sm
+                  ${module.badge.includes('Nuevo') ? 'bg-gradient-to-r from-[#FFB3C1] to-[#FFD6DC] text-gray-900'
+                  : module.badge.includes('Popular') ? 'bg-gradient-to-r from-[#9EFCE4] to-[#CFFAF1] text-gray-900'
+                  : module.badge.includes('Elite') ? 'bg-gradient-to-r from-[#FDE68A] to-[#FEF3C7] text-gray-900'
+                  : 'bg-gradient-to-r from-[#C4B5FD] to-[#DDD6FE] text-gray-900'}
+                `}>
+                  {module.badge}
+                </span>
+              </div>
+
+              {/* Portada cuadrada 1:1 */}
+              <div className="relative aspect-square w-full overflow-hidden bg-gradient-to-br from-gray-50 to-white">
+                <img
+                  src={module.cover}
+                  alt={module.title}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
                 
-                <div className="relative">
-                  <div
-                    className="h-44 bg-cover bg-center cover-hover cursor-pointer"
-                    style={{ backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.12), rgba(0,0,0,0.28)), url(${module.cover})` }}
-                    role="img"
-                    aria-label={module.title}
+                {/* Overlay hover */}
+                <div className="absolute inset-0 bg-[#00BFA5]/0 group-hover:bg-[#00BFA5]/15 transition-all duration-300 flex items-center justify-center">
+                  <button
                     onClick={() => openModule(module)}
-                  />
-                  
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="rounded-full bg-white/90 w-14 h-14 flex items-center justify-center cover-overlay">
-                      <Play className="w-5 h-5 text-gray-800" />
-                    </div>
-                  </div>
+                    className="opacity-0 group-hover:opacity-100 transition-all duration-300 scale-75 group-hover:scale-100 bg-white/95 backdrop-blur-sm rounded-full p-4 shadow-2xl"
+                  >
+                    <Play className="w-6 h-6 text-[#00BFA5]" fill="currentColor" />
+                  </button>
+                </div>
+              </div>
 
-                  {/* small preview bubble (interactive hover preview) */}
-                  {hoverPreviewId === module.id && (
-                    <div className="preview-bubble" aria-hidden>
-                      <div className="font-semibold text-sm mb-1">{module.title}</div>
-                      <div className="text-xs text-gray-600 mb-2 line-clamp-3">{module.fullDescription}</div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-[var(--primary)] text-white flex items-center justify-center">
-                          <Play className="w-4 h-4" />
-                        </div>
-                        <div className="text-xs text-gray-700">Preview: lección 1 • 3 min</div>
-                      </div>
-                    </div>
-                  )}
+              {/* Contenido */}
+              <div className="p-6">
+                <h3 className="text-2xl font-black text-gray-900 mb-2 group-hover:text-[#00BFA5] transition-colors leading-tight">
+                  {module.title}
+                </h3>
+                <p className="text-gray-600 text-sm leading-relaxed mb-5">
+                  {module.description}
+                </p>
 
-                  <div className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-semibold text-white bg-black/30 backdrop-blur-sm">
-                    {module.level}
-                  </div>
+                {/* Solo estudiantes */}
+                <div className="flex items-center gap-2 text-xs text-gray-500 mb-6 pb-5 border-b border-gray-100">
+                  <Users className="w-4 h-4 text-[#00BFA5]" />
+                  <span className="font-semibold">{module.students.toLocaleString()} estudiantes</span>
                 </div>
 
-                <div className="p-6">
-                  <div className="flex items-start justify-between gap-4 mb-3">
-                    <div>
-                      <h3 className="text-2xl font-extrabold text-gray-900 mb-1">{module.title}</h3>
-                      <p className="text-sm text-gray-600">{module.category} • {module.level}</p>
-                    </div>
-                    <div className="flex flex-col items-end">
-                      <span className="px-3 py-1 rounded-full text-xs font-semibold text-white bg-[var(--primary)] shadow-sm">
-                        {module.badge}
-                      </span>
-                      <div className="mt-2 flex items-center gap-2 bg-white/80 px-2 py-1 rounded-full">
-                        <Star className="w-4 h-4 text-yellow-400" />
-                        <span className="text-sm font-semibold text-gray-800">{module.rating}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <p className="text-gray-700 mb-4 line-clamp-3">{module.description}</p>
-
-                  <div className="mb-4">
-                    <div className="flex items-center justify-between text-xs text-gray-600 mb-1">
-                      <span className="font-medium">Progreso</span>
-                      <span className="font-semibold">
-                        {Math.round((progress/100) * module.totalLessons)}/{module.totalLessons} lecciones
-                      </span>
-                    </div>
-                    <div className="relative w-full h-3 bg-gray-200 rounded-full overflow-hidden">
-                      <div
-                        className="progress-bar-fill h-full bg-gradient-to-r from-[var(--primary)] to-[var(--primary-dark)] rounded-full relative overflow-hidden"
-                        style={{ width: `${progress}%` }}
-                        aria-valuenow={progress}
-                        role="progressbar"
-                        aria-label={`${module.title} progreso`}
-                      >
-                        <div className="progress-shimmer absolute inset-0" />
-                      </div>
-                    </div>
-                    <div className="mt-1 text-xs text-gray-500">
-                      {progress === 0 ? '🚀 ¡Comienza tu aventura!' : 
-                       progress === 100 ? '🎉 ¡Completado!' : 
-                       `${progress}% completado`}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4 text-sm text-gray-600 mb-5">
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-gray-400" />
-                      <span className="font-medium">{module.duration}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Users className="w-4 h-4 text-gray-400" />
-                      <span className="font-medium">{module.students.toLocaleString()}</span>
-                    </div>
-                    <div className={`ml-auto text-xs font-semibold px-2 py-1 rounded ${
-                      module.difficulty === 'Fácil' ? 'bg-green-50 text-green-700' :
-                      module.difficulty === 'Medio' ? 'bg-yellow-50 text-yellow-700' :
-                      'bg-red-50 text-red-700'
-                    }`}>
-                      {module.difficulty}
-                    </div>
-                  </div>
-
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => handleStartCourse(module.id)}
-                      className={`flex-1 ${module.colorClass} text-white font-semibold py-3 rounded-lg shadow-lg flex items-center justify-center gap-2 pulse-cta`}
-                      aria-label={`Comenzar ${module.title}`}
-                    >
-                      <Play className="w-4 h-4" />
-                      {progress === 0 ? 'Comenzar Curso' : 
-                       progress === 100 ? 'Revisar' : 'Continuar'}
-                    </button>
-                    
-                    <button
-                      onClick={() => openModule(module)}
-                      className="flex-0 px-4 py-3 rounded-lg border border-gray-200 bg-white text-gray-800 hover:shadow transition"
-                      aria-label={`Ver detalles ${module.title}`}
-                    >
-                      Ver
-                    </button>
-                  </div>
+                {/* Botones */}
+                <div className="flex gap-2.5">
+                  <button
+                    onClick={() => handleStartCourse(module.id)}
+                    className="flex-1 py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2
+                               bg-gradient-to-r from-[#00BFA5] to-[#00D4B1] text-white
+                               shadow-md hover:shadow-xl hover:scale-105 transition-all duration-200"
+                  >
+                    {!user ? <><Lock className="w-4 h-4" /> Empieza gratis</> : <><Zap className="w-4 h-4" /> ¡Vamos!</>}
+                  </button>
+                  <button
+                    onClick={() => openModule(module)}
+                    className="px-5 py-3 rounded-xl border-2 border-gray-200 text-sm font-bold text-gray-700 hover:border-[#00BFA5] hover:text-[#00BFA5] hover:bg-[#F0FFF9] transition-all duration-200"
+                  >
+                    Más info
+                  </button>
                 </div>
-              </article>
-            );
-          })}
+              </div>
+            </article>
+          ))}
         </section>
 
-        <div className="text-center mt-12">
-          <div className="inline-block bg-white/80 backdrop-blur-sm rounded-xl px-8 py-6 shadow-lg border border-gray-100">
-            <p className="text-lg font-semibold text-gray-900 mb-1">Más de 5,000 estudiantes aprendiendo</p>
-            <p className="text-sm text-gray-600">Regístrate para desbloquear todos los módulos y acceder a mentorías.</p>
+        {/* CTA final con cohete para consistencia */}
+        {!user && (
+          <div className="text-center mb-20">
+            <div className="bg-gradient-to-r from-[#00BFA5] via-[#00D4B1] to-[#7C3AED] rounded-3xl p-12 shadow-2xl relative overflow-hidden">
+              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxIDAgNiAyLjY5IDYgNnMtMi42OSA2LTYgNi02LTIuNjktNi02IDIuNjktNiA2LTZ6IiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIuMSIvPjwvZz48L3N2Zz4=')] opacity-20"></div>
+              <div className="relative z-10">
+                <h2 className="text-4xl font-black text-white mb-4 flex items-center justify-center gap-3">
+                  <Rocket className="w-10 h-10" />
+                  ¿Listo para despegar?
+                </h2>
+                <p className="text-white/95 max-w-2xl mx-auto mb-8 text-lg">
+                  Únete a más de <span className="font-bold">7,000+ estudiantes</span> que ya están construyendo su futuro digital.
+                </p>
+                <button
+                  onClick={() => navigate('/auth/ingresa')}
+                  className="bg-white text-[#00BFA5] font-black px-10 py-4 rounded-2xl text-lg hover:shadow-2xl hover:scale-105 transition-all duration-200 flex items-center gap-3 mx-auto group"
+                >
+                  <Sparkles className="w-6 h-6 group-hover:rotate-12 transition-transform" /> 
+                  Crear cuenta gratis
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </button>
+                <p className="text-white/80 text-sm mt-4">✨ Sin tarjeta. Empieza en 30 segundos.</p>
+              </div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
-      {/* modal con roadmap y accesibilidad */}
+      {/* Modal mejorado */}
       {activeModule && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
-          role="dialog"
-          aria-modal="true"
-          aria-label={`${activeModule.title} detalles`}
-        >
-          <div className="relative max-w-3xl w-full">
-            <div className="rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-white/60 to-white/40 backdrop-blur-md border border-white/10">
-              <div className="relative">
-                <img src={activeModule.cover} alt={activeModule.title} className="w-full h-64 object-cover" />
-                <button
-                  ref={closeBtnRef}
-                  onClick={closeModule}
-                  className="absolute top-4 right-4 p-2 rounded-full bg-white/90 shadow hover:bg-white"
-                >
-                  <X className="w-5 h-5 text-gray-800" />
-                </button>
-                <div className="absolute left-4 bottom-4 bg-black/40 text-white px-3 py-2 rounded-md backdrop-blur-sm">
-                  <span className="text-sm font-semibold">{activeModule.category}</span>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-fadeIn">
+          <div className="relative max-w-5xl w-full max-h-[90vh] overflow-y-auto animate-slideUp">
+            {/* Botón cerrar fijo */}
+            <button
+              ref={closeBtnRef}
+              onClick={closeModule}
+              className="sticky top-4 right-4 z-20 ml-auto mr-4 mt-4 p-3 rounded-full bg-white/95 hover:bg-white transition-all shadow-lg hover:scale-110 hover:rotate-90 duration-300 flex items-center justify-center"
+              aria-label="Cerrar"
+            >
+              <X className="w-6 h-6 text-gray-800" />
+            </button>
+
+            <div className="bg-white rounded-3xl shadow-2xl border-2 border-[#D4F1EC] overflow-hidden -mt-16">
+              {/* Header del modal con imagen de fondo */}
+              <div className="relative h-80">
+                <img src={activeModule.cover} alt={activeModule.title} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                
+                {/* Contenido del header */}
+                <div className="absolute bottom-8 left-8 right-8">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className={`px-4 py-2 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm
+                      ${activeModule.badge.includes('Nuevo') ? 'bg-gradient-to-r from-[#FFB3C1] to-[#FFD6DC] text-gray-900'
+                      : activeModule.badge.includes('Popular') ? 'bg-gradient-to-r from-[#9EFCE4] to-[#CFFAF1] text-gray-900'
+                      : activeModule.badge.includes('Elite') ? 'bg-gradient-to-r from-[#FDE68A] to-[#FEF3C7] text-gray-900'
+                      : 'bg-gradient-to-r from-[#C4B5FD] to-[#DDD6FE] text-gray-900'}
+                    `}>
+                      {activeModule.badge}
+                    </span>
+                    <span className="px-4 py-2 rounded-full text-xs font-bold bg-white/20 backdrop-blur-sm text-white">
+                      {activeModule.category}
+                    </span>
+                  </div>
+                  <h2 className="text-4xl md:text-5xl font-black text-white mb-3 drop-shadow-lg">
+                    {activeModule.title}
+                  </h2>
+                  <div className="flex items-center gap-4 text-white/90 text-sm">
+                    <div className="flex items-center gap-2 bg-white/15 backdrop-blur-sm px-4 py-2 rounded-full">
+                      <Users className="w-4 h-4" />
+                      <span className="font-semibold">{activeModule.students.toLocaleString()} estudiantes</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className="p-6">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h2 className="text-3xl font-extrabold text-gray-900 mb-2">{activeModule.title}</h2>
-                    <p className="text-sm text-gray-600 mb-2">{activeModule.level} • {activeModule.duration}</p>
-                    <div className="flex items-center gap-3">
-                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--primary)] text-white font-semibold">
-                        {activeModule.badge}
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-700">
-                        <Star className="w-4 h-4 text-yellow-400" />
-                        <span>{activeModule.rating}</span>
+              {/* Contenido principal */}
+              <div className="p-8 md:p-12">
+                <div className="grid md:grid-cols-3 gap-10">
+                  {/* Columna principal - Descripción */}
+                  <div className="md:col-span-2">
+                    <div className="mb-8">
+                      <h3 className="text-2xl font-black text-gray-900 mb-4 flex items-center gap-2">
+                        <Sparkles className="w-6 h-6 text-[#00BFA5]" />
+                        ¿Qué aprenderás?
+                      </h3>
+                      <p className="text-gray-700 text-base leading-relaxed">
+                        {activeModule.fullDescription}
+                      </p>
+                    </div>
+
+                    <div>
+                      <h4 className="text-xl font-black text-gray-900 mb-5 flex items-center gap-2">
+                        <Award className="w-5 h-5 text-[#7C3AED]" />
+                        Lo que incluye este curso:
+                      </h4>
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        {activeModule.features.map((f, idx) => (
+                          <div 
+                            key={f} 
+                            className="flex items-start gap-3 p-4 rounded-2xl bg-gradient-to-br from-gray-50 to-white border-2 border-gray-100 hover:border-[#9EFCE4] hover:shadow-md transition-all group"
+                            style={{ animationDelay: `${idx * 100}ms` }}
+                          >
+                            <span className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#00BFA5] to-[#00D4B1] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                              <Zap className="w-4 h-4 text-white" />
+                            </span>
+                            <span className="text-gray-700 font-medium text-sm leading-relaxed">{f}</span>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
-                  <div className="text-right hidden sm:block">
-                    <div className="text-sm text-gray-500">Estudiantes</div>
-                    <div className="text-xl font-bold">{activeModule.students.toLocaleString()}</div>
-                  </div>
-                </div>
-
-                <p className="text-gray-700 mt-4">{activeModule.fullDescription || activeModule.description}</p>
-
-                <div className="mt-6">
-                  <h4 className="text-lg font-semibold text-gray-800 mb-3">Ruta de aprendizaje</h4>
-                  <ol className="space-y-3">
-                    {['Introducción', 'Fundamentos', 'Proyecto práctico', 'Examen final'].map((step, i) => {
-                      const prog = progressMap[activeModule.id] ?? activeModule.progress;
-                      const stepPerc = (i + 1) * 25;
-                      const done = prog >= stepPerc;
-                      return (
-                        <li key={step} className="flex items-center gap-3">
-                          <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                            done ? 'bg-[var(--primary)] text-white' : 'bg-gray-100 text-gray-500'
-                          }`}>
-                            {done ? '✓' : i + 1}
-                          </div>
-                          <div>
-                            <div className="font-medium text-gray-800">{step}</div>
-                            <div className="text-xs text-gray-500">{done ? 'Completado' : 'Pendiente'}</div>
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ol>
-                </div>
-
-                <div className="mt-6 flex flex-col sm:flex-row gap-3">
-                  <button
-                    onClick={() => {
-                      closeModule();
-                      handleStartCourse(activeModule.id);
-                    }}
-                    className="flex-1 bg-[var(--primary)] text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2 hover:brightness-95 transition shadow-lg"
-                  >
-                    <Play className="w-4 h-4" />
-                    Comenzar Curso
-                  </button>
                   
-                  <button
-                    onClick={() => advanceProgress(activeModule.id, 25)}
-                    className="flex-0 px-5 py-3 rounded-lg border border-gray-200 bg-white text-gray-800 hover:shadow transition"
-                  >
-                    Avanzar progreso (demo)
-                  </button>
-                </div>
+                  {/* Sidebar - CTA */}
+                  <div className="md:col-span-1">
+                    <div className="sticky top-6">
+                      <div className="bg-gradient-to-br from-[#F0FFF9] to-[#E8F7F4] rounded-3xl p-8 border-2 border-[#D4F1EC] shadow-lg">
+                        <div className="text-center mb-6">
+                          <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#00BFA5] to-[#00D4B1] flex items-center justify-center shadow-lg">
+                            <Rocket className="w-10 h-10 text-white" />
+                          </div>
+                          <h4 className="text-2xl font-black text-gray-900 mb-2">¡Empieza ahora!</h4>
+                          <p className="text-sm text-gray-600">100% gratis. Sin trucos.</p>
+                        </div>
 
-                <div className="mt-6 text-sm text-gray-500">
-                  <strong>Nota:</strong> Para acceder al contenido completo debes registrarte o iniciar sesión. Tu progreso se guarda cuando estás autenticado.
-                </div>
-              </div>
-            </div>
+                        {/* Stats visuales */}
+                        <div className="space-y-3 mb-8">
+                          <div className="flex items-center justify-between p-4 bg-white rounded-2xl shadow-sm">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00BFA5] to-[#00D4B1] flex items-center justify-center">
+                                <Users className="w-5 h-5 text-white" />
+                              </div>
+                              <div>
+                                <p className="text-xs text-gray-500 font-medium">Estudiantes</p>
+                                <p className="text-lg font-black text-[#00BFA5]">{activeModule.students.toLocaleString()}</p>
+                              </div>
+                            </div>
+                          </div>
 
-            <div className="absolute -bottom-6 right-6 transform translate-y-6">
-              <div className="bg-white rounded-xl px-4 py-3 shadow-xl border border-gray-100 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[var(--primary)] flex items-center justify-center text-white">
-                  <Play className="w-4 h-4" />
-                </div>
-                <div className="text-sm">
-                  <div className="font-semibold text-gray-900">Empieza hoy</div>
-                  <div className="text-gray-500">Progreso guardado al registrarte</div>
+                          <div className="flex items-center justify-between p-4 bg-white rounded-2xl shadow-sm">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FFB3C1] to-[#FFD6DC] flex items-center justify-center">
+                                <Target className="w-5 h-5 text-white" />
+                              </div>
+                              <div>
+                                <p className="text-xs text-gray-500 font-medium">Tipo</p>
+                                <p className="text-sm font-bold text-gray-900">Práctico</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center justify-between p-4 bg-white rounded-2xl shadow-sm">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FDE68A] to-[#FEF3C7] flex items-center justify-center">
+                                <Award className="w-5 h-5 text-white" />
+                              </div>
+                              <div>
+                                <p className="text-xs text-gray-500 font-medium">Certificado</p>
+                                <p className="text-sm font-bold text-gray-900">Incluido</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Botón principal */}
+                        <button
+                          onClick={() => { closeModule(); handleStartCourse(activeModule.id); }}
+                          className="w-full py-4 rounded-2xl font-black text-base text-white bg-gradient-to-r from-[#00BFA5] to-[#00D4B1] hover:shadow-2xl hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2 mb-4 group"
+                        >
+                          {!user ? (
+                            <>
+                              <Lock className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                              Crear cuenta gratis
+                            </>
+                          ) : (
+                            <>
+                              <Zap className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                              ¡Empezar ahora!
+                            </>
+                          )}
+                        </button>
+                        
+                        <p className="text-xs text-center text-gray-600">
+                          ✨ Acceso inmediato. Aprende a tu ritmo.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -614,12 +498,41 @@ const Modulos: React.FC = () => {
         </div>
       )}
 
-      {/* Lanzamiento / cohete global */}
+      {/* Animación */}
       {isLaunching && (
         <div className="fixed inset-0 z-[100] pointer-events-none flex items-center justify-center">
-          <div className="rocket-launching">🚀</div>
+          <div className="rocket-animation text-7xl">🚀</div>
         </div>
       )}
+
+      <style>{`
+        :root{
+          --brand-1:#00BFA5;
+          --brand-2:#00D4B1;
+          --mint-50:#F8FFFD;
+          --sky-100:#EAF3FF;
+        }
+        @keyframes confettiFall {
+          0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        .rocket-animation { animation: rocketLaunch 1.2s ease-out forwards; }
+        @keyframes rocketLaunch {
+          0% { transform: scale(.5) translateY(0) rotate(0deg); opacity: 0; }
+          50% { transform: scale(1.2) translateY(-20px) rotate(15deg); opacity: 1; }
+          100% { transform: scale(1) translateY(-120vh) rotate(25deg); opacity: 0; }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slideUp {
+          from { transform: translateY(20px); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-fadeIn { animation: fadeIn 0.2s ease-out; }
+        .animate-slideUp { animation: slideUp 0.3s ease-out; }
+      `}</style>
     </div>
   );
 };
