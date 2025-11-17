@@ -40,7 +40,7 @@ type MentorModalProps = {
 
 const MentorModal: React.FC<MentorModalProps> = ({ isOpen, onClose }) => {
     const [step, setStep] = useState<'info' | 'form' | 'success'>('info');
-    const [formData, setFormData] = useState({ name: '', email: '', area: '' });
+    const [formData, setFormData] = useState({ name: '', email: '', phone: '', role: '', area: '' });
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
@@ -49,7 +49,6 @@ const MentorModal: React.FC<MentorModalProps> = ({ isOpen, onClose }) => {
         }
     }, [isOpen]);
 
-    // Ahora es seguro salir temprano, ya que todos los hooks han sido llamados.
     if (!isOpen) return null;
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -61,30 +60,23 @@ const MentorModal: React.FC<MentorModalProps> = ({ isOpen, onClose }) => {
         e.preventDefault();
         setIsSubmitting(true);
         
-        // Simulación de envío de datos
         setTimeout(() => {
             console.log('Datos del mentor enviados:', formData);
             setIsSubmitting(false);
-            // Transicionar a la pantalla de éxito
             setStep('success');
         }, 1500);
     };
     
-    // Función para obtener solo el primer nombre
     const getFirstName = (fullName: string) => {
         if (!fullName) return '';
-        // Divide por espacios y toma el primer elemento
         return fullName.trim().split(/\s+/)[0];
     };
 
-
-    // Renderizado condicional del cuerpo del modal
     const renderContent = () => {
         switch (step) {
             case 'info':
                 return (
                     <>
-                        {/* Encabezado */}
                         <div className="text-center mb-6">
                             <Users className="w-12 h-12 mx-auto mb-3 text-teal-600 p-1 bg-teal-100 rounded-full" />
                             <h3 className="text-3xl font-bold text-gray-800">
@@ -95,7 +87,6 @@ const MentorModal: React.FC<MentorModalProps> = ({ isOpen, onClose }) => {
                             </p>
                         </div>
 
-                        {/* Descripción del Rol */}
                         <div className="space-y-4 text-gray-700">
                             <h4 className="text-xl font-semibold text-teal-600 border-b pb-2">
                                 ¿Qué significa ser Mentor en SumaqTech?
@@ -117,7 +108,6 @@ const MentorModal: React.FC<MentorModalProps> = ({ isOpen, onClose }) => {
                             </div>
                         </div>
 
-                        {/* Botón de Acción Principal (Ir al Formulario) */}
                         <div className="mt-8 text-center">
                             <button
                                 onClick={() => setStep('form')}
@@ -132,13 +122,12 @@ const MentorModal: React.FC<MentorModalProps> = ({ isOpen, onClose }) => {
             case 'form':
                 return (
                     <form onSubmit={handleSubmit}>
-                        {/* Encabezado del Formulario */}
                         <div className="text-center mb-6">
                             <h3 className="text-3xl font-bold text-gray-800">
                                 Postulación
                             </h3>
                             <p className="text-gray-600 mt-2">
-                                Cuéntanos sobre ti y tu área de expertise.
+                                Cuéntanos sobre ti y tu experiencia.
                             </p>
                         </div>
 
@@ -175,10 +164,48 @@ const MentorModal: React.FC<MentorModalProps> = ({ isOpen, onClose }) => {
                                 />
                             </div>
 
-                            {/* Campo Área de Expertise (Actualizado: Flecha en el campo) */}
+                            {/* Campo Teléfono */}
+                            <div>
+                                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Número de Contacto</label>
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    name="phone"
+                                    value={formData.phone}
+                                    onChange={handleInputChange}
+                                    required
+                                    pattern="[0-9]{9}"
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500 transition shadow-sm"
+                                    placeholder="Ej: 987654321"
+                                    disabled={isSubmitting}
+                                />
+                                <p className="text-xs text-gray-500 mt-1">Ingresa exactamente 9 dígitos</p>
+                            </div>
+
+                            {/* Campo Rol (Estudiante/Profesional) */}
+                            <div>
+                                <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">
+                                    ¿Eres estudiante o profesional?
+                                </label>
+                                <select
+                                    id="role"
+                                    name="role"
+                                    value={formData.role}
+                                    onChange={handleInputChange}
+                                    required
+                                    className="w-full p-3 border border-gray-300 bg-white rounded-lg focus:ring-teal-500 focus:border-teal-500 transition shadow-sm appearance-none"
+                                    disabled={isSubmitting}
+                                >
+                                    <option value="" disabled>▼ Selecciona tu rol actual</option>
+                                    <option value="Estudiante">Estudiante (universitario/técnico)</option>
+                                    <option value="Profesional">Profesional (ya trabajo en el rubro)</option>
+                                </select>
+                            </div>
+
+                            {/* Campo Área (simplificado) */}
                             <div>
                                 <label htmlFor="area" className="block text-sm font-medium text-gray-700 mb-1">
-                                    Área de Expertise
+                                    Área
                                 </label>
                                 <select
                                     id="area"
@@ -189,22 +216,21 @@ const MentorModal: React.FC<MentorModalProps> = ({ isOpen, onClose }) => {
                                     className="w-full p-3 border border-gray-300 bg-white rounded-lg focus:ring-teal-500 focus:border-teal-500 transition shadow-sm appearance-none"
                                     disabled={isSubmitting}
                                 >
-                                    {/* Aquí se añade la flecha al texto de la opción por defecto */}
-                                    <option value="" disabled>▼ Selecciona un área de Expertise</option>
-                                    {/* Opciones generalizadas */}
-                                    <option value="Tecnología y Desarrollo de Software">Tecnología y Desarrollo de Software</option>
-                                    <option value="Ciencia de Datos y Análisis Empresarial">Ciencia de Datos y Análisis Empresarial</option>
-                                    <option value="Ingeniería y Hardware">Ingeniería y Hardware</option>
-                                    <option value="Diseño, UX/UI y Multimedia">Diseño, UX/UI y Multimedia</option>
-                                    <option value="Gestión de Proyectos y Liderazgo">Gestión de Proyectos y Liderazgo</option>
-                                    <option value="Marketing y Comunicación Digital">Marketing y Comunicación Digital</option>
-                                    <option value="Finanzas y Negocios">Finanzas y Negocios</option>
-                                    <option value="Otras áreas STEM/STEAM">Otras áreas STEM/STEAM</option>
+                                    <option value="" disabled>▼ Selecciona un área</option>
+                                    <option value="Desarrollo de Software">Desarrollo de Software</option>
+                                    <option value="Ciencia de Datos">Ciencia de Datos</option>
+                                    <option value="Ciberseguridad">Ciberseguridad</option>
+                                    <option value="Inteligencia Artificial">Inteligencia Artificial</option>
+                                    <option value="Diseño UX/UI">Diseño UX/UI</option>
+                                    <option value="Ingeniería">Ingeniería</option>
+                                    <option value="Robótica">Robótica</option>
+                                    <option value="Marketing Digital">Marketing Digital</option>
+                                    <option value="Gestión de Proyectos">Gestión de Proyectos</option>
+                                    <option value="Otra área STEM">Otra área STEM</option>
                                 </select>
                             </div>
                         </div>
                         
-                        {/* Botón de Enviar */}
                         <div className="mt-8 text-center">
                             <button
                                 type="submit"
@@ -244,21 +270,20 @@ const MentorModal: React.FC<MentorModalProps> = ({ isOpen, onClose }) => {
 
             case 'success':
                 const firstName = getFirstName(formData.name);
+                const roleText = formData.role === 'Estudiante' ? 'estudiante' : 'profesional';
                 return (
                     <div className="text-center py-10">
                         <Check className="w-16 h-16 mx-auto mb-4 text-green-500 p-2 bg-green-100 rounded-full" />
                         <h3 className="text-3xl font-bold text-gray-800 mb-3">
                             ¡Postulación Enviada!
                         </h3>
-                        {/* El primer nombre, el área y el email aparecen en negrita */}
                         <p className="text-gray-600 mb-6">
-                            Gracias por tu interés, <span className="font-bold text-gray-800">{firstName}</span>. Hemos recibido tu solicitud de mentoría en el área de <span className="font-bold text-teal-600">{formData.area}</span>.
+                            Gracias por tu interés, <span className="font-bold text-gray-800">{firstName}</span>. Hemos recibido tu solicitud como <span className="font-bold text-teal-600">{roleText}</span> en el área de <span className="font-bold text-teal-600">{formData.area}</span>.
                         </p>
                         <p className="text-gray-600">
-                            Nuestro equipo revisará tu perfil y te contactará pronto a través de tu correo electrónico (<span className="font-bold text-teal-700">{formData.email}</span>).
+                            Nuestro equipo revisará tu perfil y te contactará pronto a través de tu correo electrónico (<span className="font-bold text-teal-700">{formData.email}</span>) o por teléfono (<span className="font-bold text-teal-700">{formData.phone}</span>).
                         </p>
 
-                        {/* Botón de Cierre */}
                         <div className="mt-8 text-center">
                             <button
                                 onClick={onClose}
@@ -276,15 +301,11 @@ const MentorModal: React.FC<MentorModalProps> = ({ isOpen, onClose }) => {
     };
 
     return (
-        // Overlay (Fondo oscuro)
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-75 p-4 transition-opacity duration-300 backdrop-blur-sm" onClick={onClose}>
-            
-            {/* Contenido del Modal */}
             <div 
                 className="bg-white rounded-3xl p-8 max-w-lg w-full shadow-2xl transform transition-all duration-300 scale-100 relative"
-                onClick={(e) => e.stopPropagation()} // Evita que el clic cierre el modal
+                onClick={(e) => e.stopPropagation()}
             >
-                {/* Botón de Cierre (Visible en todos los pasos) */}
                 <button 
                     onClick={onClose}
                     className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 text-gray-700 hover:bg-red-100 hover:text-red-600 transition"
@@ -294,7 +315,6 @@ const MentorModal: React.FC<MentorModalProps> = ({ isOpen, onClose }) => {
                     <X className="w-5 h-5" />
                 </button>
 
-                {/* Renderizado del contenido basado en el paso actual */}
                 {renderContent()}
             </div>
         </div>
@@ -333,7 +353,7 @@ const Nosotros = () => {
   // --- DATOS DEL STEPPER ---
   const heroValues = [
     { title: 'Futuro Tech', subtitle: 'Explora +10 carreras STEM.', icon: <Lightbulb className="w-6 h-6 text-teal-600" /> }, 
-    { title: 'Mentoría 1 a 1', subtitle: 'Conéctate con profesionales.', icon: <Users className="w-6 h-6 text-teal-600" /> }, 
+    { title: 'Mentorías Personalizadas', subtitle: 'Conéctate con profesionales.', icon: <Users className="w-6 h-6 text-teal-600" /> }, 
     { title: 'Contenido Práctico', subtitle: 'Aprende con proyectos reales.', icon: <Code className="w-6 h-6 text-teal-600" /> }, 
     { title: 'Gratuito', subtitle: 'Educación de calidad sin costo.', icon: <Award className="w-6 h-6 text-teal-600" /> }, 
   ];
@@ -765,15 +785,29 @@ const Nosotros = () => {
             Nuestros Valores
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => (
-              <div key={index} className="text-center bg-white p-6 rounded-xl shadow-lg transition-transform duration-300 hover:-translate-y-2">
-                <div className="w-16 h-16 bg-teal-50 rounded-full flex items-center justify-center mx-auto mb-4 text-teal-600 ring-2 ring-teal-300">
-                  {value.icon}
+            {values.map((value, index) => {
+              // Definir colores pasteles y bordes únicos para cada card
+              const colorSchemes = [
+                { bg: 'bg-red-50', border: 'border-l-red-400', icon: 'bg-red-100 text-red-600 ring-red-300' },
+                { bg: 'bg-teal-50', border: 'border-l-teal-400', icon: 'bg-teal-100 text-teal-600 ring-teal-300' },
+                { bg: 'bg-purple-50', border: 'border-l-purple-400', icon: 'bg-purple-100 text-purple-600 ring-purple-300' },
+                { bg: 'bg-amber-50', border: 'border-l-amber-400', icon: 'bg-amber-100 text-amber-600 ring-amber-300' }
+              ];
+              const scheme = colorSchemes[index % colorSchemes.length];
+
+              return (
+                <div 
+                  key={index} 
+                  className={`text-center ${scheme.bg} p-6 rounded-xl shadow-lg border-l-4 ${scheme.border} transition-all duration-300 hover:-translate-y-2 hover:shadow-xl`}
+                >
+                  <div className={`w-16 h-16 ${scheme.icon} rounded-full flex items-center justify-center mx-auto mb-4 ring-2`}>
+                    {value.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-800 mb-3">{value.title}</h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">{value.description}</p>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-3">{value.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{value.description}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

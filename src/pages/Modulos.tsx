@@ -27,7 +27,6 @@ const Modulos: React.FC = () => {
 
   const [activeModule, setActiveModule] = useState<Module | null>(null);
   const [isLaunching, setIsLaunching] = useState(false);
-  const [launchingModuleId, setLaunchingModuleId] = useState<number | null>(null);
 
   const modules: Module[] = [
     {
@@ -121,11 +120,9 @@ const Modulos: React.FC = () => {
       return;
     }
     setIsLaunching(true);
-    setLaunchingModuleId(moduleId);
     createConfetti();
     setTimeout(() => {
       setIsLaunching(false);
-      setLaunchingModuleId(null);
       navigate(targetPath);
     }, 1000);
   };
