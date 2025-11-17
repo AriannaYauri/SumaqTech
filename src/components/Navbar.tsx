@@ -11,9 +11,7 @@ const navItems: NavItem[] = [
   { name: 'Profesionales', path: '/orientacion-vocacional' },
   { name: 'Estudiantes', path: '/estudiantes' },
   // { name: 'Test Vocacional', path: '/test-vocacional' },
-  // Temporarily hidden per user request: Mentorías
-  // { name: 'Mentorías', path: '/mentorias' },
-  { name: 'Foro', path: '/foro' },
+  { name: 'Mentorías', path: '/mentorias' },
   { name: 'Nosotros', path: '/nosotros' }
 ];
 
