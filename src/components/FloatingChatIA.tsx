@@ -23,6 +23,15 @@ interface ChatResponseData {
 // Para tipar los children de ReactMarkdown correctamente
 type MarkdownRendererProps = { children: ReactNode[] };
 
+const ROLES = [
+    { key: 'programacion', name: 'Programación' },
+    { key: 'matematicas', name: 'Matemáticas' },
+    { key: 'calculo', name: 'Cálculo' },
+    { key: 'iot', name: 'IoT' },
+    { key: 'networking', name: 'Networking' },
+    { key: 'ciberseguridad', name: 'Ciberseguridad' },
+];
+
 // -----------------------------------------------------------------
 // --- COMPONENTES DE RENDERIZADO ---
 // -----------------------------------------------------------------
@@ -58,27 +67,12 @@ const CodeBlock: React.FC<any> = ({ inline, className, children, ...props }) => 
     );
   };
 
-// FUNCIÓN AUXILIAR: Convierte cualquier nodo de React (incluyendo arrays y elementos) a una cadena de texto unificada.
-const flattenChildrenToString = (children: React.ReactNode[]): string => {
-    return children.map(child => {
-        // Si el hijo es un elemento React (ej: <strong>), obtenemos su texto de forma recursiva
-        if (React.isValidElement(child) && child.props.children) {
-            return flattenChildrenToString(Array.isArray(child.props.children) ? child.props.children : [child.props.children]);
-        }
-        // Si es texto plano o un nodo básico, lo devolvemos como string
-        return String(child || '');
-    }).join('');
-};
-
-// 2. Función clave para procesar LaTeX y texto plano (VERSIÓN FINAL)
-// 2. Función clave para procesar LaTeX y texto plano (Versión Final)
-// 2. Función clave para procesar LaTeX y texto plano (Versión Final Definitiva)
+// 2. Función clave para procesar LaTeX y texto plano (FINAL STABLE)
 const processTextForLatex = (inputText: ReactNode[] | string | undefined): ReactNode => {
     const inputNodes = Array.isArray(inputText) ? inputText : [inputText];
     const outputNodes: ReactNode[] = [];
 
     inputNodes.forEach((node, nodeIndex) => {
-        // 1. Manejo de Elementos React Válidos (para recursión: ej. <strong>)
         if (isValidElement(node)) {
             if (node.props.children) {
                 const processedChildren = processTextForLatex(node.props.children);
@@ -89,7 +83,6 @@ const processTextForLatex = (inputText: ReactNode[] | string | undefined): React
             return;
         }
 
-        // 2. Procesamiento de Texto Plano
         const textToProcess = (typeof node === 'string' || typeof node === 'number') ? String(node) : '';
         if (!textToProcess) return;
 
@@ -99,15 +92,11 @@ const processTextForLatex = (inputText: ReactNode[] | string | undefined): React
             const key = `part-${nodeIndex}-${index}`;
 
             if (part.startsWith('$$') && part.endsWith('$$')) {
-                // Bloque Math
-                const content = String(part).slice(2, -2).trim();
-                // Si el contenido está vacío (ej: $$ $$), evitamos el error.
+                const content = String(part).slice(2, -2).trim(); 
                 if (!content) return outputNodes.push(<></>); 
                 outputNodes.push(<BlockMath key={key}>{content}</BlockMath>);
             } else if (part.startsWith('$') && part.endsWith('$')) {
-                // En línea Math
                 const content = String(part).slice(1, -1).trim();
-                 // Si el contenido está vacío (ej: $ $), evitamos el error.
                 if (!content) return outputNodes.push(<></>); 
                 outputNodes.push(<InlineMath key={key}>{content}</InlineMath>);
             } else {
@@ -127,13 +116,10 @@ const renderMessageContent = (text: string) => {
             remarkPlugins={[remarkGfm]}
             components={{
                 code: CodeBlock,
-                // para que BlockMath (que es un div) no cause advertencias de anidamiento.
                 p: ({ children }: MarkdownRendererProps) => (<>{processTextForLatex(children)}</>),
-                
-                // Los demás elementos siguen siendo válidos
                 h1: ({ children }: MarkdownRendererProps) => (<h1>{processTextForLatex(children)}</h1>),
                 h2: ({ children }: MarkdownRendererProps) => (<h2>{processTextForLatex(children)}</h2>),
-                li: ({ children }: MarkdownRendererProps) => (<li>{processTextForLatex(children)}</li>),
+                // li: ({ children }: MarkdownRendererProps) => (<li>{processTextForLatex(children)}</li>),
             }}
         />
     );
@@ -144,14 +130,23 @@ const renderMessageContent = (text: string) => {
 // --- COMPONENTE PRINCIPAL FLOTANTE ---
 // -----------------------------------------------------------------
 
-// Usamos FC genérico ya que no podemos acceder a 'React.'
 const FloatingChatIA: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputValue, setInputValue] = useState('');
     const [selectedRole, setSelectedRole] = useState('matematicas'); 
     const [loading, setLoading] = useState(false);
+    const [showWelcome, setShowWelcome] = useState(true);
+    const [isRoleMenuOpen, setIsRoleMenuOpen] = useState(false); // Nuevo estado para el menú de rol
     const chatContainerRef = useRef<HTMLDivElement>(null);
+
+    // Función para reiniciar el chat al estado de bienvenida
+    const resetChat = useCallback(() => {
+        setMessages([]);
+        setInputValue('');
+        setShowWelcome(true);
+        setIsRoleMenuOpen(false);
+    }, []);
 
     // Scroll automático
     useEffect(() => {
@@ -160,17 +155,20 @@ const FloatingChatIA: React.FC = () => {
         }
     }, [messages]);
 
-    // Función de envío de mensaje (con useCallback y tipado corregido)
-    const handleSendMessage = useCallback(async () => {
-        if (inputValue.trim() === '') return;
+    // Función de envío de mensaje (Optimizada)
+    const handleSendMessage = useCallback(async (messageText: string = inputValue) => {
+        if (messageText.trim() === '') return;
 
-        const newMessage: Message = { sender: 'user', text: inputValue };
+        setShowWelcome(false);
+        const messageToSend = messageText;
+        setInputValue(''); // Limpia el input solo si viene de la caja de texto
+        
+        const newMessage: Message = { sender: 'user', text: messageToSend };
         setMessages((prevMessages) => [...prevMessages, newMessage]);
-        setInputValue('');
         setLoading(true);
 
         try {
-            const response: AxiosResponse<ChatResponseData> = await axios.post('http://localhost:9579/chat', {
+            const response: AxiosResponse<ChatResponseData> = await axios.post('http://localhost:9520/chat', {
                 message: newMessage.text,
                 role: selectedRole, 
             });
@@ -197,10 +195,20 @@ const FloatingChatIA: React.FC = () => {
             handleSendMessage();
         }
     };
+
+    // Función para seleccionar el rol y cerrar el menú
+    const selectRole = (key: string) => {
+        setSelectedRole(key);
+        setIsRoleMenuOpen(false);
+        // Opcional: Notificar al usuario el cambio de rol
+        if (messages.length === 0) {
+             setMessages([{sender: 'ai', text: `✅ Rol cambiado a **${ROLES.find(r => r.key === key)?.name || key}**.`}]);
+        }
+    };
     
     return (
         <>
-            {/* Botón Flotante (Icono de Chat) */}
+            {/* Botón Flotante (Toggle) */}
             <button 
                 className="floating-chat-toggle"
                 onClick={() => setIsOpen(!isOpen)}
@@ -208,37 +216,65 @@ const FloatingChatIA: React.FC = () => {
                 {isOpen ? '✖' : '🤖'}
             </button>
 
-            {/* Contenedor del Chat (Solo visible si isOpen es true) */}
+            {/* Contenedor del Chat */}
             <div className={`floating-chat-container ${isOpen ? 'is-open' : ''}`}>
                 <header className="app-header">
-                    <h1>- SumaqIA -</h1>
-                    {/* Botón de cerrar dentro del chat */}
+                    <div className="header-info">
+                        <span className="ai-icon">🤖</span>
+                        <h1>SumaqIA <span className="online-dot"></span><span className="online-text">Online</span></h1>
+                    </div>
                     <button className="close-button" onClick={() => setIsOpen(false)}>✖</button>
                 </header>
-
-                <div className="role-selector-container">
-                    <label htmlFor="role-select">Selecciona el rol de la IA:</label>
-                    <select
-                        id="role-select"
-                        value={selectedRole}
-                        onChange={(e) => setSelectedRole(e.target.value)}
-                        className="role-select"
-                    >
-                        <option value="programacion">Programación</option>
-                        <option value="matematicas">Matemáticas</option>
-                        <option value="calculo">Cálculo</option>
-                        <option value="iot">IoT</option>
-                        <option value="ciberseguridad">Ciberseguridad</option>
-                    </select>
+                
+                {/* Menú de Selección de Rol (Overlay) */}
+                <div className={`role-menu-overlay ${isRoleMenuOpen ? 'is-open' : ''}`}>
+                    <div className="role-menu-header">
+                        <h2>Seleccionar Agente</h2>
+                        <button className="close-menu-button" onClick={() => setIsRoleMenuOpen(false)}>✖</button>
+                    </div>
+                    <p className="role-menu-description">
+                        Elige el área de especialidad para tu conversación:
+                    </p>
+                    <div className="role-list">
+                        {ROLES.map(role => (
+                            <button
+                                key={role.key}
+                                className={`role-item ${selectedRole === role.key ? 'is-selected' : ''}`}
+                                onClick={() => selectRole(role.key)}
+                            >
+                                {role.name}
+                            </button>
+                        ))}
+                    </div>
                 </div>
 
                 <div className="chat-box">
                     <div className="messages-container" ref={chatContainerRef}>
-                        {messages.map((msg, index) => (
-                            <div key={index} className={`message ${msg.sender}`}>
-                                {renderMessageContent(msg.text)}
+                        {showWelcome && messages.length === 0 ? (
+                            <div className="welcome-screen">
+                                <span className="ai-big-icon">🤖</span>
+                                <p className="welcome-text">Hola, soy SumaqIA. ¿Tienes alguna duda? Cuéntame y yo lo resolveré!</p>
+                                <p className="welcome-subtext">Agente actual: **{ROLES.find(r => r.key === selectedRole)?.name || 'Matemáticas'}**</p>
+                                <button 
+                                    className="suggested-question-button"
+                                    onClick={() => handleSendMessage("¿Necesito alguna habilidad para estudiar STEM?")}
+                                >
+                                    ¿Necesito alguna habilidad para estudiar STEM?
+                                </button>
+                                <button 
+                                    className="suggested-question-button"
+                                    onClick={() => handleSendMessage("¿Cómo puedo mejorar en Matemáticas?")}
+                                >
+                                    ¿Cómo puedo mejorar en Matemáticas?
+                                </button>
                             </div>
-                        ))}
+                        ) : (
+                            messages.map((msg, index) => (
+                                <div key={index} className={`message ${msg.sender}`}>
+                                    {renderMessageContent(msg.text)}
+                                </div>
+                            ))
+                        )}
                         {loading && (
                             <div className="message ai loading">
                                 <span>La IA está pensando...</span>
@@ -246,17 +282,28 @@ const FloatingChatIA: React.FC = () => {
                             </div>
                         )}
                     </div>
+                    
+                    {/* Caja de entrada con íconos */}
                     <div className="input-container">
+                        {/* Botón para Abrir Menú de Roles */}
+                        <button className="icon-button" onClick={() => setIsRoleMenuOpen(true)} aria-label="Seleccionar Rol">
+                            🤖
+                        </button>
+                        {/* Botón de Reinicio (Refresh) */}
+                        <button className="icon-button" onClick={resetChat} aria-label="Reiniciar Chat">
+                            🔄
+                        </button>
+
                         <input
                             type="text"
                             value={inputValue}
                             onChange={(e) => setInputValue(e.target.value)}
                             onKeyPress={handleKeyPress}
-                            placeholder="Escribe tu problema aquí..."
+                            placeholder="Escribe tu duda..."
                             disabled={loading}
                         />
-                        <button onClick={handleSendMessage} disabled={loading}>
-                            Enviar
+                        <button className="send-button" onClick={() => handleSendMessage()} disabled={loading} aria-label="Send Message">
+                            ➤
                         </button>
                     </div>
                 </div>
