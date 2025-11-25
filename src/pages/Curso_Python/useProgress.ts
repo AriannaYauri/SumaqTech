@@ -1,23 +1,70 @@
-export type ProgressMap = Record<string, { completed: boolean }>;
+import { useState, useEffect } from 'react';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { db } from '../../firebase/firebase';
+import { useAuth } from '../../contexts/AuthContext';
 
-const STORAGE_KEY = 'sumaqtech_progress_v1';
+export interface SectionProgress {
+  completed: boolean;
+  completedAt?: string;
+  timeSpent?: number;
+}
 
-export const loadProgress = (courseId: string): ProgressMap => {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return {};
-    const all = JSON.parse(raw) || {};
-    return all[courseId] || {};
-  } catch {
-    return {};
-  }
-};
+export type ProgressMap = Record<string, SectionProgress>;
 
-export const saveProgress = (courseId: string, progress: ProgressMap) => {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    const all = raw ? JSON.parse(raw) : {};
-    all[courseId] = progress;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
-  } catch {}
+export const useProgress = (courseId: string) => {
+  const { user } = useAuth();
+  const [progress, setProgress] = useState<ProgressMap>({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (user) {
+      loadProgress();
+    } else {
+      setLoading(false);
+    }
+  }, [user, courseId]);
+
+  const loadProgress = async () => {
+    if (!user) return;
+
+    try {
+      const progressDoc = await getDoc(
+        doc(db, 'users', user.uid, 'progress', courseId)
+      );
+
+      if (progressDoc.exists()) {
+        setProgress(progressDoc.data().sections || {});
+      }
+    } catch (error) {
+      console.error('Error cargando progreso:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateProgress = async (sectionId: string, completed: boolean) => {
+    if (!user) return;
+
+    const newProgress = {
+      ...progress,
+      [sectionId]: {
+        completed,
+        completedAt: completed ? new Date().toISOString() : undefined,
+      },
+    };
+
+    setProgress(newProgress);
+
+    try {
+      await setDoc(
+        doc(db, 'users', user.uid, 'progress', courseId),
+        { sections: newProgress },
+        { merge: true }
+      );
+    } catch (error) {
+      console.error('Error guardando progreso:', error);
+    }
+  };
+
+  return { progress, loading, updateProgress };
 };

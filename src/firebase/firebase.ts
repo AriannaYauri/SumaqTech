@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app';
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore'; // ← Agregar getDoc
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -46,9 +47,11 @@ const firebaseConfig = {
 // ===== INICIALIZACIÓN DE FIREBASE =====
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 export const firebaseApp = app;
 export const firebaseAuth = auth;
+export { db };
 
 // ===== FUNCIÓN PARA MAPEAR ERRORES DE FIREBASE =====
 function getErrorMessage(error: AuthError): string {
@@ -82,7 +85,7 @@ export const loginWithEmail = async (email: string, password: string) => {
     return { 
       success: true, 
       token, 
-      user: mapUser(cred.user),
+      user: await mapUserWithFirestore(cred.user), // ← CAMBIADO
       error: null 
     };
   } catch (error) {
@@ -101,18 +104,26 @@ export const signupWithEmail = async (name: string, email: string, password: str
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
     
-    // Actualizar el perfil con el nombre del usuario
     if (name) {
       await updateProfile(cred.user, {
         displayName: name
       });
     }
     
+    // Guardar usuario en Firestore con rol 'student' por defecto
+    await setDoc(doc(db, 'users', cred.user.uid), {
+      uid: cred.user.uid,
+      email: cred.user.email,
+      name: name,
+      role: 'student',
+      createdAt: new Date().toISOString()
+    });
+    
     const token = await cred.user.getIdToken();
     return { 
       success: true, 
       token, 
-      user: mapUser(cred.user),
+      user: await mapUserWithFirestore(cred.user), // ← CAMBIADO
       error: null 
     };
   } catch (error) {
@@ -146,11 +157,27 @@ const googleProvider = new GoogleAuthProvider();
 export const loginWithGoogle = async () => {
   try {
     const cred = await signInWithPopup(auth, googleProvider);
+    
+    // Verificar si el usuario ya existe en Firestore
+    const userDocRef = doc(db, 'users', cred.user.uid);
+    const userDoc = await getDoc(userDocRef);
+    
+    // Si no existe, crearlo con role 'student'
+    if (!userDoc.exists()) {
+      await setDoc(userDocRef, {
+        uid: cred.user.uid,
+        email: cred.user.email,
+        name: cred.user.displayName,
+        role: 'student',
+        createdAt: new Date().toISOString()
+      });
+    }
+    
     const token = await cred.user.getIdToken();
     return { 
       success: true, 
       token, 
-      user: mapUser(cred.user),
+      user: await mapUserWithFirestore(cred.user), // ← CAMBIADO
       error: null 
     };
   } catch (error) {
@@ -164,12 +191,20 @@ export const loginWithGoogle = async () => {
   }
 };
 
-// ===== LISTENER DE CAMBIOS DE AUTENTICACIÓN =====
-export const onAuthChange = (cb: (user: { uid: string; email?: string; name?: string } | null) => void) => {
-  return onAuthStateChanged(auth, u => cb(u ? mapUser(u) : null));
+// ===== LISTENER DE CAMBIOS DE AUTENTICACIÓN (MEJORADO) =====
+export const onAuthChange = (cb: (user: { uid: string; email?: string; name?: string; role?: 'admin' | 'student' } | null) => void) => {
+  return onAuthStateChanged(auth, async (u) => {
+    if (u) {
+      const userWithRole = await mapUserWithFirestore(u);
+      console.log('🔥 Usuario cargado con role desde Firestore:', userWithRole);
+      cb(userWithRole);
+    } else {
+      cb(null);
+    }
+  });
 };
 
-// ===== FUNCIÓN PARA MAPEAR USUARIO =====
+// ===== FUNCIÓN PARA MAPEAR USUARIO BÁSICO (solo Firebase Auth) =====
 function mapUser(u: FirebaseUser) {
   return { 
     uid: u.uid, 
@@ -177,3 +212,39 @@ function mapUser(u: FirebaseUser) {
     name: u.displayName ?? undefined 
   };
 }
+
+// ===== NUEVA FUNCIÓN: MAPEAR USUARIO CON DATOS DE FIRESTORE =====
+async function mapUserWithFirestore(u: FirebaseUser) {
+  const basicUser = mapUser(u);
+  
+  try {
+    // Cargar datos adicionales desde Firestore
+    const userDocRef = doc(db, 'users', u.uid);
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (userDocSnap.exists()) {
+      const userData = userDocSnap.data();
+      console.log('📄 Datos de Firestore para', u.uid, ':', userData);
+      
+      return {
+        ...basicUser,
+        name: userData.name || basicUser.name,
+        role: userData.role || 'student'
+      };
+    } else {
+      console.warn('⚠️ No se encontró documento en Firestore para:', u.uid);
+      console.warn('   El usuario solo tiene datos de Firebase Auth');
+      return {
+        ...basicUser,
+        role: 'student' as const
+      };
+    }
+  } catch (error) {
+    console.error('❌ Error al cargar datos de Firestore:', error);
+    return {
+      ...basicUser,
+      role: 'student' as const
+    };
+  }
+}
+

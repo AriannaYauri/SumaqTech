@@ -5,7 +5,12 @@ export interface NavItem {
 }
 
 export interface User {
-  id: string;
-  name: string;
-  email: string;
+  uid: string;
+  email?: string;
+  name?: string;
+  role?: 'admin' | 'student';
 }
+
+// ========== TIPOS DE CURSOS ==========
+export * from './course.types';
+

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import { User, Mail, Globe, GraduationCap, Lock, Eye, EyeOff, Sparkles, Rocket, BookOpen, Code, Lightbulb, AlertCircle, Loader2} from 'lucide-react';
-import { loginWithEmail, signupWithEmail, loginWithGoogle } from '../firebase';
+import { loginWithEmail, signupWithEmail, loginWithGoogle } from '../firebase/firebase';
 import { useAuth } from '../contexts/AuthContext';
 
 const Auth: React.FC = () => {

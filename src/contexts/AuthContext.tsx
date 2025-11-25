@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { onAuthChange, logoutUser } from '../firebase';
+import { onAuthChange, logoutUser } from '../firebase/firebase';
 
 // ===== TIPOS =====
 interface User {
   uid: string;
-  email?: string;
+  email?: string; // ← Cambiar de `string | null` a `string` opcional
   name?: string;
+  role?: 'admin' | 'student'; // ← AGREGAR ESTA LÍNEA
 }
 
 interface AuthContextType {
