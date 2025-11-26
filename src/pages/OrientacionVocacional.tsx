@@ -50,6 +50,16 @@ const categories: Category[] = [
         videoSrc: '/videos/juan_quillas.mp4',
         bio: 'Juan Quillas lidera proyectos de infraestructura y conectividad, con foco en zonas rurales y solución de acceso.'
       }
+      ,
+      {
+        id: '3',
+        name: 'Watson Ramirez',
+        role: 'Jefe de Ciberseguridad',
+        field: 'Ingeniería de Telecomunicaciones',
+        image: 'src/components/profesionales/fotos/wattson_ramirez.jpg',
+        videoSrc: 'src/components/profesionales/videos/wattson_ramirez.mp4',
+        bio: 'Watson Ramirez es jefe de ciberseguridad en Telefónica, brindando protección avanzada a infraestructuras críticas.'
+      }
     ]
   },
   {

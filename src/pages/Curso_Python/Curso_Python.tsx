@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCourse } from './useCourse';
 import { useProgress } from './useProgress';
 import { useAuth } from '../../contexts/AuthContext';
+import Playground from './interactive/Playground';
 import { 
   Home, 
   BookOpen, 
@@ -16,13 +17,25 @@ import {
   Clock
 } from 'lucide-react';
 
+// Importar las imágenes de las portadas
+import pythonM1 from '../../components/cursos_iconos/python-m1.png';
+import pythonM2 from '../../components/cursos_iconos/python-m2.png';
+
 const COURSE_ID = 'python-101';
 
+const MODULE_COVERS: Record<string, string> = {
+  'm1': pythonM1,
+  'm2': pythonM2,
+  'introduccion-python': pythonM1,
+  'fundamentos-basicos': pythonM2,
+};
+
+console.log('📸 MODULE_COVERS cargado:', MODULE_COVERS);
+
 const Curso_Python: React.FC = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth(); // ✅ USAR logout del contexto
   const navigate = useNavigate();
   
-  // 🔍 DEBUG TEMPORAL - ELIMINAR DESPUÉS
   console.log('👤 Usuario actual:', user);
   console.log('🔑 Role del usuario:', user?.role);
   console.log('✅ Es admin?:', user?.role === 'admin');
@@ -30,11 +43,10 @@ const Curso_Python: React.FC = () => {
   const { course, loading: courseLoading } = useCourse(COURSE_ID);
   const { progress } = useProgress(COURSE_ID);
   
-  const [currentView, setCurrentView] = useState<'dashboard' | 'modules'>('dashboard');
+  const [currentView, setCurrentView] = useState<'dashboard' | 'modules' | 'playground'>('dashboard');
 
   const userName = user?.name || user?.email?.split('@')[0] || 'Estudiante';
 
-  // Paleta de colores
   const colorPalette = {
     primary: '#00BFA5',
     primaryDark: '#008F7A',
@@ -43,14 +55,12 @@ const Curso_Python: React.FC = () => {
     gradientFrom: '#00BFA5',
     gradientTo: '#009688',
     accent: '#FF6B95',
-    secondary: '#FF6B95', // ← AGREGADO
+    secondary: '#FF6B95',
     background: '#F8FDFC'
   };
 
-  // Verificar si el usuario es admin
   const isAdmin = user?.role === 'admin';
 
-  // Calcular estadísticas
   const allSections = course?.modules.flatMap(m => m.sections) ?? [];
   const completedSections = Object.values(progress).filter(p => p?.completed).length;
   const progressPercentage = allSections.length > 0 
@@ -65,8 +75,23 @@ const Curso_Python: React.FC = () => {
     totalSections: allSections.length,
     completedSections,
     progressPercentage,
-    userLevel: Math.floor(completedSections / 5) + 1, // 1 nivel cada 5 secciones
-    streak: 3 // Mock data - puedes implementarlo después
+    userLevel: Math.floor(completedSections / 5) + 1,
+    streak: 3
+  };
+
+  // ✅ FUNCIÓN PARA CERRAR SESIÓN CON DELAY
+  const handleLogout = async () => {
+    try {
+      console.log('🔴 Iniciando logout...');
+      await logout(); // Llamar al logout del contexto
+      console.log('✅ Logout exitoso');
+      
+      // ✅ SIN DELAY - Redirección inmediata
+      window.location.href = '/';
+    } catch (error) {
+      console.error('❌ Error al cerrar sesión:', error);
+      alert('Error al cerrar sesión. Por favor, intenta de nuevo.');
+    }
   };
 
   // Loading state
@@ -84,6 +109,11 @@ const Curso_Python: React.FC = () => {
     );
   }
 
+  // ✅ SI ES PLAYGROUND, MOSTRAR SOLO EL PLAYGROUND (PANTALLA COMPLETA)
+  if (currentView === 'playground') {
+    return <Playground />;
+  }
+
   return (
     <div className="flex min-h-screen" style={{ backgroundColor: colorPalette.background }}>
       
@@ -97,7 +127,7 @@ const Curso_Python: React.FC = () => {
             </div>
             <div>
               <h2 className="font-bold text-lg text-gray-800">SumaqTech</h2>
-              <p className="text-xs text-gray-500">Python Academy</p>
+              
             </div>
           </div>
         </div>
@@ -130,7 +160,16 @@ const Curso_Python: React.FC = () => {
             <span>Módulos</span>
           </button>
 
-          <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-gray-50 text-gray-600 hover:text-gray-800 group">
+          {/* ✅ BOTÓN PLAYGROUND CONECTADO */}
+          <button 
+            onClick={() => setCurrentView('playground')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
+              currentView === 'playground' 
+                ? 'text-gray-700 hover:text-gray-900 hover:shadow-md' 
+                : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+            }`}
+            style={currentView === 'playground' ? { backgroundColor: colorPalette.primaryLighter, color: colorPalette.primaryDark, fontWeight: '600' } : {}}
+          >
             <PlayCircle className="w-5 h-5" /> 
             <span>Playground</span>
           </button>
@@ -140,7 +179,7 @@ const Curso_Python: React.FC = () => {
         {isAdmin && (
           <div className="px-4 pb-4 border-t border-gray-100 pt-4">
             <button
-              onClick={() => navigate('/admin/python')} // ← CAMBIADO
+              onClick={() => navigate('/admin/python')}
               className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all duration-300 hover:shadow-md group"
               style={{
                 backgroundColor: colorPalette.secondary,
@@ -153,7 +192,7 @@ const Curso_Python: React.FC = () => {
           </div>
         )}
 
-        {/* Botón de cerrar sesión */}
+        {/* ✅ BOTÓN DE CERRAR SESIÓN CON LOGOUT REAL */}
         <div className="p-4 border-t border-gray-100">
           <div className="flex items-center gap-3 mb-4 p-2">
             <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold shadow-md" style={{ backgroundColor: colorPalette.primary }}>
@@ -164,8 +203,9 @@ const Curso_Python: React.FC = () => {
               <p className="text-xs text-gray-500">Nivel {stats.userLevel}</p>
             </div>
           </div>
+          {/* ✅ BOTÓN DE LOGOUT CORREGIDO */}
           <button 
-            onClick={() => navigate('/')} 
+            onClick={handleLogout}
             className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 hover:bg-red-50 text-gray-600 hover:text-red-600 border border-gray-200 hover:border-red-200 group"
           >
             <LogOut className="w-5 h-5" /> 
@@ -188,7 +228,7 @@ const Curso_Python: React.FC = () => {
           {/* Botón rápido para admin en el header */}
           {isAdmin && (
             <button
-              onClick={() => navigate('/admin/python')} // ← CAMBIADO
+              onClick={() => navigate('/admin/python')}
               className="flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:shadow-md border"
               style={{
                 backgroundColor: 'white',
@@ -224,7 +264,7 @@ const Curso_Python: React.FC = () => {
   );
 };
 
-// Componente Dashboard (simplificado - agrega el resto del código que tenías)
+// Componente Dashboard
 const DashboardView: React.FC<any> = ({ stats, colorPalette }) => {
   return (
     <div className="space-y-6">
@@ -292,7 +332,7 @@ const DashboardView: React.FC<any> = ({ stats, colorPalette }) => {
   );
 };
 
-// Componente Modules (simplificado - agrega el resto del código que tenías)
+// ✅ Componente Modules CON PORTADAS MEJORADAS
 const ModulesView: React.FC<any> = ({ course, progress, colorPalette, navigate }) => {
   return (
     <div className="space-y-6">
@@ -303,38 +343,99 @@ const ModulesView: React.FC<any> = ({ course, progress, colorPalette, navigate }
           const completedSections = module.sections.filter((s: any) => progress[s.id]?.completed).length;
           const totalSections = module.sections.length;
           const progressPct = totalSections > 0 ? Math.round((completedSections / totalSections) * 100) : 0;
+          
+          // ✅ OBTENER PORTADA CON LOG DE DEBUG
+          const coverImage = MODULE_COVERS[module.id];
+          console.log(`📸 Módulo ${module.id} (${module.title}):`, coverImage ? '✅ Portada encontrada' : '❌ Sin portada');
 
           return (
             <div 
               key={module.id}
               onClick={() => navigate(`/curso-python/module/${module.id}`)}
-              className="bg-white rounded-xl shadow-md p-6 cursor-pointer hover:shadow-lg transition-all duration-300"
+              className="bg-white rounded-xl shadow-md overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
             >
-              <div className="flex items-center gap-3 mb-4">
-                <div 
-                  className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold"
-                  style={{ backgroundColor: colorPalette.primary }}
-                >
-                  {index + 1}
+              {/* ✅ PORTADA DEL MÓDULO MEJORADA */}
+              <div className="relative h-48 overflow-hidden bg-gradient-to-br from-teal-100 to-blue-100">
+                {coverImage ? (
+                  <>
+                    <img 
+                      src={coverImage} 
+                      alt={module.title}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        console.error('❌ Error cargando portada:', coverImage);
+                        e.currentTarget.style.display = 'none';
+                      }}
+                      onLoad={() => {
+                        console.log('✅ Portada cargada correctamente:', coverImage);
+                      }}
+                    />
+                    {/* Overlay sutil */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+                  </>
+                ) : (
+                  // Fallback si no hay portada
+                  <div 
+                    className="absolute inset-0 flex items-center justify-center"
+                    style={{ 
+                      background: `linear-gradient(135deg, ${colorPalette.primary} 0%, ${colorPalette.gradientTo} 100%)` 
+                    }}
+                  >
+                    <div className="text-white text-6xl font-bold opacity-30">
+                      {index + 1}
+                    </div>
+                  </div>
+                )}
+
+                {/* Número de módulo (siempre visible) */}
+                <div className="absolute top-4 left-4">
+                  <div 
+                    className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg backdrop-blur-sm"
+                    style={{ backgroundColor: 'rgba(0, 191, 165, 0.9)' }}
+                  >
+                    {index + 1}
+                  </div>
                 </div>
-                <h3 className="font-bold text-lg text-gray-800">{module.title}</h3>
+
+                {/* Badge de progreso */}
+                {progressPct > 0 && (
+                  <div className="absolute top-4 right-4">
+                    <div className="bg-white bg-opacity-90 backdrop-blur-sm px-3 py-1 rounded-full shadow-lg">
+                      <span className="text-sm font-bold" style={{ color: colorPalette.primary }}>
+                        {progressPct}%
+                      </span>
+                    </div>
+                  </div>
+                )}
               </div>
 
-              <p className="text-gray-600 text-sm mb-4">{module.subtitle || module.description}</p>
+              {/* Contenido del card */}
+              <div className="p-6">
+                <h3 className="font-bold text-xl text-gray-800 mb-2">{module.title}</h3>
+                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                  {module.subtitle || module.description}
+                </p>
 
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-500">{completedSections}/{totalSections} secciones</span>
-                <span className="font-semibold" style={{ color: colorPalette.primary }}>{progressPct}%</span>
-              </div>
+                {/* Información de progreso */}
+                <div className="flex items-center justify-between text-sm mb-3">
+                  <span className="text-gray-500">
+                    {completedSections}/{totalSections} secciones
+                  </span>
+                  <span className="font-semibold" style={{ color: colorPalette.primary }}>
+                    {progressPct}%
+                  </span>
+                </div>
 
-              <div className="mt-3 h-2 bg-gray-200 rounded-full overflow-hidden">
-                <div 
-                  className="h-full rounded-full transition-all duration-1000"
-                  style={{ 
-                    backgroundColor: colorPalette.primary,
-                    width: `${progressPct}%`
-                  }}
-                ></div>
+                {/* Barra de progreso */}
+                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full rounded-full transition-all duration-1000 ease-out"
+                    style={{ 
+                      backgroundColor: colorPalette.primary,
+                      width: `${progressPct}%`
+                    }}
+                  ></div>
+                </div>
               </div>
             </div>
           );

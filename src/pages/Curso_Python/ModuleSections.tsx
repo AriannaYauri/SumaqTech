@@ -6,7 +6,17 @@ import ModuleCard from './components/ModuleCard';
 import AuthGuard from './AuthGuard';
 import { ChevronLeft, BookOpen } from 'lucide-react';
 
+// ✅ IMPORTAR LAS PORTADAS
+import pythonM1 from '../../components/cursos_iconos/python-m1.png';
+import pythonM2 from '../../components/cursos_iconos/python-m2.png';
+
 const COURSE_ID = 'python-101';
+
+// ✅ MAPEO DE PORTADAS
+const MODULE_COVERS: Record<string, string> = {
+  'm1': pythonM1,
+  'm2': pythonM2,
+};
 
 const ModuleSections: React.FC = () => {
   const { moduleId } = useParams<{ moduleId: string }>();
@@ -73,6 +83,9 @@ const ModuleSections: React.FC = () => {
   };
 
   const moduleIndex = course.modules.findIndex(m => m.id === module.id);
+  
+  // ✅ OBTENER PORTADA DEL MÓDULO
+  const moduleCover = moduleId ? MODULE_COVERS[moduleId] : null;
 
   return (
     <AuthGuard>
@@ -90,11 +103,40 @@ const ModuleSections: React.FC = () => {
           {/* Header del módulo */}
           <div className="mb-8">
             <div className="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden mb-6">
-              {/* Imagen del módulo (1:1) */}
-              <div className="relative w-full aspect-square overflow-hidden max-w-2xl mx-auto" style={{ backgroundColor: colorPalette.primary }}>
-                <div className="w-full h-full flex items-center justify-center">
-                  <span className="text-6xl font-bold text-white opacity-80">M{moduleIndex + 1}</span>
-                </div>
+              {/* ✅ PORTADA REAL O FALLBACK */}
+              <div className="relative w-full aspect-square overflow-hidden max-w-2xl mx-auto bg-gradient-to-br from-teal-100 to-blue-100">
+                {moduleCover ? (
+                  <img 
+                    src={moduleCover} 
+                    alt={module.title}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      console.error('❌ Error cargando portada:', moduleCover);
+                      // Si falla, ocultar la imagen y mostrar el fallback
+                      e.currentTarget.style.display = 'none';
+                    }}
+                    onLoad={() => {
+                      console.log('✅ Portada cargada:', moduleCover);
+                    }}
+                  />
+                ) : null}
+                
+                {/* Fallback si no hay portada */}
+                {!moduleCover && (
+                  <div 
+                    className="absolute inset-0 flex items-center justify-center"
+                    style={{ backgroundColor: colorPalette.primary }}
+                  >
+                    <span className="text-6xl font-bold text-white opacity-80">
+                      M{moduleIndex + 1}
+                    </span>
+                  </div>
+                )}
+                
+                {/* Overlay con gradiente (solo si hay imagen) */}
+                {moduleCover && (
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                )}
               </div>
               
               {/* Información del módulo */}

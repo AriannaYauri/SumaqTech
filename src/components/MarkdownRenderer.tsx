@@ -57,78 +57,109 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
             <h6 className="text-base font-semibold text-gray-700 mb-2 mt-3" {...props} />
           ),
 
-          // ==================== PÁRRAFOS ====================
-          p: ({ node, ...props }) => (
-            <p className="text-gray-700 leading-relaxed mb-4 text-base" {...props} />
-          ),
+          // ==================== PÁRRAFOS (CORREGIDO) ====================
+          p: ({ node, children, ...props }) => {
+            // Detectar si contiene elementos de bloque que no deberían estar en <p>
+            const hasBlockContent = React.Children.toArray(children).some((child) => {
+              if (React.isValidElement(child)) {
+                const type = child.type as any;
+                return (
+                  type === 'pre' ||
+                  type === 'div' ||
+                  typeof type === 'function' ||
+                  child.props?.className?.includes('language-')
+                );
+              }
+              return false;
+            });
 
-          // ==================== BLOCKQUOTES (Tips, Warnings, etc) ====================
-          blockquote: ({ node, ...props }) => {
-            const text = props.children?.toString() || '';
+            // Si tiene contenido de bloque, no usar <p>
+            if (hasBlockContent) {
+              return <div className="my-4">{children}</div>;
+            }
+
+            return <p className="text-gray-700 leading-relaxed mb-4 text-base" {...props}>{children}</p>;
+          },
+
+          // ==================== BLOCKQUOTES (CORREGIDO) ====================
+          blockquote: ({ node, children, ...props }) => {
+            const text = String(children).toLowerCase();
 
             // 💡 Tip de Qori
-            if (text.includes('💡') || text.toLowerCase().includes('tip')) {
+            if (text.includes('💡') || text.includes('tip')) {
               return (
                 <div className="not-prose bg-amber-50 border-l-4 border-amber-400 p-5 rounded-r-xl my-6 flex gap-3 shadow-sm">
                   <span className="text-3xl flex-shrink-0">💡</span>
-                  <div className="flex-1 text-gray-800">{props.children}</div>
+                  <div className="flex-1 text-gray-800 space-y-2">{children}</div>
                 </div>
               );
             }
 
             // ⚠️ Advertencia/Importante
-            if (text.includes('⚠️') || text.toLowerCase().includes('importante') || text.toLowerCase().includes('warning')) {
+            if (text.includes('⚠️') || text.includes('importante') || text.includes('warning')) {
               return (
                 <div className="not-prose bg-red-50 border-l-4 border-red-400 p-5 rounded-r-xl my-6 flex gap-3 shadow-sm">
                   <span className="text-3xl flex-shrink-0">⚠️</span>
-                  <div className="flex-1 text-gray-800">{props.children}</div>
+                  <div className="flex-1 text-gray-800 space-y-2">{children}</div>
                 </div>
               );
             }
 
             // 🏆 Logro/Nivel desbloqueado
-            if (text.includes('🏆') || text.toLowerCase().includes('nivel') || text.toLowerCase().includes('logro')) {
+            if (text.includes('🏆') || text.includes('nivel') || text.includes('logro')) {
               return (
                 <div className="not-prose bg-gradient-to-r from-purple-50 to-pink-50 border-l-4 border-purple-400 p-5 rounded-r-xl my-6 flex gap-3 shadow-md">
                   <span className="text-3xl flex-shrink-0">🏆</span>
-                  <div className="flex-1 text-gray-800 font-semibold">{props.children}</div>
+                  <div className="flex-1 text-gray-800 font-semibold space-y-2">{children}</div>
                 </div>
               );
             }
 
             // ℹ️ Info/Nota
-            if (text.includes('ℹ️') || text.toLowerCase().includes('nota')) {
+            if (text.includes('ℹ️') || text.includes('nota')) {
               return (
                 <div className="not-prose bg-blue-50 border-l-4 border-blue-400 p-5 rounded-r-xl my-6 flex gap-3 shadow-sm">
                   <span className="text-3xl flex-shrink-0">ℹ️</span>
-                  <div className="flex-1 text-gray-800">{props.children}</div>
+                  <div className="flex-1 text-gray-800 space-y-2">{children}</div>
                 </div>
               );
             }
 
             // ✅ Correcto/Éxito
-            if (text.includes('✅') || text.toLowerCase().includes('correcto')) {
+            if (text.includes('✅') || text.includes('correcto')) {
               return (
                 <div className="not-prose bg-green-50 border-l-4 border-green-400 p-5 rounded-r-xl my-6 flex gap-3 shadow-sm">
                   <span className="text-3xl flex-shrink-0">✅</span>
-                  <div className="flex-1 text-gray-800">{props.children}</div>
+                  <div className="flex-1 text-gray-800 space-y-2">{children}</div>
                 </div>
               );
             }
 
             // ❌ Error/Incorrecto
-            if (text.includes('❌') || text.toLowerCase().includes('incorrecto') || text.toLowerCase().includes('error')) {
+            if (text.includes('❌') || text.includes('incorrecto') || text.includes('error')) {
               return (
                 <div className="not-prose bg-red-50 border-l-4 border-red-400 p-5 rounded-r-xl my-6 flex gap-3 shadow-sm">
                   <span className="text-3xl flex-shrink-0">❌</span>
-                  <div className="flex-1 text-gray-800">{props.children}</div>
+                  <div className="flex-1 text-gray-800 space-y-2">{children}</div>
+                </div>
+              );
+            }
+
+            // 🔥 Próximamente
+            if (text.includes('🔥') || text.includes('próximamente')) {
+              return (
+                <div className="not-prose bg-orange-50 border-l-4 border-orange-400 p-5 rounded-r-xl my-6 flex gap-3 shadow-sm">
+                  <span className="text-3xl flex-shrink-0">🔥</span>
+                  <div className="flex-1 text-gray-800 space-y-2">{children}</div>
                 </div>
               );
             }
 
             // Blockquote normal
             return (
-              <blockquote className="border-l-4 border-gray-300 pl-4 italic text-gray-600 my-4" {...props} />
+              <blockquote className="border-l-4 border-gray-300 pl-4 italic text-gray-600 my-4" {...props}>
+                {children}
+              </blockquote>
             );
           },
 

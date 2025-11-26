@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Compass, Target, TrendingUp, BookOpen, Lightbulb, Quote, ArrowRight, Rocket, Laptop, Settings } from 'lucide-react';
+import { Compass, Target, TrendingUp, BookOpen, Lightbulb, Quote, ArrowRight, Rocket, Laptop, Settings, PlayCircle } from 'lucide-react';
 
 const Estudiantes: React.FC = () => {
   const careerPaths = [
@@ -156,6 +156,61 @@ const Estudiantes: React.FC = () => {
     const id = setInterval(() => setPhraseIndex((p) => (p + 1) % rotatingPhrases.length), 3000);
     return () => clearInterval(id);
   }, []);
+
+  // NUEVO: Profesionales con videos (formato Orientación Vocacional)
+  const professionals = [
+    {
+      id: '1',
+      name: 'María González',
+      role: 'Desarrolladora Senior',
+      company: 'Google',
+      field: 'Desarrollo de Software',
+      image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80',
+      videoSrc: '/videos/maria_gonzalez.mp4', // Agrega tu video aquí
+      bio: 'María es desarrolladora senior en Google, creando productos que impactan a millones de usuarios. Empezó programando juegos simples a los 14 años.',
+      gradient: 'linear-gradient(135deg, #2563EB 0%, #7C3AED 100%)',
+      accentColor: '#2563EB'
+    },
+    {
+      id: '2',
+      name: 'Carlos Fernández',
+      role: 'Data Scientist',
+      company: 'Microsoft',
+      field: 'Ciencia de Datos',
+      image: 'https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=800&q=80',
+      videoSrc: '/videos/carlos_fernandez.mp4',
+      bio: 'Carlos lidera proyectos de análisis de datos en Microsoft. Le encantaban las matemáticas y descubrió cómo combinarlas con tecnología.',
+      gradient: 'linear-gradient(135deg, #7C3AED 0%, #F472B6 100%)',
+      accentColor: '#7C3AED'
+    },
+    {
+      id: '3',
+      name: 'Juan Vargas',
+      role: 'Especialista en Ciberseguridad',
+      company: 'Telefónica',
+      field: 'Ciberseguridad',
+      image: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=800&q=80',
+      videoSrc: '/videos/juan_vargas.mp4',
+      bio: 'Juan protege infraestructuras críticas en Telefónica. Le gustaba descubrir cómo funcionaban las cosas y encontrar vulnerabilidades.',
+      gradient: 'linear-gradient(135deg, #2DD4BF 0%, #38BDF8 100%)',
+      accentColor: '#2DD4BF'
+    },
+    {
+      id: '4',
+      name: 'Julio Rodríguez',
+      role: 'AI Engineer',
+      company: 'Tesla',
+      field: 'Inteligencia Artificial',
+      image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80',
+      videoSrc: '/videos/julio_rodriguez.mp4',
+      bio: 'Julio desarrolla inteligencia artificial para autos autónomos en Tesla. Le fascinaban los robots desde pequeño.',
+      gradient: 'linear-gradient(135deg, #38BDF8 0%, #2DD4BF 100%)',
+      accentColor: '#38BDF8'
+    }
+  ];
+
+  // NUEVO: Estado para modal de video
+  const [selectedProfessional, setSelectedProfessional] = useState<typeof professionals[0] | null>(null);
 
   return (
     <div className="min-h-screen py-16 px-4 bg-gray-50">
@@ -467,6 +522,152 @@ const Estudiantes: React.FC = () => {
             ))}
           </div>
         </div>
+
+        {/* NUEVA SECCIÓN: Conoce a los Profesionales (formato Orientación Vocacional) */}
+        <div className="mb-16">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full mb-6 shadow-lg">
+              <PlayCircle className="w-8 h-8 text-white" />
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+              Conoce a los Profesionales
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Escucha sus historias, aprende de sus experiencias y descubre cómo llegaron donde están
+            </p>
+          </div>
+
+          {/* Grid de Profesionales */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {professionals.map((prof) => (
+              <div
+                key={prof.id}
+                onClick={() => setSelectedProfessional(prof)}
+                className="group cursor-pointer"
+              >
+                <div className="bg-white rounded-2xl shadow-lg overflow-hidden transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+                  {/* Imagen con overlay de play */}
+                  <div className="relative h-64 overflow-hidden">
+                    <img
+                      src={prof.image}
+                      alt={prof.name}
+                      className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+                    />
+                    {/* Gradient overlay */}
+                    <div 
+                      className="absolute inset-0 opacity-60"
+                      style={{ background: prof.gradient }}
+                    />
+                    {/* Play button */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center transform transition-all duration-300 group-hover:scale-110 shadow-2xl">
+                        <PlayCircle className="w-8 h-8" style={{ color: prof.accentColor }} />
+                      </div>
+                    </div>
+                    {/* Badge de campo */}
+                    <div className="absolute top-4 left-4">
+                      <span 
+                        className="inline-block px-3 py-1 rounded-full text-xs font-semibold text-white backdrop-blur-sm"
+                        style={{ backgroundColor: `${prof.accentColor}40` }}
+                      >
+                        {prof.field}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Info del profesional */}
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-1">{prof.name}</h3>
+                    <p className="text-sm font-medium mb-2" style={{ color: prof.accentColor }}>
+                      {prof.role}
+                    </p>
+                    <p className="text-sm text-gray-600 mb-3">{prof.company}</p>
+                    <p className="text-sm text-gray-700 leading-relaxed line-clamp-3">
+                      {prof.bio}
+                    </p>
+                    
+                    {/* CTA */}
+                    <div className="mt-4 flex items-center gap-2 text-sm font-semibold" style={{ color: prof.accentColor }}>
+                      <span>Ver su historia</span>
+                      <ArrowRight className="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* MODAL DE VIDEO (formato Orientación Vocacional) */}
+        {selectedProfessional && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+            <div className="relative w-full max-w-5xl mx-auto">
+              {/* Botón de cerrar */}
+              <button
+                onClick={() => setSelectedProfessional(null)}
+                className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors"
+              >
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+
+              {/* Contenedor del video */}
+              <div className="bg-white rounded-2xl overflow-hidden shadow-2xl">
+                <div className="grid md:grid-cols-5 gap-0">
+                  {/* Video */}
+                  <div className="md:col-span-3 bg-black">
+                    <video
+                      controls
+                      autoPlay
+                      className="w-full h-full"
+                      src={selectedProfessional.videoSrc}
+                    >
+                      Tu navegador no soporta el elemento de video.
+                    </video>
+                  </div>
+
+                  {/* Información del profesional */}
+                  <div className="md:col-span-2 p-8" style={{ background: selectedProfessional.gradient }}>
+                    <div className="h-full flex flex-col text-white">
+                      {/* Header */}
+                      <div className="mb-6">
+                        <div className="flex items-center gap-4 mb-4">
+                          <img
+                            src={selectedProfessional.image}
+                            alt={selectedProfessional.name}
+                            className="w-20 h-20 rounded-full object-cover border-4 border-white/30"
+                          />
+                          <div>
+                            <h3 className="text-2xl font-bold">{selectedProfessional.name}</h3>
+                            <p className="text-white/90 text-sm">{selectedProfessional.role}</p>
+                          </div>
+                        </div>
+                        <div className="inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-semibold backdrop-blur-sm">
+                          {selectedProfessional.company}
+                        </div>
+                      </div>
+
+                      {/* Bio */}
+                      <div className="flex-grow mb-6">
+                        <h4 className="text-lg font-semibold mb-3">Su Historia</h4>
+                        <p className="text-white/90 leading-relaxed">
+                          {selectedProfessional.bio}
+                        </p>
+                      </div>
+
+                      {/* Campo */}
+                      <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                        <p className="text-xs uppercase tracking-wide mb-1 text-white/70">Especialización</p>
+                        <p className="font-semibold">{selectedProfessional.field}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* New Banner: Animated gradient, icons, rotating text */}
         <div className="mb-16">

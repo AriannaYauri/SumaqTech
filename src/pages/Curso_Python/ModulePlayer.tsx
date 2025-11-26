@@ -211,7 +211,10 @@ const ModulePlayer: React.FC = () => {
                         ${completed ? 'border-l-4' : ''}
                       `}
                       style={{
-                        borderLeftColor: completed ? colorPalette.primary : 'transparent',
+                        borderTop: '2px solid gray',
+                        borderRight: '2px solid gray',
+                        borderBottom: '2px solid gray',
+                        borderLeft: '2px solid #00BFA5',
                         backgroundColor: isSelected ? colorPalette.primaryLighter : 'white',
                         border: isSelected ? `1px solid ${colorPalette.primary}30` : '1px solid #f3f4f6'
                       }}
