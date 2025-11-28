@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { BookOpen, Users, Globe, Shield, CheckCircle, Send, Compass, Target, Network, ChevronDown, ChevronLeft, ChevronRight, Mail, X } from 'lucide-react';
+import ariannaImg from '../components/historias_inicio/arianna.jpg';
+import fernandoImg from '../components/historias_inicio/fernando.jpg';
+import maferImg from '../components/historias_inicio/mafer.jpg';
+import alissonImg from '../components/historias_inicio/alisson.jpg';
 
 interface FormData {
   institucionType: string;
@@ -297,51 +301,35 @@ const Mentorias: React.FC = () => {
   const mentores = [
     {
       id: 1,
-      name: 'Carlos Mendoza',
-      area: 'Ingeniería de Software',
-      description: 'Especialista en desarrollo de aplicaciones web y móviles con más de 10 años de experiencia.',
-      image: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400',
+      name: 'Arianna Yauri',
+      area: 'Telecomunicaciones / Programación / Ciencia de Datos',
+      description: 'Estudiante de Ingeniería de Telecomunicaciones apasionada por aplicar la tecnología al impacto social e inclusión. Lidera LEAD UNI para cerrar la brecha de género en tech y busca oportunidades en equipos con propósito para crecer como desarrolladora y agente de cambio.',
+      image: ariannaImg,
       available: true,
     },
     {
       id: 2,
-      name: 'Ana Rodríguez',
-      area: 'Ciencia de Datos',
-      description: 'Experta en machine learning y análisis de datos para soluciones empresariales inteligentes.',
-      image: 'https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=400',
+      name: 'Fernando Flores',
+      area: 'Telecomunicaciones /Desarrollo de Software / Algoritmos',
+      description: 'Desarrollador de software especializado en algoritmos y optimización de tareas. Experiencia en FrontEnd y desarrollo de videojuegos (Unity, GameMaker). Formación multidisciplinaria que aporta visión de investigación y capacidades para transformación digital.',
+      image: fernandoImg,
       available: true,
     },
     {
       id: 3,
-      name: 'Luis Fernández',
-      area: 'Mecatrónica',
-      description: 'Ingeniero especializado en sistemas automatizados y robótica industrial.',
-      image: 'https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=400',
+      name: 'Maria Evangelista',
+      area: 'Telecomunicaciones / Programación',
+      description: 'Estudiante de Ingeniería de Telecomunicaciones con interés en networking, programación y proyectos de impacto social. Miembro del Centro Cultural de Telecomunicaciones (CCT), impulsa iniciativas que fortalecen la comunidad y el acceso a oportunidades tecnológicas.',
+      image: maferImg,
       available: false,
     },
     {
       id: 4,
-      name: 'María González',
-      area: 'Ingeniería Ambiental',
-      description: 'Profesional enfocada en sostenibilidad y tecnologías verdes para el futuro.',
-      image: 'https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg?auto=compress&cs=tinysrgb&w=400',
+      name: 'Alisson Cabrera',
+      area: 'Telecomunicaciones / Comunicación / Marketing',
+      description: 'Estudiante de Ingeniería de Telecomunicaciones en la UNI, apasionada por la tecnología, el aprendizaje continuo y el trabajo en equipo. Participa en CCT y en el área de marketing de LEAD UNI; enfocada en generar impacto positivo y contribuir al desarrollo tecnológico.',
+      image: alissonImg,
       available: true,
-    },
-    {
-      id: 5,
-      name: 'Roberto Silva',
-      area: 'Física',
-      description: 'Investigador en física aplicada y tecnologías cuánticas con amplia trayectoria académica.',
-      image: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=400',
-      available: true,
-    },
-    {
-      id: 6,
-      name: 'Sofía Martínez',
-      area: 'Matemáticas',
-      description: 'Matemática aplicada especializada en modelado y optimización de sistemas complejos.',
-      image: 'https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=400',
-      available: false,
     },
   ];
 
@@ -1380,6 +1368,7 @@ const Mentorias: React.FC = () => {
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Ciudad</label>
                   <input
+
                     type="text"
                     name="ciudad"
                     value={formData.ciudad}

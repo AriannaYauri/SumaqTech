@@ -1,4 +1,8 @@
 import React from 'react';
+import ariannaImg from './historias_inicio/arianna.jpg';
+import fernandoImg from './historias_inicio/fernando.jpg';
+import maferImg from './historias_inicio/mafer.jpg';
+import alissonImg from './historias_inicio/alisson.jpg';
 
 interface Mentor {
   id: number;
@@ -12,51 +16,35 @@ interface Mentor {
 const mentores: Mentor[] = [
   {
     id: 1,
-    name: 'Carlos Mendoza',
-    area: 'Ingeniería de Software',
-    description: 'Especialista en desarrollo de aplicaciones web y móviles con más de 10 años de experiencia.',
-    image: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400',
+    name: 'Arianna Yauri',
+    area: 'Experiencia de Usuario',
+    description: 'Diseñadora UX con foco en accesibilidad y experiencia educativa.',
+    image: ariannaImg,
     available: true,
   },
   {
     id: 2,
-    name: 'Ana Rodríguez',
-    area: 'Ciencia de Datos',
-    description: 'Experta en machine learning y análisis de datos para soluciones empresariales inteligentes.',
-    image: 'https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=400',
+    name: 'Fernando Flores',
+    area: 'Desarrollo Web',
+    description: 'Full‑stack developer especializado en React y arquitecturas escalables.',
+    image: fernandoImg,
     available: true,
   },
   {
     id: 3,
-    name: 'Luis Fernández',
-    area: 'Mecatrónica',
-    description: 'Ingeniero especializado en sistemas automatizados y robótica industrial.',
-    image: 'https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=400',
+    name: 'Maria Evangelista',
+    area: 'Ciencia de Datos',
+    description: 'Data scientist enfocada en análisis y visualización para proyectos educativos.',
+    image: maferImg,
     available: false,
   },
   {
     id: 4,
-    name: 'María González',
-    area: 'Ingeniería Ambiental',
-    description: 'Profesional enfocada en sostenibilidad y tecnologías verdes para el futuro.',
-    image: 'https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg?auto=compress&cs=tinysrgb&w=400',
+    name: 'Alisson Cabrera',
+    area: 'Mentoría Técnica',
+    description: 'Mentora en buenas prácticas de código y revisión de proyectos.',
+    image: alissonImg,
     available: true,
-  },
-  {
-    id: 5,
-    name: 'Roberto Silva',
-    area: 'Física',
-    description: 'Investigador en física aplicada y tecnologías cuánticas con amplia trayectoria académica.',
-    image: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=400',
-    available: true,
-  },
-  {
-    id: 6,
-    name: 'Sofía Martínez',
-    area: 'Matemáticas',
-    description: 'Matemática aplicada especializada en modelado y optimización de sistemas complejos.',
-    image: 'https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=400',
-    available: false,
   },
 ];
 

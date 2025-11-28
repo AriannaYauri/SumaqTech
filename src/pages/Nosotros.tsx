@@ -1,6 +1,10 @@
 import React, { useEffect, useState} from 'react';
 import { Heart, Target, Users, Award, Lightbulb, Globe, Code, X, Send, Check} from 'lucide-react';
 import { Link } from 'react-router-dom';
+import ariannaImg from '../components/historias_inicio/arianna.jpg';
+import fernandoImg from '../components/historias_inicio/fernando.jpg';
+import maferImg from '../components/historias_inicio/mafer.jpg';
+import alissonImg from '../components/historias_inicio/alisson.jpg';
 
 // ====================================================================
 // Lógica del Intersection Observer (Función reutilizable)
@@ -370,30 +374,30 @@ const Nosotros = () => {
   const team = [
     {
       name: 'Arianna Yauri',
-      role: 'Fundadora & CEO',
-      image: 'https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg?auto=compress&cs=tinysrgb&w=300',
-      description: 'Ingeniera de Software con pasión por la educación tecnológica',
+      role: 'Fundadora',
+      image: ariannaImg,
+      description: 'Estudiante de Ingeniería de Telecomunicaciones apasionada por la tecnología con impacto social e inclusión. Lidera LEAD UNI para cerrar la brecha de género en tech y busca oportunidades en equipos con propósito para crecer como desarrolladora y agente de cambio.',
       quote: 'Creemos que la curiosidad es el punto de partida para el futuro STEM, y nuestro trabajo es iluminar ese camino.' 
     },
     {
       name: 'Fernando Flores',
-      role: 'CTO',
-      image: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=300',
-      description: 'Experto en desarrollo de plataformas educativas y arquitectura de software',
+      role: 'Fundador',
+      image: fernandoImg,
+      description: 'Desarrollador de software orientado a algoritmos y optimización de tareas. Experiencia en FrontEnd y desarrollo de videojuegos (Unity, GameMaker). Formación multidisciplinaria que aporta visión investigadora y capacidad para liderar procesos de transformación digital.',
       quote: 'Diseñamos la plataforma para ser intuitiva, robusta y, sobre todo, inspiradora.'
     },
     {
       name: 'María Evangelista',
-      role: 'Head of Content',
-      image: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=300',
-      description: 'Especialista en diseño curricular y metodologías de aprendizaje',
+      role: 'Fundadora',
+      image: maferImg,
+      description: 'Estudiante de Ingeniería de Telecomunicaciones interesada en networking, programación y proyectos con impacto social. Activa en el Centro Cultural de Telecomunicaciones (CCT), impulsa iniciativas que fortalecen la comunidad y el acceso a oportunidades tecnológicas.',
       quote: 'Cada módulo se enfoca en el "hacer". No solo enseñamos, construimos el futuro con cada proyecto.'
     },
     {
       name: 'Alisson Cabrera',
-      role: 'Community Manager',
-      image: 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=300',
-      description: 'Constructor de comunidades tech y mentor de estudiantes',
+      role: 'Fundadora',
+      image: alissonImg,
+      description: 'Estudiante de Ingeniería de Telecomunicaciones, entusiasta de la tecnología, el aprendizaje continuo y el trabajo en equipo. Participa en CCT y en el área de marketing de LEAD UNI; orientada a generar impacto positivo y conectar comunidades tech.',
       quote: 'La comunidad es nuestro motor. Aquí, nadie se queda atrás, todos avanzamos juntos.'
     }
   ];
