@@ -8,9 +8,10 @@ import Mentorias from './pages/Mentorias';
 import Foro from './pages/Foro';
 import Nosotros from './pages/Nosotros';
 import Auth from './pages/Auth';
+import ScrollToTop from './components/ScrollToTop';
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
-import AdminRoute from './components/AdminRoute'; // ← AGREGAR ESTA LÍNEA
+import AdminRoute from './components/AdminRoute';
 import Curso_Python from './pages/Curso_Python/Curso_Python';
 import ModulePlayer from './pages/Curso_Python/ModulePlayer';
 import ModuleSections from './pages/Curso_Python/ModuleSections';
@@ -18,13 +19,18 @@ import Estudiantes from './pages/Estudiantes';
 import TestMarkdown from './pages/TestMarkdown';
 import CourseAdmin from './pages/admin/CourseAdmin'; // ← AGREGAR ESTA LÍNEA
 import MigrateCourse from './pages/MigrateCourse';  // ← AGREGAR ESTA LÍNEA
+import FloatingChatIA from './components/FloatingChatIA';
 
 function App() {
   return (
     <AuthProvider>
       <Router>
+      <ScrollToTop />
+
+      <FloatingChatIA />
+
         <Routes>
-          {/* Auth route without layout */}
+        {/* Auth route without layout, actualización para diferenciación login y signup */}
           <Route path="/auth/:type" element={<Auth />} />
 
           {/* Main routes with standard layout */}
