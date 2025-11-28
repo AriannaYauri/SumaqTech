@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
@@ -8,7 +7,7 @@ interface MarkdownRendererProps {
   content: string;
 }
 
-const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
+const MarkdownRenderer = ({ content }: MarkdownRendererProps) => {
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     // TODO: Agregar notificación de "¡Copiado!" con toast
@@ -60,18 +59,20 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
           // ==================== PÁRRAFOS (CORREGIDO) ====================
           p: ({ node, children, ...props }) => {
             // Detectar si contiene elementos de bloque que no deberían estar en <p>
-            const hasBlockContent = React.Children.toArray(children).some((child) => {
-              if (React.isValidElement(child)) {
-                const type = child.type as any;
-                return (
-                  type === 'pre' ||
-                  type === 'div' ||
-                  typeof type === 'function' ||
-                  child.props?.className?.includes('language-')
-                );
-              }
-              return false;
-            });
+            const hasBlockContent = Array.isArray(children) 
+              ? children.some((child) => {
+                  if (typeof child === 'object' && child !== null && 'type' in child) {
+                    const type = (child as any).type;
+                    return (
+                      type === 'pre' ||
+                      type === 'div' ||
+                      typeof type === 'function' ||
+                      (child as any).props?.className?.includes('language-')
+                    );
+                  }
+                  return false;
+                })
+              : false;
 
             // Si tiene contenido de bloque, no usar <p>
             if (hasBlockContent) {
