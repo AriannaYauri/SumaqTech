@@ -18,11 +18,16 @@
     "axios": "^1.13.2",
     "canvas-confetti": "^1.9.4",
     "firebase": "^12.6.0",
+<<<<<<< HEAD
+=======
+    "highlight.js": "^11.11.1",
+>>>>>>> f8319666ea3844b91cb5b9e1729a27b19f10f2be
     "katex": "^0.16.25",
     "lowlight": "^3.3.0",
     "lucide-react": "^0.344.0",
     "pyodide": "^0.29.0",
     "react": "^18.3.1",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.3.1",
     "react-katex": "^3.1.0",
     "react-markdown": "^10.1.0",

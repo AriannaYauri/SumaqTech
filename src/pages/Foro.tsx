@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+﻿import { useState } from 'react';
 import { MessageSquare, ThumbsUp, MessageCircle, User, Calendar, Tag, Search, Plus, Trash2, Send, Edit2, Heart, X } from 'lucide-react';
 import RecommendedMentors from '../components/RecommendedMentors';
 
@@ -12,7 +12,7 @@ interface Discussion {
   likes: number;
   time: string;
   excerpt: string;
-  tags: string[]; // <-- Acepta los tags
+  tags: string[];
   isAnswered: boolean;
   colorClass: string; 
 }
@@ -31,50 +31,30 @@ interface Comment {
 // --- CONFIGURACIÓN DE COLORES Y CATEGORÍAS ---
 
 const categoryColors: { [key: string]: { name: string, count: number, color: string, bgColor: string, icon: string } } = {
-    // Colores base neutros
-    'all': { name: 'Todas las Discusiones', count: 142, color: '#6B7280', bgColor: '#F3F4F6', icon: '✨' }, // Gris
-    
-    // Categorías con paleta suave
-    // 🌐 Comunidad (Rosa Claro)
+    'all': { name: 'Todas las Discusiones', count: 142, color: '#6B7280', bgColor: '#F3F4F6', icon: '✨' },
     'comunidad': { name: 'Comunidad', count: 45, color: '#FBCFE8', bgColor: '#FDF2F8', icon: '🌐' }, 
-    // 💻 Programación Fácil (Azul Suave)
     'programacion-facil': { name: 'Programación Fácil', count: 23, color: '#BFDBFE', bgColor: '#EFF6FF', icon: '💻' }, 
-    // 📊 Ciencia de Datos & IA (Menta Suave)
     'ciencia-datos-ia': { name: 'Ciencia de Datos & IA', count: 18, color: '#A7F3D0', bgColor: '#F0FFFF', icon: '📊' }, 
-    // 🎨 Creatividad Digital (Amarillo Pastel)
     'creatividad-digital': { name: 'Creatividad Digital', count: 15, color: '#FDE68A', bgColor: '#FFFBEB', icon: '🎨' }, 
-    // 🛡️ Seguridad en Internet (Celeste Claro)
     'seguridad-internet': { name: 'Seguridad en Internet', count: 32, color: '#93C5FD', bgColor: '#F3F4FF', icon: '🛡️' }, 
-    // 🚀 Proyectos y Retos (Melocotón Suave)
     'proyectos-retos': { name: 'Proyectos y Retos', count: 12, color: '#FECACA', bgColor: '#FEF2F2', icon: '🚀' }, 
-    // 💼 Tu Futuro en STEM (Lavanda)
     'futuro-stem': { name: 'Tu Futuro en STEM', count: 9, color: '#DDD6FE', bgColor: '#F5F3FF', icon: '💼' }, 
-    // 📚 Recursos Útiles (Beige Suave)
     'recursos-utiles': { name: 'Recursos Útiles', count: 10, color: '#FDEBD0', bgColor: '#FFF7ED', icon: '📚' },
 };
 
 const getCategoryConfig = (categoryKey: string) => categoryColors[categoryKey] || categoryColors['all'];
 
-
-// --- COMPONENTE SVG DEL ROBOTITO (Diseño solicitado por el usuario) ---
-const RobotIdeaSVG: React.FC<{ size?: string, ideaColor?: string, bodyColor?: string }> = ({ size = 'w-10 h-10', ideaColor = '#FDE047', bodyColor = '#E0F2F1' }) => (
+// --- COMPONENTE SVG DEL ROBOTITO ---
+const RobotIdeaSVG = ({ size = 'w-10 h-10', ideaColor = '#FDE047', bodyColor = '#E0F2F1' }: { size?: string, ideaColor?: string, bodyColor?: string }) => (
     <svg 
         className={size} 
         viewBox="0 0 512 512" 
         xmlns="http://www.w3.org/2000/svg" 
         preserveAspectRatio="xMidYMid meet"
     >
-        {/* Colores usados para replicar el estilo de la imagen: Teal Oscuro para bordes, Light Teal para cuerpo, Azul/Gris para base */}
-        {/* Base / Pies */}
         <rect x="180" y="440" width="152" height="40" rx="10" fill="#9CA3AF" stroke="#6B7280" strokeWidth="8" />
-
-        {/* Cuerpo Principal (Rectángulo redondeado - Teal Claro) */}
         <rect x="110" y="270" width="292" height="170" rx="20" fill={bodyColor} stroke="#00A896" strokeWidth="10" />
-
-        {/* Cabeza (Rectángulo más pequeño redondeado - Teal Claro) */}
         <rect x="150" y="160" width="212" height="110" rx="15" fill={bodyColor} stroke="#00A896" strokeWidth="10" />
-
-        {/* Pantalla / Ojo (Darker Teal) */}
         <rect 
             x="200" y="185" width="112" height="60" 
             rx="8" 
@@ -82,8 +62,6 @@ const RobotIdeaSVG: React.FC<{ size?: string, ideaColor?: string, bodyColor?: st
             stroke="#00A896"
             strokeWidth="4" 
         />
-
-        {/* Antena (Derecha) */}
         <line 
             x1="300" y1="160" x2="300" y2="100" 
             stroke="#00A896" 
@@ -94,8 +72,6 @@ const RobotIdeaSVG: React.FC<{ size?: string, ideaColor?: string, bodyColor?: st
             cx="300" cy="96" r="10" 
             fill="#00A896" 
         />
-
-        {/* Antena (Izquierda) */}
         <line 
             x1="212" y1="160" x2="212" y2="100" 
             stroke="#00A896" 
@@ -106,8 +82,6 @@ const RobotIdeaSVG: React.FC<{ size?: string, ideaColor?: string, bodyColor?: st
             cx="212" cy="96" r="10" 
             fill="#00A896" 
         />
-
-        {/* Brazos (Izquierda) */}
         <path 
             d="M110 320 L70 340 L70 410" 
             fill="none" 
@@ -116,7 +90,6 @@ const RobotIdeaSVG: React.FC<{ size?: string, ideaColor?: string, bodyColor?: st
             strokeLinecap="round" 
             strokeLinejoin="round"
         />
-        {/* Brazos (Derecha) */}
         <path 
             d="M402 320 L442 340 L442 410" 
             fill="none" 
@@ -125,48 +98,31 @@ const RobotIdeaSVG: React.FC<{ size?: string, ideaColor?: string, bodyColor?: st
             strokeLinecap="round" 
             strokeLinejoin="round"
         />
-
-        {/* Bombilla de Idea (en el centro de la pantalla, color amarillo) */}
         <g transform="translate(256, 215) scale(0.1)" style={{ transition: 'transform 0.3s ease-in-out' }}>
             <path 
-                fill={ideaColor} /* Amarillo Brillante */
+                fill={ideaColor}
                 d="M448 352c0-85.73-77-128-77-128C320 100 280 64 256 64s-64 36-95 160c0 0-77 42.27-77 128 0 70.6 57.4 128 128 128s128-57.4 128-128zM256 448c-44.1 0-80-35.9-80-80 0-38.3 27-75.3 80-160 53 84.7 80 121.7 80 160 0 44.1-35.9 80-80 80z"
             />
         </g>
     </svg>
 );
 
-
 // --- FUNCIONES DE UTILIDAD ---
 
-/**
- * Función para obtener las iniciales de un nombre.
- * @param name Nombre completo del autor.
- * @returns Iniciales en mayúsculas (ej: "Juan Pérez" -> "JP").
- */
 const getInitials = (name: string): string => {
-  if (name.includes('Tú')) return 'T'; // Caso especial para el usuario actual
+  if (name.includes('Tú')) return 'T';
   
-  // Limpia insignias y extrae la parte del nombre
   const cleanName = name.split(/ \s*[\*✨🚀💡🎓]/)[0].trim();
-  
   const parts = cleanName.split(' ').filter(part => part.length > 0);
-  if (parts.length === 0) return 'U'; // Default si no hay nombre
-  
+  if (parts.length === 0) return 'U';
   if (parts.length === 1) return parts[0][0].toUpperCase();
-  
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 };
 
-/**
- * Componente de Avatar que muestra las iniciales con color dinámico basado en la categoría.
- */
-const Avatar: React.FC<{ author: string, category: string, size?: string }> = ({ author, category, size = 'w-10 h-10' }) => {
+const Avatar = ({ author, category, size = 'w-10 h-10' }: { author: string, category: string, size?: string }) => {
     const initials = getInitials(author);
     const config = getCategoryConfig(category);
-    
-    // Para colores de fondo muy claros (pasteles), usamos un texto oscuro para el contraste.
-    const textColor = '#1F2937'; // Gris oscuro
+    const textColor = '#1F2937';
     const bgColor = config.color;
 
     return (
@@ -180,46 +136,31 @@ const Avatar: React.FC<{ author: string, category: string, size?: string }> = ({
 };
 
 // --- COMPONENTE PRINCIPAL FORO ---
-const Foro: React.FC = () => {
-  // Estados existentes
+const Foro = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showForm, setShowForm] = useState(false);
   const [formCategory, setFormCategory] = useState('');
   const [formTitle, setFormTitle] = useState('');
   const [formContent, setFormContent] = useState('');
-  
-  // NUEVO ESTADO PARA HASHTAGS (ETIQUETAS)
   const [formTags, setFormTags] = useState<string[]>([]); 
   const [tagInput, setTagInput] = useState('');
-  
-  // --- Estados para el Popup central (diseño original) ---
   const [showPopup, setShowPopup] = useState(false);
   const [popupMsg, setPopupMsg] = useState('');
   const [isPopupClosing, setIsPopupClosing] = useState(false); 
-
-  // --- Estados para el Toast simple ---
   const [showSimpleToast, setShowSimpleToast] = useState(false);
   const [simpleToastMsg, setSimpleToastMsg] = useState('');
   const [simpleToastType, setSimpleToastType] = useState<'success' | 'error' | 'info'>('success');
-
-  // Estados para edición de discusión
   const [editId, setEditId] = useState<number | null>(null);
   const [editTitle, setEditTitle] = useState('');
   const [editContent, setEditContent] = useState('');
-
-  // Estados para el Modal de Confirmación de Eliminación de discusión
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [discussionToDeleteId, setDiscussionToDeleteId] = useState<number | null>(null);
-  
-  // ESTADOS para la eliminación de comentarios
   const [showCommentDeleteModal, setShowCommentDeleteModal] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState<{ discussionId: number, commentId: number } | null>(null);
+  const [showMentorsModal, setShowMentorsModal] = useState(false);
+  const [mentorsModalTags, setMentorsModalTags] = useState<string[]>([]);
 
-  // --- ESTADOS para comentarios y su visualización ---
-  
-  // 1. Definición de los comentarios iniciales
   const initialComments: Record<number, Comment[]> = {
-    // Comentarios de ejemplo para las discusiones iniciales
     1: [
       { id: 101, discussionId: 1, author: "Juan Pérez", content: "¡Genial! Yo te recomiendo el curso de FreeCodeCamp, es muy completo.", time: 'hace 1 hora', commentLikes: 5, commentHearts: 2 },
       { id: 102, discussionId: 1, author: "Ana Lima", content: "El canal de 'Midudev' en YouTube tiene tutoriales muy prácticos y actualizados.", time: 'hace 30 minutos', commentLikes: 1, commentHearts: 0 },
@@ -239,7 +180,6 @@ const Foro: React.FC = () => {
     }
   });
   
-  // ESTADOS para reacciones de comentarios (para el usuario actual)
   const [commentLikedIds, setCommentLikedIds] = useState<number[]>(() => {
     try {
       const raw = localStorage.getItem('sumaq_comment_likes');
@@ -248,6 +188,7 @@ const Foro: React.FC = () => {
       return [];
     }
   });
+
   const [commentHeartedIds, setCommentHeartedIds] = useState<number[]>(() => {
     try {
       const raw = localStorage.getItem('sumaq_comment_hearts');
@@ -256,21 +197,15 @@ const Foro: React.FC = () => {
       return [];
     }
   });
-  // Estado para modal de mentores (abre al hacer click en 'Ver mentores')
-  const [showMentorsModal, setShowMentorsModal] = useState(false);
-  const [mentorsModalTags, setMentorsModalTags] = useState<string[]>([]);
 
-  // Función para manejar la entrada de tags
   const handleTagInput = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // Si la tecla es Enter o Coma, o Tab
     if (e.key === 'Enter' || e.key === ',' || e.key === 'Tab') {
         e.preventDefault();
         const input = tagInput.trim();
-        // Permite la entrada de múltiples palabras separadas por espacios o comas
         const newTags = input.split(/[\s,]+/) 
                              .map(tag => tag.trim().toLowerCase()) 
                              .filter(tag => tag.length > 0 && !formTags.includes(tag))
-                             .slice(0, 5 - formTags.length); // Limita a 5 tags en total
+                             .slice(0, 5 - formTags.length);
 
         if (newTags.length > 0) {
             setFormTags(prev => [...prev, ...newTags]);
@@ -279,18 +214,15 @@ const Foro: React.FC = () => {
     }
   };
 
-  // Función para eliminar un tag
   const removeTag = (tagToRemove: string) => {
     setFormTags(prev => prev.filter(tag => tag !== tagToRemove));
   };
 
-  // Función para mostrar el Popup central (diseño original)
   const showAnimatedPopup = (message: string) => {
     setPopupMsg(message);
     setIsPopupClosing(false); 
     setShowPopup(true);
 
-    // DURACIÓN AJUSTADA: 2.3 segundos
     const displayDuration = 2300; 
     const fadeOutDuration = 600;
 
@@ -302,7 +234,6 @@ const Foro: React.FC = () => {
     }, displayDuration); 
   };
 
-  // Función para mostrar el Toast simple (para comentarios, editar, eliminar)
   const triggerSimpleToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
     setSimpleToastMsg(message);
     setSimpleToastType(type);
@@ -313,7 +244,6 @@ const Foro: React.FC = () => {
     }, 3000); 
   };
 
-  // Handler para la eliminación final de la discusión
   const handleDelete = () => {
     if (discussionToDeleteId !== null) {
       setCommentsByDiscussion(prev => {
@@ -329,44 +259,36 @@ const Foro: React.FC = () => {
     }
   };
   
-  // Handler para la eliminación final del comentario
   const handleConfirmDeleteComment = () => {
     if (!commentToDelete) return;
 
     const { discussionId, commentId } = commentToDelete;
 
-    // 1. Eliminar el comentario
     setCommentsByDiscussion(prev => ({
         ...prev,
         [discussionId]: prev[discussionId].filter(c => c.id !== commentId)
     }));
 
-    // 2. Actualizar el contador de respuestas de la discusión principal
     setDiscussions(prev => prev.map(d => 
         d.id === discussionId ? { ...d, replies: (commentsByDiscussion[discussionId]?.length || 0) - 1 } : d
     ));
 
-    // 3. Cerrar modal y mostrar toast
     setShowCommentDeleteModal(false);
     setCommentToDelete(null);
     triggerSimpleToast('Comentario eliminado con éxito. 🗑️', 'info');
   };
 
-  // Handler para el envío del formulario de nueva discusión
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validación de la categoría
     if (formCategory === '') {
         triggerSimpleToast('Por favor, selecciona una categoría válida antes de publicar.', 'error');
         return;
     }
     
     const categoryConfig = getCategoryConfig(formCategory);
-
     const yaTienePublicacion = discussions.some(d => d.author === 'Tú');
     
-    // Obtener y limpiar los tags finales (por si el usuario dejó algo en el input)
     const finalTags = [...formTags];
     const remainingInput = tagInput.trim();
     if (remainingInput.length > 0) {
@@ -379,46 +301,41 @@ const Foro: React.FC = () => {
     const nuevaDiscusion: Discussion = {
       id: Date.now(),
       title: formTitle,
-      author: 'Tú', // El usuario actual se identifica como "Tú"
+      author: 'Tú',
       category: formCategory,
       replies: 0,
       likes: 0,
       time: 'hace unos segundos',
       excerpt: formContent,
-      tags: finalTags.slice(0, 5), // Limita a 5 tags finales
+      tags: finalTags.slice(0, 5),
       isAnswered: false,
-      colorClass: categoryConfig.color, // Usar el color de la categoría
+      colorClass: categoryConfig.color,
     };
     
     setDiscussions(prev => [nuevaDiscusion, ...prev]);
-    setCommentsByDiscussion(prev => ({...prev, [nuevaDiscusion.id]: []})); // Inicializar comentarios
+    setCommentsByDiscussion(prev => ({...prev, [nuevaDiscusion.id]: []}));
 
-    // Limpieza y cierre del formulario
     setShowForm(false);
     setFormTitle('');
     setFormContent('');
     setFormCategory(''); 
-    setFormTags([]); // Limpiar tags
-    setTagInput(''); // Limpiar input de tags
+    setFormTags([]);
+    setTagInput('');
 
-    // Usar el POPUP animado para la publicación (diseño original)
-  showAnimatedPopup(
-  !yaTienePublicacion
-    ? '¡Felicidades! Bienvenido/a a la comunidad SumaqTech. 🎉'
-    : ''
-);
-
+    showAnimatedPopup(
+      !yaTienePublicacion
+        ? '¡Felicidades! Bienvenido/a a la comunidad SumaqTech. 🎉'
+        : ''
+    );
   };
   
-  // Handler para el envío del formulario de edición de discusión
   const handleEditSubmit = (e: React.FormEvent, discussionId: number) => {
       e.preventDefault();
       setDiscussions(prev => prev.map(d => d.id === discussionId ? { ...d, title: editTitle, excerpt: editContent } : d));
       setEditId(null);
-      triggerSimpleToast('Publicación actualizada con éxito. ✨', 'success'); // Usar Toast simple para edición
+      triggerSimpleToast('Publicación actualizada con éxito. ✨', 'success');
   };
 
-  // --- LÓGICA: Handler para alternar la visibilidad de los comentarios ---
   const toggleComments = (discussionId: number) => {
     setOpenComments(prev => 
       prev.includes(discussionId)
@@ -427,14 +344,13 @@ const Foro: React.FC = () => {
     );
   };
 
-  // 2. Datos iniciales de discusiones, calculando 'replies' basados en 'initialComments'
   const initialDiscussions: Discussion[] = [
     {
       id: 1,
       title: '¿Cómo empezar mi primer proyecto de automatización simple con Python?',
       author: 'Carlos Mendoza ✨ Primer post',
-      category: 'programacion-facil', // Programación Fácil
-      replies: initialComments[1] ? initialComments[1].length : 0, // 2 comentarios
+      category: 'programacion-facil',
+      replies: initialComments[1] ? initialComments[1].length : 0,
       likes: 15,
       time: 'hace 2 horas',
       excerpt: 'Soy nuevo y necesito ideas para un proyecto inicial en Python. Algo fácil para empezar a programar.',
@@ -446,8 +362,8 @@ const Foro: React.FC = () => {
       id: 2,
       title: '¿Qué herramientas de visualización de datos recomiendan para un portafolio?',
       author: 'María González 🚀 Innovador',
-      category: 'ciencia-datos-ia', // Ciencia de Datos & IA
-      replies: initialComments[2] ? initialComments[2].length : 0, // 0 comentarios
+      category: 'ciencia-datos-ia',
+      replies: initialComments[2] ? initialComments[2].length : 0,
       likes: 32,
       time: 'hace 5 horas',
       excerpt: 'Estoy creando un portafolio de Ciencia de Datos. ¿Es mejor Tableau, Power BI o algo más open source?',
@@ -459,8 +375,8 @@ const Foro: React.FC = () => {
       id: 3,
       title: 'Mi experiencia creando un NFT con ilustraciones a mano',
       author: 'Ana Rodríguez 💡 Respuesta útil',
-      category: 'creatividad-digital', // Creatividad Digital
-      replies: initialComments[3] ? initialComments[3].length : 0, // 0 comentarios
+      category: 'creatividad-digital',
+      replies: initialComments[3] ? initialComments[3].length : 0,
       likes: 28,
       time: 'hace 1 día',
       excerpt: 'Quiero compartir mi proceso de diseño y publicación de mi primera colección de arte digital como NFT. ¡Dudas bienvenidas!',
@@ -472,8 +388,8 @@ const Foro: React.FC = () => {
       id: 4,
       title: 'Preparación para el primer año como desarrollador junior',
       author: 'Diego Mendoza 🎓 Mentor',
-      category: 'futuro-stem', // Tu Futuro en STEM
-      replies: initialComments[4] ? initialComments[4].length : 0, // 1 comentario
+      category: 'futuro-stem',
+      replies: initialComments[4] ? initialComments[4].length : 0,
       likes: 67,
       time: 'hace 2 días',
       excerpt: 'Consejos clave para pasar de la universidad/bootcamp al primer año de trabajo en una empresa tech.',
@@ -485,8 +401,8 @@ const Foro: React.FC = () => {
       id: 5,
       title: '¿Son seguras las nuevas VPNs gratuitas que promocionan?',
       author: 'Luis Paredes 💡 Buena pregunta',
-      category: 'seguridad-internet', // Seguridad en Internet
-      replies: initialComments[5] ? initialComments[5].length : 0, // 0 comentarios
+      category: 'seguridad-internet',
+      replies: initialComments[5] ? initialComments[5].length : 0,
       likes: 19,
       time: 'hace 3 días',
       excerpt: 'Vi una app de VPN gratuita muy popular, pero me da desconfianza. ¿Qué riesgos tienen?',
@@ -498,8 +414,8 @@ const Foro: React.FC = () => {
       id: 6,
       title: 'Guía de 5 minutos para aprender a usar Tailwind CSS',
       author: 'Ana Torres ✨ Primer Post',
-      category: 'recursos-utiles', // Recursos Útiles
-      replies: initialComments[6] ? initialComments[6].length : 0, // 0 comentarios
+      category: 'recursos-utiles',
+      replies: initialComments[6] ? initialComments[6].length : 0,
       likes: 0,
       time: 'hace unos minutos',
       excerpt: 'Comparto una guía rápida para empezar a usar Tailwind en sus proyectos de frontend. ¡Es muy útil!',
@@ -535,46 +451,38 @@ const Foro: React.FC = () => {
     }
   });
   
-  // Filtra discusiones
   const filteredDiscussions =
     selectedCategory === 'all'
       ? discussions.filter((d, idx, arr) => arr.findIndex(dd => dd.id === d.id) === idx)
       : discussions.filter((d) => d.category === selectedCategory);
 
-  // Guardar en localStorage cuando cambian discusiones, likes o comentarios
-  React.useEffect(() => {
+  // Guardar en localStorage
+  useState(() => {
     try { localStorage.setItem('sumaq_discussions', JSON.stringify(discussions)); } catch {}
-  }, [discussions]);
+  });
 
-  React.useEffect(() => {
+  useState(() => {
     try { localStorage.setItem('sumaq_liked_discussions', JSON.stringify(likedDiscussions)); } catch {}
-  }, [likedDiscussions]);
+  });
 
-  React.useEffect(() => {
+  useState(() => {
     try { localStorage.setItem('sumaq_comments', JSON.stringify(commentsByDiscussion)); } catch {}
-  }, [commentsByDiscussion]);
+  });
 
-  React.useEffect(() => {
+  useState(() => {
     try { localStorage.setItem('sumaq_comment_likes', JSON.stringify(commentLikedIds)); } catch {}
-  }, [commentLikedIds]);
+  });
 
-  React.useEffect(() => {
+  useState(() => {
     try { localStorage.setItem('sumaq_comment_hearts', JSON.stringify(commentHeartedIds)); } catch {}
-  }, [commentHeartedIds]);
+  });
 
-  /**
-   * Componente interno para la sección de comentarios.
-   */
-  const CommentSection: React.FC<{ discussionId: number }> = ({ discussionId }) => {
+  const CommentSection = ({ discussionId }: { discussionId: number }) => {
     const comments = commentsByDiscussion[discussionId] || [];
     const [newCommentContent, setNewCommentContent] = useState('');
-    
-    // Encuentra la discusión actual para obtener su categoría y color
     const discussion = discussions.find(d => d.id === discussionId);
     const categoryKey = discussion?.category || 'all'; 
     const categoryConfig = getCategoryConfig(categoryKey);
-
-    // Nuevo estado para la edición de comentarios
     const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
     const [editCommentContent, setEditCommentContent] = useState('');
 
@@ -596,30 +504,24 @@ const Foro: React.FC = () => {
         commentHearts: 0,
       };
 
-      // 1. Añadir el comentario al estado
       setCommentsByDiscussion(prev => ({
         ...prev,
         [discussionId]: [...(prev[discussionId] || []), newComment]
       }));
 
-      // 2. Actualizar el contador de respuestas de la discusión principal
-      // NOTA: Se actualiza en función del nuevo tamaño del array de comentarios
       setDiscussions(prev => prev.map(d => 
         d.id === discussionId ? { ...d, replies: (commentsByDiscussion[discussionId]?.length || 0) + 1 } : d
       ));
 
-      // 3. Mostrar toast y limpiar formulario
       triggerSimpleToast('Comentario enviado con éxito. 💬', 'success');
       setNewCommentContent('');
     };
 
-    // Función para iniciar la edición de un comentario
     const startEditComment = (comment: Comment) => {
         setEditingCommentId(comment.id);
         setEditCommentContent(comment.content);
     };
 
-    // Función para guardar el comentario editado
     const saveEditedComment = (commentId: number) => {
         if (!editCommentContent.trim()) {
             triggerSimpleToast('El comentario no puede estar vacío.', 'error');
@@ -636,13 +538,11 @@ const Foro: React.FC = () => {
         triggerSimpleToast('Comentario editado con éxito. ✏️', 'success');
     };
 
-    // Función para abrir el modal de confirmación de eliminación
     const confirmDeleteComment = (commentId: number) => {
         setCommentToDelete({ discussionId, commentId });
         setShowCommentDeleteModal(true);
     };
     
-    // LÓGICA CLAVE: Reaccionar a un comentario (Like o Heart), asegurando la exclusividad
     const handleReaction = (commentId: number, reactionType: 'like' | 'heart') => {
         const isLiked = commentLikedIds.includes(commentId);
         const isHearted = commentHeartedIds.includes(commentId);
@@ -681,11 +581,9 @@ const Foro: React.FC = () => {
             }
         }
 
-        // 1. Actualizar el estado del usuario (quién dio qué)
         setCommentLikedIds(newLikedIds);
         setCommentHeartedIds(newHeartedIds);
 
-        // 2. Actualizar el conteo global en el estado del comentario
         setCommentsByDiscussion(prev => ({
             ...prev,
             [discussionId]: prev[discussionId].map(c => {
@@ -701,15 +599,13 @@ const Foro: React.FC = () => {
         }));
     };
 
-
     return (
       <div className="mt-6 pt-6 border-t border-gray-100">
         <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center space-x-2">
             <MessageSquare className="w-5 h-5 text-teal-600"/>
-            <span>{comments.length} Comentarios</span> {/* Muestra la cantidad correcta de comentarios */}
+            <span>{comments.length} Comentarios</span>
         </h3>
 
-        {/* Formulario de Comentario */}
         <form onSubmit={handleCommentSubmit} className="space-y-4 mb-6 p-4 border rounded-xl bg-gray-50 border-teal-200">
           <div className="relative">
             <textarea
@@ -723,7 +619,6 @@ const Foro: React.FC = () => {
             <button
               type="submit"
               aria-label="Publicar comentario"
-              // Botón de Comentario USA el TEAL de SumaqTech
               className="absolute right-2 bottom-2 hover:opacity-80 text-white p-2 rounded-lg transition-colors duration-200 shadow-md bg-teal-600 hover:bg-teal-700"
             >
               <Send className="w-4 h-4" />
@@ -731,7 +626,6 @@ const Foro: React.FC = () => {
           </div>
         </form>
 
-        {/* Lista de Comentarios */}
         <div className="space-y-4">
           {comments.length > 0 ? (
             comments.map(comment => {
@@ -741,7 +635,6 @@ const Foro: React.FC = () => {
                 return (
               <div key={comment.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 relative">
                 <div className="flex items-center space-x-3 mb-2">
-                  {/* AVATAR con iniciales en comentarios (usa el color de la discusión) */}
                   <Avatar author={comment.author} category={categoryKey} size="w-8 h-8" />
                   <div>
                     <p className="font-semibold text-gray-800 text-sm">{comment.author}</p>
@@ -749,7 +642,6 @@ const Foro: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Contenido del comentario / Formulario de edición */}
                 {editingCommentId === comment.id ? (
                     <div className="mt-2">
                         <textarea
@@ -780,8 +672,6 @@ const Foro: React.FC = () => {
                     <p className="text-gray-700 text-sm pl-8 border-l-2 border-gray-100 ml-2 whitespace-pre-wrap">{comment.content}</p>
                 )}
 
-
-                {/* Opciones de Editar/Eliminar solo para comentarios del usuario actual ("Tú") */}
                 {comment.author === 'Tú' && editingCommentId !== comment.id && (
                     <div className="absolute top-4 right-4 flex gap-2">
                         <button
@@ -793,7 +683,7 @@ const Foro: React.FC = () => {
                         </button>
                         <button
                             className="text-gray-500 hover:text-red-600 transition-colors p-1 rounded-full bg-gray-50 hover:bg-red-100"
-                            onClick={() => confirmDeleteComment(comment.id)} // Llama al modal de confirmación
+                            onClick={() => confirmDeleteComment(comment.id)}
                             aria-label="Eliminar comentario"
                         >
                             <Trash2 className="w-4 h-4" />
@@ -801,9 +691,7 @@ const Foro: React.FC = () => {
                     </div>
                 )}
                 
-                {/* Reacciones de Comentario (Likes y Corazones) */}
                 <div className="flex mt-3 pt-3 border-t border-gray-50/70 space-x-4 ml-10">
-                    {/* Botón de Like - Usa el color TEAL de SumaqTech */}
                     <button
                         className={`flex items-center space-x-1 text-sm transition-colors focus:outline-none ${isLiked ? 'font-bold text-teal-600' : 'text-gray-500 hover:text-teal-500'}`}
                         onClick={() => handleReaction(comment.id, 'like')}
@@ -811,13 +699,12 @@ const Foro: React.FC = () => {
                     >
                         <ThumbsUp 
                             className="w-4 h-4" 
-                            fill={isLiked ? '#0D9488' : 'none'} // teal-600
+                            fill={isLiked ? '#0D9488' : 'none'}
                             style={{ color: isLiked ? '#0D9488' : 'inherit' }}
                         />
                         <span>{comment.commentLikes}</span>
                     </button>
                     
-                    {/* Botón de Corazón - Usa el color rojo estándar */}
                     <button
                         className={`flex items-center space-x-1 text-sm transition-colors focus:outline-none ${isHearted ? 'text-red-500 font-bold' : 'text-gray-500 hover:text-red-500'}`}
                         onClick={() => handleReaction(comment.id, 'heart')}
@@ -827,7 +714,6 @@ const Foro: React.FC = () => {
                         <span>{comment.commentHearts}</span>
                     </button>
                 </div>
-
               </div>
             );
           })
@@ -851,7 +737,6 @@ const Foro: React.FC = () => {
             10% { transform: translateY(-12px); }
             20% { transform: translateY(0); }
           }
-          /* Animaciones para el Toast Simple (esquina derecha) */
           @keyframes slideInRight {
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
@@ -867,7 +752,6 @@ const Foro: React.FC = () => {
             animation: slideOutRight 0.6s ease-in forwards;
           }
 
-          /* Animaciones para el Popup Central (diseño original) */
           @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -876,7 +760,6 @@ const Foro: React.FC = () => {
             from { opacity: 1; }
             to { opacity: 0; }
           }
-          /* Animación de salto reutilizada para el emoji (saltitos) */
           @keyframes robotDance {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             25% { transform: translateY(-5px) rotate(5deg); }
@@ -887,36 +770,32 @@ const Foro: React.FC = () => {
             animation: robotDance 1s ease-in-out infinite;
           }
 
-          /* Aplicamos fadeOut-popup al contenedor del popup al cerrar */
           .animate-fadeOut-popup {
             animation: fadeOut 0.6s ease-out forwards;
           }
-          /* Aplicamos solo fadeIn al overlay para la apertura */
           .animate-fadeIn-overlay {
             animation: fadeIn 0.3s ease-out forwards;
           }
           
-          /* Animación para el confeti */
           @keyframes confetti-burst {
               0% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
               100% { 
-                  /* Usa variables CSS para simular explosión y caída */
                   transform: translate(var(--rand-x), var(--rand-y)) scale(0.1) rotate(720deg); 
                   opacity: 0; 
               }
           }
-
 
           .font-\[Poppins\] {
             font-family: 'Poppins', sans-serif; 
           }
         `}
       </style>
+      
+      {/* El resto del JSX se mantiene igual */}
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            {/* ICONO TURQUESA DE SUMAQTECH */}
             <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center">
               <MessageSquare className="h-8 w-8 text-teal-600" />
             </div>
