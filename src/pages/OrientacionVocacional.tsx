@@ -47,7 +47,7 @@ const categories: Category[] = [
         role: 'Project Manager',
         field: 'Ingeniería de Telecomunicaciones',
         image: 'src/components/profesionales/fotos/juan_quillas.jpg',
-        videoSrc: '/videos/juan_quillas.mp4',
+        videoSrc: 'src/components/profesionales/videos/juan_quillas.mp4',
         bio: 'Juan Quillas lidera proyectos de infraestructura y conectividad, con foco en zonas rurales y solución de acceso.'
       }
       ,
