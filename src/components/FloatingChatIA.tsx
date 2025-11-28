@@ -3,14 +3,12 @@ import axios, { AxiosResponse } from 'axios';
 import { InlineMath, BlockMath } from 'react-katex';
 import 'katex/dist/katex.min.css';
 
-// --- Importaciones para Markdown y Copiar ---
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { materialDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'; 
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import remarkGfm from 'remark-gfm'; 
 
-// --- Definición de tipos para TypeScript ---
 interface Message {
     sender: 'user' | 'ai';
     text: string;
@@ -32,11 +30,7 @@ const ROLES = [
     { key: 'ciberseguridad', name: 'Ciberseguridad' },
 ];
 
-// -----------------------------------------------------------------
-// --- COMPONENTES DE RENDERIZADO ---
-// -----------------------------------------------------------------
-
-// 1. Componente para resaltar código con botón de copiar
+// Componente para resaltar código con botón de copiar
 const CodeBlock: React.FC<any> = ({ inline, className, children, ...props }) => {
     const match = /language-(\w+)/.exec(className || '');
     const codeText = String(children).replace(/\n$/, '');
@@ -67,7 +61,7 @@ const CodeBlock: React.FC<any> = ({ inline, className, children, ...props }) => 
     );
   };
 
-// 2. Función clave para procesar LaTeX y texto plano (FINAL STABLE)
+// Función para procesar LaTeX y texto plano
 const processTextForLatex = (inputText: ReactNode[] | string | undefined): ReactNode => {
     const inputNodes = Array.isArray(inputText) ? inputText : [inputText];
     const outputNodes: ReactNode[] = [];
@@ -108,7 +102,7 @@ const processTextForLatex = (inputText: ReactNode[] | string | undefined): React
     return outputNodes;
 };
 
-// 3. Función de renderizado principal con Markdown y LaTeX
+// Función de renderizado principal con Markdown y LaTeX
 const renderMessageContent = (text: string) => {
     return (
         <ReactMarkdown
@@ -126,10 +120,7 @@ const renderMessageContent = (text: string) => {
 };
 
 
-// -----------------------------------------------------------------
-// --- COMPONENTE PRINCIPAL FLOTANTE ---
-// -----------------------------------------------------------------
-
+// Componente para flotamiento del icono
 const FloatingChatIA: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([]);
@@ -137,7 +128,7 @@ const FloatingChatIA: React.FC = () => {
     const [selectedRole, setSelectedRole] = useState('matematicas'); 
     const [loading, setLoading] = useState(false);
     const [showWelcome, setShowWelcome] = useState(true);
-    const [isRoleMenuOpen, setIsRoleMenuOpen] = useState(false); // Nuevo estado para el menú de rol
+    const [isRoleMenuOpen, setIsRoleMenuOpen] = useState(false);
     const chatContainerRef = useRef<HTMLDivElement>(null);
 
     // Función para reiniciar el chat al estado de bienvenida
@@ -155,13 +146,13 @@ const FloatingChatIA: React.FC = () => {
         }
     }, [messages]);
 
-    // Función de envío de mensaje (Optimizada)
+    // Función de envío de mensaje
     const handleSendMessage = useCallback(async (messageText: string = inputValue) => {
         if (messageText.trim() === '') return;
 
         setShowWelcome(false);
         const messageToSend = messageText;
-        setInputValue(''); // Limpia el input solo si viene de la caja de texto
+        setInputValue(''); // Limpia el input
         
         const newMessage: Message = { sender: 'user', text: messageToSend };
         setMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -200,7 +191,7 @@ const FloatingChatIA: React.FC = () => {
     const selectRole = (key: string) => {
         setSelectedRole(key);
         setIsRoleMenuOpen(false);
-        // Opcional: Notificar al usuario el cambio de rol
+        // Notificacion al usuario el cambio de rol
         if (messages.length === 0) {
              setMessages([{sender: 'ai', text: `✅ Rol cambiado a **${ROLES.find(r => r.key === key)?.name || key}**.`}]);
         }
