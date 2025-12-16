@@ -1,7 +1,7 @@
 import { Play, Briefcase, GraduationCap } from 'lucide-react';
 import React, { useState } from 'react';
 
-interface ProfessionalCardProps {
+interface OrientacionCardProps {
   name: string;
   role?: string;
   field?: string;
@@ -11,7 +11,7 @@ interface ProfessionalCardProps {
   onClick: () => void;
 }
 
-export const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
+export const OrientacionCard: React.FC<OrientacionCardProps> = ({
   name,
   role,
   field,
@@ -122,4 +122,4 @@ export const ProfessionalCard: React.FC<ProfessionalCardProps> = ({
   );
 };
 
-export default ProfessionalCard;
+export default OrientacionCard;

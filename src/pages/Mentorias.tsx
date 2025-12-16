@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BookOpen, Users, Globe, Shield, CheckCircle, Send, Compass, Target, Network, ChevronDown, ChevronLeft, ChevronRight, Mail, X } from 'lucide-react';
+import { BookOpen, Users, Globe, Shield, CheckCircle, Send, Compass, Target, Network, ChevronDown, ChevronLeft, ChevronRight, Mail, X, PlayCircle } from 'lucide-react';
 import ariannaImg from '../components/historias_inicio/arianna.jpg';
 import fernandoImg from '../components/historias_inicio/fernando.jpg';
 import maferImg from '../components/historias_inicio/mafer.jpg';
@@ -154,144 +154,148 @@ const Mentorias: React.FC = () => {
   const testimonials = [
     {
       id: 1,
-      institution: 'Colegio San José',
+      institution: 'Academia Preuniversitaria Exima - Huaral',
       testimonial: 'Las mentorías de SumaqTech transformaron la perspectiva de nuestros estudiantes sobre las carreras STEM. Los chicos ahora tienen una visión clara de su futuro profesional.',
-      image: 'https://images.pexels.com/photos/159832/book-cover-table-school-reading-159832.jpeg?auto=compress&cs=tinysrgb&w=400',
+      image: 'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/405082638_759527576191764_8359386996496979264_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeF-aHCSDeJDxcmnYFaUmbJ6taC2souc4oW1oLayi5zihSqJfSDg3pjrDTlP9XtR1HgFZUIrafkGqaN_U2VJd9I-&_nc_ohc=xfgh8X_cOEcQ7kNvwG85d9l&_nc_oc=AdnxX9HQpkOKkIcq0L5V1YQBAkD_zXtiPaIpTnfM8RDdV39Cc4XODF3DSiICi3IdYvk&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=Qo_qDtqhztjiHYC_VxZ2dQ&oh=00_Afm6Xp9QlHo0un1M1DLhyBG04rLewBFGzew7n4185LjUsg&oe=69465456',
       area: 'Orientación Vocacional STEM',
-      mentor: 'Carlos Mendoza',
+      mentor: 'Maria Evangelista',
       duracion: '2 horas',
-      estudiantes: 45,
+      estudiantes: 20,
       modalidad: 'Presencial',
-      descripcion: 'Se realizó una sesión de orientación vocacional enfocada en carreras STEM para estudiantes de 4° y 5° de secundaria. El mentor Carlos Mendoza compartió su experiencia en Ingeniería de Software, realizó actividades prácticas de programación básica y respondió preguntas sobre el mercado laboral.',
+      descripcion: 'Se realizó una sesión de orientación vocacional enfocada en carreras STEM para estudiantes de 4°, 5° de secundaria y preuniversitarios. La mentora Maria Evangelista compartió su experiencia en Ingeniería de Telecomunicaciones, realizó actividades prácticas de programación básica y respondió preguntas sobre la carrera.',
       sessionPhotos: [
-        'https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg?auto=compress&cs=tinysrgb&w=600',
-        'https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=600',
-        'https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=600',
-        'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=600',
+        'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/492000375_1120528293425022_8558536434356236896_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeH6U8CdUNjiqdSlyWgW7HljPFQGtdP_DDE8VAa10_8MMQUmSgh-OWrqxlnRm2LAoqgMB2DbDDWy4mzcPuNdC-I3&_nc_ohc=il85kZNF0NQQ7kNvwGNL2OS&_nc_oc=Adlq0iykZtyqGl-uAkJeyZpzjCh0W9d08mg06CQJqNiUcOVLaUhOxuOQZX07AYcGSyI&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=dULt0S4yTYm3HPQC8mlj_w&oh=00_AfkfhzbzVQR1oIhbdzWM40CQ2p1C6eAizkjlRVRz8OChSg&oe=69466189',
+        'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/487786935_1107011531443365_5201756702221670741_n.jpg?stp=c342.0.1365.1365a_dst-jpg_s206x206_tt6&_nc_cat=107&ccb=1-7&_nc_sid=714c7a&_nc_eui2=AeEr90wPTGaSs52lruzNSfUGbyeSZKHPCdNvJ5Jkoc8J0_toLT_QwegM_qFCIk-6pDDM-8czHb9RdQGBrPsLy349&_nc_ohc=U_A1mUY9U5cQ7kNvwGR-fw9&_nc_oc=Adk-wbaQyjDgH2H7uMkF_MXB-mogJuAkWeeyejG-GYEmH8kEYUXO565a6u5MmcMQ-40&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=xCzVaWTUmd-mlH3gmythBg&oh=00_AfkX8i_oGy_zSObqKZHOBdzhPjlP_PaOODpTSmT6_qfO9g&oe=69465791',
+        'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/488376894_1107005934777258_5680166824452708815_n.jpg?stp=c342.0.1365.1365a_dst-jpg_s206x206_tt6&_nc_cat=103&ccb=1-7&_nc_sid=714c7a&_nc_eui2=AeGuURrkscyqsASURudMh_nB4BzIQcQ1Qu_gHMhBxDVC74xmxquNS10ZeqG6J5Dn9G1er-_dfNEwrGtMYwIwtT47&_nc_ohc=ITP2vOyh4FcQ7kNvwEXnGBq&_nc_oc=Adm5NCsvpff0mh6y26PHfHlk1ED4YWWQ0ySnlwcI_RG8kV7j-u3I7h79AB-99mAUJ0g&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=MVrP09EHkCJLSA9DFJUCUA&oh=00_Afm7SXqh7_bZYhaUSOHsHHtkrANqoZUCoofBWzJBAxsC7g&oe=694673B4',
+        'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/487493705_1107006241443894_3412298954261210357_n.jpg?stp=c342.0.1365.1365a_dst-jpg_s206x206_tt6&_nc_cat=109&ccb=1-7&_nc_sid=714c7a&_nc_eui2=AeEvmwPNr2XSZfOkN0tH_snpTKPth-rfWJxMo-2H6t9YnHzRx-PAcenl9wNUnoKrKE89Y1OYRFaUecBQEq0v_-SV&_nc_ohc=ZMfn9SKugMoQ7kNvwG81QQw&_nc_oc=AdlkPv70QM5GFefm56VZE6BEqZCNIx-rf5F0Kuml6KFZtZ205KI3OJTYBvWY4wVJaAk&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=QuFesJeOhMgXxXywbl5xdQ&oh=00_AfkDCKXgzabpkTTqhGV1b581RsjPxszMNNFjhso-mnVilw&oe=69466204',
       ],
     },
     {
       id: 2,
-      institution: 'Instituto Técnico Lima',
-      testimonial: 'Excelente experiencia. Nuestros estudiantes quedaron motivados y con ganas de explorar más sobre ingeniería y tecnología. El mentor fue muy profesional y didáctico.',
-      image: 'https://images.pexels.com/photos/159775/library-la-trobe-study-students-159775.jpeg?auto=compress&cs=tinysrgb&w=400',
-      area: 'Taller de Mecatrónica',
-      mentor: 'Luis Fernández',
+      institution: 'Feria STEAM - UNI',
+      testimonial: 'Excelente experiencia. Nuestros estudiantes quedaron motivados y con ganas de explorar más sobre ingeniería y tecnología. Los mentores fueron muy profesionales y didácticos.',
+      image: 'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/572434492_1142500837996246_1940557151939861413_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeGBdOj3lc8ECGM0NoVa_07pf1f5prt8PeZ_V_mmu3w95njXogdz_VgY-zoZMeK1Zer50FxdEOdsYUHhJvLCDl_U&_nc_ohc=ULx1vbdXaSkQ7kNvwEGfHqD&_nc_oc=AdnZ0OQS9ONuYGlcOSVsAnhVlXfmPVaJI5rZ7zCpqflw8y5qdiL0C0s6wcJrHwb1gU4&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=HSFcq6Mugd_1ewJgGUw9Vw&oh=00_AflcTHCAXdlMiFQa4VNDHS_iLoLek0GMFw7bLn9Rj1nGLw&oe=69467688',
+      area: 'Orientación Vocacional STEM',
+      mentor: 'Maria Evangelista',
       duracion: '3 horas',
-      estudiantes: 30,
+      estudiantes: 40,
       modalidad: 'Presencial',
-      descripcion: 'Taller práctico sobre sistemas automatizados y robótica industrial. El mentor Luis Fernández demostró el funcionamiento de robots educativos, explicó conceptos de mecatrónica y guió a los estudiantes en la construcción de un pequeño proyecto.',
+      descripcion: 'Taller práctico sobre programación y orientación vocacional. Los mentores mostraron proyectos y explicaron conceptos de programación, además guiaron a los estudiantes explicando de que trata la carrera de Ing. de Telecomunicaciones.',
+      videoUrl: '/videos/mentoria_exima.mp4', // Agrega aquí la ruta de tu video
       sessionPhotos: [
-        'https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=600',
-        'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=600',
+        'https://media.licdn.com/dms/image/v2/D4E22AQH5GvLc8JeMxA/feedshare-shrink_2048_1536/B4EZsDNp_7HEAw-/0/1765285473149?e=1767225600&v=beta&t=SOrlRi21MCh3mvkmjtnWI3A67B3x0erE5QVoY6F4ueM',
+        'https://media.licdn.com/dms/image/v2/D4E22AQHCWiXdBe909A/feedshare-shrink_2048_1536/B4EZsDNqAWHoA0-/0/1765285473690?e=1767225600&v=beta&t=UCHfGbuKFAA6Iu044weEMx1nC0cQX4eP9EJ9EWAdgZo',
         'https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg?auto=compress&cs=tinysrgb&w=600',
         'https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=600',
       ],
     },
     {
       id: 3,
-      institution: 'Academia Científica del Norte',
-      testimonial: 'La sesión superó nuestras expectativas. Los estudiantes participaron activamente y mostraron gran interés. Definitivamente solicitaremos más mentorías.',
-      image: 'https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=400',
-      area: 'Charla sobre Ciencia de Datos',
-      mentor: 'Ana Rodríguez',
-      duracion: '1.5 horas',
-      estudiantes: 60,
-      modalidad: 'Virtual',
-      descripcion: 'Charla motivacional sobre Ciencia de Datos y sus aplicaciones en el mundo real. La mentor Ana Rodríguez explicó cómo se usa el machine learning en diferentes industrias, mostró ejemplos prácticos de análisis de datos y compartió su trayectoria profesional.',
+      institution: 'Academia Preuniversitaria Exima - Huaral',
+      testimonial: 'Las mentorías de SumaqTech transformaron la perspectiva de nuestros estudiantes sobre las carreras STEM. Los chicos ahora tienen una visión clara de su futuro profesional.',
+      image: 'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/405082638_759527576191764_8359386996496979264_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeF-aHCSDeJDxcmnYFaUmbJ6taC2souc4oW1oLayi5zihSqJfSDg3pjrDTlP9XtR1HgFZUIrafkGqaN_U2VJd9I-&_nc_ohc=xfgh8X_cOEcQ7kNvwG85d9l&_nc_oc=AdnxX9HQpkOKkIcq0L5V1YQBAkD_zXtiPaIpTnfM8RDdV39Cc4XODF3DSiICi3IdYvk&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=Qo_qDtqhztjiHYC_VxZ2dQ&oh=00_Afm6Xp9QlHo0un1M1DLhyBG04rLewBFGzew7n4185LjUsg&oe=69465456',
+      area: 'Orientación Vocacional STEM',
+      mentor: 'Maria Evangelista',
+      duracion: '2 horas',
+      estudiantes: 20,
+      modalidad: 'Presencial',
+      descripcion: 'Se realizó una sesión de orientación vocacional enfocada en carreras STEM para estudiantes de 4°, 5° de secundaria y preuniversitarios. La mentora Maria Evangelista compartió su experiencia en Ingeniería de Telecomunicaciones, realizó actividades prácticas de programación básica y respondió preguntas sobre la carrera.',
       sessionPhotos: [
-        'https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=600',
-        'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=600',
-        'https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg?auto=compress&cs=tinysrgb&w=600',
-        'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=600',
+        'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/492000375_1120528293425022_8558536434356236896_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeH6U8CdUNjiqdSlyWgW7HljPFQGtdP_DDE8VAa10_8MMQUmSgh-OWrqxlnRm2LAoqgMB2DbDDWy4mzcPuNdC-I3&_nc_ohc=il85kZNF0NQQ7kNvwGNL2OS&_nc_oc=Adlq0iykZtyqGl-uAkJeyZpzjCh0W9d08mg06CQJqNiUcOVLaUhOxuOQZX07AYcGSyI&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=dULt0S4yTYm3HPQC8mlj_w&oh=00_AfkfhzbzVQR1oIhbdzWM40CQ2p1C6eAizkjlRVRz8OChSg&oe=69466189',
+        'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/487786935_1107011531443365_5201756702221670741_n.jpg?stp=c342.0.1365.1365a_dst-jpg_s206x206_tt6&_nc_cat=107&ccb=1-7&_nc_sid=714c7a&_nc_eui2=AeEr90wPTGaSs52lruzNSfUGbyeSZKHPCdNvJ5Jkoc8J0_toLT_QwegM_qFCIk-6pDDM-8czHb9RdQGBrPsLy349&_nc_ohc=U_A1mUY9U5cQ7kNvwGR-fw9&_nc_oc=Adk-wbaQyjDgH2H7uMkF_MXB-mogJuAkWeeyejG-GYEmH8kEYUXO565a6u5MmcMQ-40&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=xCzVaWTUmd-mlH3gmythBg&oh=00_AfkX8i_oGy_zSObqKZHOBdzhPjlP_PaOODpTSmT6_qfO9g&oe=69465791',
+        'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/488376894_1107005934777258_5680166824452708815_n.jpg?stp=c342.0.1365.1365a_dst-jpg_s206x206_tt6&_nc_cat=103&ccb=1-7&_nc_sid=714c7a&_nc_eui2=AeGuURrkscyqsASURudMh_nB4BzIQcQ1Qu_gHMhBxDVC74xmxquNS10ZeqG6J5Dn9G1er-_dfNEwrGtMYwIwtT47&_nc_ohc=ITP2vOyh4FcQ7kNvwEXnGBq&_nc_oc=Adm5NCsvpff0mh6y26PHfHlk1ED4YWWQ0ySnlwcI_RG8kV7j-u3I7h79AB-99mAUJ0g&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=MVrP09EHkCJLSA9DFJUCUA&oh=00_Afm7SXqh7_bZYhaUSOHsHHtkrANqoZUCoofBWzJBAxsC7g&oe=694673B4',
+        'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/487493705_1107006241443894_3412298954261210357_n.jpg?stp=c342.0.1365.1365a_dst-jpg_s206x206_tt6&_nc_cat=109&ccb=1-7&_nc_sid=714c7a&_nc_eui2=AeEvmwPNr2XSZfOkN0tH_snpTKPth-rfWJxMo-2H6t9YnHzRx-PAcenl9wNUnoKrKE89Y1OYRFaUecBQEq0v_-SV&_nc_ohc=ZMfn9SKugMoQ7kNvwG81QQw&_nc_oc=AdlkPv70QM5GFefm56VZE6BEqZCNIx-rf5F0Kuml6KFZtZ205KI3OJTYBvWY4wVJaAk&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=QuFesJeOhMgXxXywbl5xdQ&oh=00_AfkDCKXgzabpkTTqhGV1b581RsjPxszMNNFjhso-mnVilw&oe=69466204',
       ],
     },
     {
       id: 4,
-      institution: 'Colegio Los Andes',
-      testimonial: 'Una experiencia increíble que abrió los ojos de nuestros estudiantes a las posibilidades en tecnología. El mentor fue excepcional.',
-      image: 'https://images.pexels.com/photos/159832/book-cover-table-school-reading-159832.jpeg?auto=compress&cs=tinysrgb&w=400',
-      area: 'Ingeniería de Software',
-      mentor: 'Carlos Mendoza',
-      duracion: '2.5 horas',
-      estudiantes: 52,
+      institution: 'Feria STEAM - UNI',
+      testimonial: 'Excelente experiencia. Nuestros estudiantes quedaron motivados y con ganas de explorar más sobre ingeniería y tecnología. Los mentores fueron muy profesionales y didácticos.',
+      image: 'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/572434492_1142500837996246_1940557151939861413_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeGBdOj3lc8ECGM0NoVa_07pf1f5prt8PeZ_V_mmu3w95njXogdz_VgY-zoZMeK1Zer50FxdEOdsYUHhJvLCDl_U&_nc_ohc=ULx1vbdXaSkQ7kNvwEGfHqD&_nc_oc=AdnZ0OQS9ONuYGlcOSVsAnhVlXfmPVaJI5rZ7zCpqflw8y5qdiL0C0s6wcJrHwb1gU4&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=HSFcq6Mugd_1ewJgGUw9Vw&oh=00_AflcTHCAXdlMiFQa4VNDHS_iLoLek0GMFw7bLn9Rj1nGLw&oe=69467688',
+      area: 'Orientación Vocacional STEM',
+      mentor: 'Maria Evangelista',
+      duracion: '3 horas',
+      estudiantes: 40,
       modalidad: 'Presencial',
-      descripcion: 'Sesión práctica sobre desarrollo de software donde los estudiantes aprendieron conceptos básicos de programación y crearon su primera aplicación web simple.',
+      descripcion: 'Taller práctico sobre programación y orientación vocacional. Los mentores mostraron proyectos y explicaron conceptos de programación, además guiaron a los estudiantes explicando de que trata la carrera de Ing. de Telecomunicaciones.',
+      videoUrl: '/videos/mentoria_exima.mp4', // Agrega aquí la ruta de tu video
       sessionPhotos: [
+        'https://media.licdn.com/dms/image/v2/D4E22AQH5GvLc8JeMxA/feedshare-shrink_2048_1536/B4EZsDNp_7HEAw-/0/1765285473149?e=1767225600&v=beta&t=SOrlRi21MCh3mvkmjtnWI3A67B3x0erE5QVoY6F4ueM',
+        'https://media.licdn.com/dms/image/v2/D4E22AQHCWiXdBe909A/feedshare-shrink_2048_1536/B4EZsDNqAWHoA0-/0/1765285473690?e=1767225600&v=beta&t=UCHfGbuKFAA6Iu044weEMx1nC0cQX4eP9EJ9EWAdgZo',
         'https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg?auto=compress&cs=tinysrgb&w=600',
         'https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=600',
-        'https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=600',
-        'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=600',
       ],
     },
     {
       id: 5,
-      institution: 'Instituto Tecnológico Sur',
-      testimonial: 'Los estudiantes quedaron fascinados con la robótica. Ahora muchos quieren estudiar mecatrónica gracias a esta mentoría.',
-      image: 'https://images.pexels.com/photos/159775/library-la-trobe-study-students-159775.jpeg?auto=compress&cs=tinysrgb&w=400',
-      area: 'Robótica y Automatización',
-      mentor: 'Luis Fernández',
-      duracion: '4 horas',
-      estudiantes: 28,
+      institution: 'Academia Preuniversitaria Exima - Huaral',
+      testimonial: 'Las mentorías de SumaqTech transformaron la perspectiva de nuestros estudiantes sobre las carreras STEM. Los chicos ahora tienen una visión clara de su futuro profesional.',
+      image: 'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/405082638_759527576191764_8359386996496979264_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeF-aHCSDeJDxcmnYFaUmbJ6taC2souc4oW1oLayi5zihSqJfSDg3pjrDTlP9XtR1HgFZUIrafkGqaN_U2VJd9I-&_nc_ohc=xfgh8X_cOEcQ7kNvwG85d9l&_nc_oc=AdnxX9HQpkOKkIcq0L5V1YQBAkD_zXtiPaIpTnfM8RDdV39Cc4XODF3DSiICi3IdYvk&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=Qo_qDtqhztjiHYC_VxZ2dQ&oh=00_Afm6Xp9QlHo0un1M1DLhyBG04rLewBFGzew7n4185LjUsg&oe=69465456',
+      area: 'Orientación Vocacional STEM',
+      mentor: 'Maria Evangelista',
+      duracion: '2 horas',
+      estudiantes: 20,
       modalidad: 'Presencial',
-      descripcion: 'Taller intensivo de robótica donde los estudiantes construyeron y programaron sus propios robots, aprendiendo sobre sensores, actuadores y controladores.',
+      descripcion: 'Se realizó una sesión de orientación vocacional enfocada en carreras STEM para estudiantes de 4°, 5° de secundaria y preuniversitarios. La mentora Maria Evangelista compartió su experiencia en Ingeniería de Telecomunicaciones, realizó actividades prácticas de programación básica y respondió preguntas sobre la carrera.',
       sessionPhotos: [
-        'https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=600',
-        'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=600',
-        'https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg?auto=compress&cs=tinysrgb&w=600',
-        'https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=600',
+        'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/492000375_1120528293425022_8558536434356236896_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeH6U8CdUNjiqdSlyWgW7HljPFQGtdP_DDE8VAa10_8MMQUmSgh-OWrqxlnRm2LAoqgMB2DbDDWy4mzcPuNdC-I3&_nc_ohc=il85kZNF0NQQ7kNvwGNL2OS&_nc_oc=Adlq0iykZtyqGl-uAkJeyZpzjCh0W9d08mg06CQJqNiUcOVLaUhOxuOQZX07AYcGSyI&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=dULt0S4yTYm3HPQC8mlj_w&oh=00_AfkfhzbzVQR1oIhbdzWM40CQ2p1C6eAizkjlRVRz8OChSg&oe=69466189',
+        'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/487786935_1107011531443365_5201756702221670741_n.jpg?stp=c342.0.1365.1365a_dst-jpg_s206x206_tt6&_nc_cat=107&ccb=1-7&_nc_sid=714c7a&_nc_eui2=AeEr90wPTGaSs52lruzNSfUGbyeSZKHPCdNvJ5Jkoc8J0_toLT_QwegM_qFCIk-6pDDM-8czHb9RdQGBrPsLy349&_nc_ohc=U_A1mUY9U5cQ7kNvwGR-fw9&_nc_oc=Adk-wbaQyjDgH2H7uMkF_MXB-mogJuAkWeeyejG-GYEmH8kEYUXO565a6u5MmcMQ-40&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=xCzVaWTUmd-mlH3gmythBg&oh=00_AfkX8i_oGy_zSObqKZHOBdzhPjlP_PaOODpTSmT6_qfO9g&oe=69465791',
+        'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/488376894_1107005934777258_5680166824452708815_n.jpg?stp=c342.0.1365.1365a_dst-jpg_s206x206_tt6&_nc_cat=103&ccb=1-7&_nc_sid=714c7a&_nc_eui2=AeGuURrkscyqsASURudMh_nB4BzIQcQ1Qu_gHMhBxDVC74xmxquNS10ZeqG6J5Dn9G1er-_dfNEwrGtMYwIwtT47&_nc_ohc=ITP2vOyh4FcQ7kNvwEXnGBq&_nc_oc=Adm5NCsvpff0mh6y26PHfHlk1ED4YWWQ0ySnlwcI_RG8kV7j-u3I7h79AB-99mAUJ0g&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=MVrP09EHkCJLSA9DFJUCUA&oh=00_Afm7SXqh7_bZYhaUSOHsHHtkrANqoZUCoofBWzJBAxsC7g&oe=694673B4',
+        'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/487493705_1107006241443894_3412298954261210357_n.jpg?stp=c342.0.1365.1365a_dst-jpg_s206x206_tt6&_nc_cat=109&ccb=1-7&_nc_sid=714c7a&_nc_eui2=AeEvmwPNr2XSZfOkN0tH_snpTKPth-rfWJxMo-2H6t9YnHzRx-PAcenl9wNUnoKrKE89Y1OYRFaUecBQEq0v_-SV&_nc_ohc=ZMfn9SKugMoQ7kNvwG81QQw&_nc_oc=AdlkPv70QM5GFefm56VZE6BEqZCNIx-rf5F0Kuml6KFZtZ205KI3OJTYBvWY4wVJaAk&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=QuFesJeOhMgXxXywbl5xdQ&oh=00_AfkDCKXgzabpkTTqhGV1b581RsjPxszMNNFjhso-mnVilw&oe=69466204',
       ],
     },
     {
       id: 6,
-      institution: 'Academia Innovación Educativa',
-      testimonial: 'La sesión virtual fue perfecta. Nuestros estudiantes de diferentes ciudades pudieron participar y aprender sobre ciencia de datos.',
-      image: 'https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=400',
-      area: 'Ciencia de Datos Aplicada',
-      mentor: 'Ana Rodríguez',
-      duracion: '2 horas',
-      estudiantes: 75,
-      modalidad: 'Virtual',
-      descripcion: 'Charla interactiva sobre ciencia de datos con demostraciones en vivo de análisis de datos reales y casos de uso en diferentes industrias.',
+      institution: 'Feria STEAM - UNI',
+      testimonial: 'Excelente experiencia. Nuestros estudiantes quedaron motivados y con ganas de explorar más sobre ingeniería y tecnología. Los mentores fueron muy profesionales y didácticos.',
+      image: 'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/572434492_1142500837996246_1940557151939861413_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeGBdOj3lc8ECGM0NoVa_07pf1f5prt8PeZ_V_mmu3w95njXogdz_VgY-zoZMeK1Zer50FxdEOdsYUHhJvLCDl_U&_nc_ohc=ULx1vbdXaSkQ7kNvwEGfHqD&_nc_oc=AdnZ0OQS9ONuYGlcOSVsAnhVlXfmPVaJI5rZ7zCpqflw8y5qdiL0C0s6wcJrHwb1gU4&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=HSFcq6Mugd_1ewJgGUw9Vw&oh=00_AflcTHCAXdlMiFQa4VNDHS_iLoLek0GMFw7bLn9Rj1nGLw&oe=69467688',
+      area: 'Orientación Vocacional STEM',
+      mentor: 'Maria Evangelista',
+      duracion: '3 horas',
+      estudiantes: 40,
+      modalidad: 'Presencial',
+      descripcion: 'Taller práctico sobre programación y orientación vocacional. Los mentores mostraron proyectos y explicaron conceptos de programación, además guiaron a los estudiantes explicando de que trata la carrera de Ing. de Telecomunicaciones.',
+      videoUrl: '/videos/mentoria_exima.mp4', // Agrega aquí la ruta de tu video
       sessionPhotos: [
-        'https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=600',
-        'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=600',
+        'https://media.licdn.com/dms/image/v2/D4E22AQH5GvLc8JeMxA/feedshare-shrink_2048_1536/B4EZsDNp_7HEAw-/0/1765285473149?e=1767225600&v=beta&t=SOrlRi21MCh3mvkmjtnWI3A67B3x0erE5QVoY6F4ueM',
+        'https://media.licdn.com/dms/image/v2/D4E22AQHCWiXdBe909A/feedshare-shrink_2048_1536/B4EZsDNqAWHoA0-/0/1765285473690?e=1767225600&v=beta&t=UCHfGbuKFAA6Iu044weEMx1nC0cQX4eP9EJ9EWAdgZo',
         'https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg?auto=compress&cs=tinysrgb&w=600',
-        'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=600',
+        'https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=600',
       ],
     },
     {
       id: 7,
-      institution: 'Colegio Técnico Nacional',
-      testimonial: 'Excelente mentoría sobre física aplicada. Los estudiantes comprendieron conceptos complejos de manera sencilla y práctica.',
-      image: 'https://images.pexels.com/photos/159832/book-cover-table-school-reading-159832.jpeg?auto=compress&cs=tinysrgb&w=400',
-      area: 'Física Aplicada',
-      mentor: 'Roberto Silva',
-      duracion: '2.5 horas',
-      estudiantes: 40,
+      institution: 'Academia Preuniversitaria Exima - Huaral',
+      testimonial: 'Las mentorías de SumaqTech transformaron la perspectiva de nuestros estudiantes sobre las carreras STEM. Los chicos ahora tienen una visión clara de su futuro profesional.',
+      image: 'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/405082638_759527576191764_8359386996496979264_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeF-aHCSDeJDxcmnYFaUmbJ6taC2souc4oW1oLayi5zihSqJfSDg3pjrDTlP9XtR1HgFZUIrafkGqaN_U2VJd9I-&_nc_ohc=xfgh8X_cOEcQ7kNvwG85d9l&_nc_oc=AdnxX9HQpkOKkIcq0L5V1YQBAkD_zXtiPaIpTnfM8RDdV39Cc4XODF3DSiICi3IdYvk&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=Qo_qDtqhztjiHYC_VxZ2dQ&oh=00_Afm6Xp9QlHo0un1M1DLhyBG04rLewBFGzew7n4185LjUsg&oe=69465456',
+      area: 'Orientación Vocacional STEM',
+      mentor: 'Maria Evangelista',
+      duracion: '2 horas',
+      estudiantes: 20,
       modalidad: 'Presencial',
-      descripcion: 'Sesión sobre física aplicada con experimentos prácticos y demostraciones que ayudaron a los estudiantes a entender conceptos de mecánica y electromagnetismo.',
+      descripcion: 'Se realizó una sesión de orientación vocacional enfocada en carreras STEM para estudiantes de 4°, 5° de secundaria y preuniversitarios. La mentora Maria Evangelista compartió su experiencia en Ingeniería de Telecomunicaciones, realizó actividades prácticas de programación básica y respondió preguntas sobre la carrera.',
       sessionPhotos: [
-        'https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg?auto=compress&cs=tinysrgb&w=600',
-        'https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=600',
-        'https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=600',
-        'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=600',
+        'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/492000375_1120528293425022_8558536434356236896_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeH6U8CdUNjiqdSlyWgW7HljPFQGtdP_DDE8VAa10_8MMQUmSgh-OWrqxlnRm2LAoqgMB2DbDDWy4mzcPuNdC-I3&_nc_ohc=il85kZNF0NQQ7kNvwGNL2OS&_nc_oc=Adlq0iykZtyqGl-uAkJeyZpzjCh0W9d08mg06CQJqNiUcOVLaUhOxuOQZX07AYcGSyI&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=dULt0S4yTYm3HPQC8mlj_w&oh=00_AfkfhzbzVQR1oIhbdzWM40CQ2p1C6eAizkjlRVRz8OChSg&oe=69466189',
+        'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/487786935_1107011531443365_5201756702221670741_n.jpg?stp=c342.0.1365.1365a_dst-jpg_s206x206_tt6&_nc_cat=107&ccb=1-7&_nc_sid=714c7a&_nc_eui2=AeEr90wPTGaSs52lruzNSfUGbyeSZKHPCdNvJ5Jkoc8J0_toLT_QwegM_qFCIk-6pDDM-8czHb9RdQGBrPsLy349&_nc_ohc=U_A1mUY9U5cQ7kNvwGR-fw9&_nc_oc=Adk-wbaQyjDgH2H7uMkF_MXB-mogJuAkWeeyejG-GYEmH8kEYUXO565a6u5MmcMQ-40&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=xCzVaWTUmd-mlH3gmythBg&oh=00_AfkX8i_oGy_zSObqKZHOBdzhPjlP_PaOODpTSmT6_qfO9g&oe=69465791',
+        'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/488376894_1107005934777258_5680166824452708815_n.jpg?stp=c342.0.1365.1365a_dst-jpg_s206x206_tt6&_nc_cat=103&ccb=1-7&_nc_sid=714c7a&_nc_eui2=AeGuURrkscyqsASURudMh_nB4BzIQcQ1Qu_gHMhBxDVC74xmxquNS10ZeqG6J5Dn9G1er-_dfNEwrGtMYwIwtT47&_nc_ohc=ITP2vOyh4FcQ7kNvwEXnGBq&_nc_oc=Adm5NCsvpff0mh6y26PHfHlk1ED4YWWQ0ySnlwcI_RG8kV7j-u3I7h79AB-99mAUJ0g&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=MVrP09EHkCJLSA9DFJUCUA&oh=00_Afm7SXqh7_bZYhaUSOHsHHtkrANqoZUCoofBWzJBAxsC7g&oe=694673B4',
+        'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/487493705_1107006241443894_3412298954261210357_n.jpg?stp=c342.0.1365.1365a_dst-jpg_s206x206_tt6&_nc_cat=109&ccb=1-7&_nc_sid=714c7a&_nc_eui2=AeEvmwPNr2XSZfOkN0tH_snpTKPth-rfWJxMo-2H6t9YnHzRx-PAcenl9wNUnoKrKE89Y1OYRFaUecBQEq0v_-SV&_nc_ohc=ZMfn9SKugMoQ7kNvwG81QQw&_nc_oc=AdlkPv70QM5GFefm56VZE6BEqZCNIx-rf5F0Kuml6KFZtZ205KI3OJTYBvWY4wVJaAk&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=QuFesJeOhMgXxXywbl5xdQ&oh=00_AfkDCKXgzabpkTTqhGV1b581RsjPxszMNNFjhso-mnVilw&oe=69466204',
       ],
     },
     {
       id: 8,
-      institution: 'Instituto de Ciencias Aplicadas',
-      testimonial: 'La mentoría sobre matemáticas aplicadas fue reveladora. Los estudiantes vieron cómo las matemáticas se usan en la vida real.',
-      image: 'https://images.pexels.com/photos/159775/library-la-trobe-study-students-159775.jpeg?auto=compress&cs=tinysrgb&w=400',
-      area: 'Matemáticas Aplicadas',
-      mentor: 'Sofía Martínez',
-      duracion: '2 horas',
-      estudiantes: 55,
+      institution: 'Feria STEAM - UNI',
+      testimonial: 'Excelente experiencia. Nuestros estudiantes quedaron motivados y con ganas de explorar más sobre ingeniería y tecnología. Los mentores fueron muy profesionales y didácticos.',
+      image: 'https://scontent-lim1-1.xx.fbcdn.net/v/t39.30808-6/572434492_1142500837996246_1940557151939861413_n.jpg?stp=dst-jpg_s640x640_tt6&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeGBdOj3lc8ECGM0NoVa_07pf1f5prt8PeZ_V_mmu3w95njXogdz_VgY-zoZMeK1Zer50FxdEOdsYUHhJvLCDl_U&_nc_ohc=ULx1vbdXaSkQ7kNvwEGfHqD&_nc_oc=AdnZ0OQS9ONuYGlcOSVsAnhVlXfmPVaJI5rZ7zCpqflw8y5qdiL0C0s6wcJrHwb1gU4&_nc_zt=23&_nc_ht=scontent-lim1-1.xx&_nc_gid=HSFcq6Mugd_1ewJgGUw9Vw&oh=00_AflcTHCAXdlMiFQa4VNDHS_iLoLek0GMFw7bLn9Rj1nGLw&oe=69467688',
+      area: 'Orientación Vocacional STEM',
+      mentor: 'Maria Evangelista',
+      duracion: '3 horas',
+      estudiantes: 40,
       modalidad: 'Presencial',
-      descripcion: 'Taller sobre matemáticas aplicadas mostrando cómo se usan en modelado, optimización y resolución de problemas del mundo real en ingeniería y tecnología.',
+      descripcion: 'Taller práctico sobre programación y orientación vocacional. Los mentores mostraron proyectos y explicaron conceptos de programación, además guiaron a los estudiantes explicando de que trata la carrera de Ing. de Telecomunicaciones.',
+      videoUrl: '/videos/mentoria_exima.mp4', // Agrega aquí la ruta de tu video
       sessionPhotos: [
-        'https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=600',
-        'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=600',
+        'https://media.licdn.com/dms/image/v2/D4E22AQH5GvLc8JeMxA/feedshare-shrink_2048_1536/B4EZsDNp_7HEAw-/0/1765285473149?e=1767225600&v=beta&t=SOrlRi21MCh3mvkmjtnWI3A67B3x0erE5QVoY6F4ueM',
+        'https://media.licdn.com/dms/image/v2/D4E22AQHCWiXdBe909A/feedshare-shrink_2048_1536/B4EZsDNqAWHoA0-/0/1765285473690?e=1767225600&v=beta&t=UCHfGbuKFAA6Iu044weEMx1nC0cQX4eP9EJ9EWAdgZo',
         'https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg?auto=compress&cs=tinysrgb&w=600',
         'https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=600',
       ],
@@ -321,7 +325,7 @@ const Mentorias: React.FC = () => {
       area: 'Telecomunicaciones / Programación',
       description: 'Estudiante de Ingeniería de Telecomunicaciones con interés en networking, programación y proyectos de impacto social. Miembro del Centro Cultural de Telecomunicaciones (CCT), impulsa iniciativas que fortalecen la comunidad y el acceso a oportunidades tecnológicas.',
       image: maferImg,
-      available: false,
+      available: true,
     },
     {
       id: 4,
@@ -347,6 +351,7 @@ const Mentorias: React.FC = () => {
   }, []);
 
   const getItemsPerView = () => {
+    if (windowWidth >= 1280) return 4;
     if (windowWidth >= 1024) return 3;
     if (windowWidth >= 768) return 2;
     return 1;
@@ -355,21 +360,6 @@ const Mentorias: React.FC = () => {
   const getTotalSlides = () => {
     const itemsPerView = getItemsPerView();
     return Math.ceil(mentores.length / itemsPerView);
-  };
-
-  const goToMentorPrevious = () => {
-    setIsMentorAutoPlaying(false);
-    const totalSlides = getTotalSlides();
-    setMentorCarouselIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
-  };
-
-  const goToMentorNext = () => {
-    setIsMentorAutoPlaying(false);
-    const totalSlides = getTotalSlides();
-    setMentorCarouselIndex((prev) => {
-      const next = (prev + 1) % totalSlides;
-      return next;
-    });
   };
 
   const goToMentorSlide = (index: number) => {
@@ -408,18 +398,6 @@ const Mentorias: React.FC = () => {
   const getTestimonialTotalSlides = () => {
     const itemsPerView = getTestimonialItemsPerView();
     return Math.ceil(testimonials.length / itemsPerView);
-  };
-
-  const goToTestimonialPrevious = () => {
-    setIsTestimonialAutoPlaying(false);
-    const totalSlides = getTestimonialTotalSlides();
-    setTestimonialCarouselIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
-  };
-
-  const goToTestimonialNext = () => {
-    setIsTestimonialAutoPlaying(false);
-    const totalSlides = getTestimonialTotalSlides();
-    setTestimonialCarouselIndex((prev) => (prev + 1) % totalSlides);
   };
 
   const goToTestimonialSlide = (index: number) => {
@@ -698,8 +676,8 @@ const Mentorias: React.FC = () => {
 
           {/* Carrusel de Mentores */}
           <div className="relative">
-            {/* Contenedor del carrusel */}
-            <div className="overflow-hidden rounded-3xl">
+            {/* Contenedor del carrusel con padding para el hover */}
+            <div className="overflow-hidden py-6 px-2">
               <div 
                 className="flex transition-transform duration-500 ease-in-out" 
                 style={{ 
@@ -714,7 +692,7 @@ const Mentorias: React.FC = () => {
                   return (
                     <div
                       key={slideIndex}
-                      className="min-w-full flex gap-4 md:gap-6"
+                      className="min-w-full flex gap-4 md:gap-6 px-2"
                     >
                       {mentorsInSlide.map((mentor, mentorIndex) => {
                         const globalIndex = startIndex + mentorIndex;
@@ -731,9 +709,9 @@ const Mentorias: React.FC = () => {
                         return (
                           <div
                             key={mentor.id}
-                            className="flex-1 min-w-0"
+                            className="flex-1 min-w-0 p-2"
                           >
-                            <div className={`bg-gradient-to-br ${bgColor} rounded-2xl p-6 shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 border-white/20 h-full`}>
+                            <div className={`bg-gradient-to-br ${bgColor} rounded-2xl p-6 shadow-2xl transform hover:scale-105 hover:-translate-y-2 transition-all duration-300 border-2 border-white/20 h-full`}>
                               {/* Foto del Mentor */}
                               <div className="flex justify-center mb-4">
                                 <div className="relative group">
@@ -791,21 +769,7 @@ const Mentorias: React.FC = () => {
               </div>
             </div>
 
-            {/* Botones de Navegación */}
-            <button
-              onClick={goToMentorPrevious}
-              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-teal-600 p-3 rounded-full shadow-xl transition-all duration-200 hover:scale-110 z-20 border-2 border-teal-200"
-              aria-label="Anterior"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <button
-              onClick={goToMentorNext}
-              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-teal-600 p-3 rounded-full shadow-xl transition-all duration-200 hover:scale-110 z-20 border-2 border-teal-200"
-              aria-label="Siguiente"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
+            
 
             {/* Indicadores */}
             <div className="flex justify-center gap-2 mt-8">
@@ -975,7 +939,7 @@ const Mentorias: React.FC = () => {
 
           {/* Carrusel de Tarjetas */}
           <div className="relative">
-            <div className="overflow-hidden rounded-3xl">
+            <div className="overflow-hidden py-6 px-2">
               <div 
                 className="flex transition-transform duration-700 ease-in-out" 
                 style={{ 
@@ -1030,9 +994,9 @@ const Mentorias: React.FC = () => {
                         return (
                           <div
                             key={testimonial.id}
-                            className="flex-1 min-w-0"
+                            className="flex-1 min-w-0 p-2"
                           >
-                            <div className={`bg-gradient-to-br ${bgGradient} rounded-2xl shadow-xl hover:shadow-2xl border-2 ${borderColor} overflow-hidden transition-all duration-500 transform hover:scale-105 group relative h-full`}>
+                            <div className={`bg-gradient-to-br ${bgGradient} rounded-2xl shadow-xl hover:shadow-2xl border-2 ${borderColor} overflow-hidden transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 group relative h-full`}>
                               {/* Overlay con brillo suave al hover */}
                               <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/0 group-hover:from-white/10 group-hover:to-white/5 transition-all duration-500 pointer-events-none z-10"></div>
                               
@@ -1053,11 +1017,11 @@ const Mentorias: React.FC = () => {
                                 </h3>
                                 
                                 {/* Estrellas (placeholder) */}
-                                <div className="flex gap-1 mb-4">
+                                <div className="flex gap-1 mb-3">
                                   {[1, 2, 3, 4, 5].map((star) => (
                                     <svg
                                       key={star}
-                                      className="w-5 h-5 text-yellow-400"
+                                      className="w-4 h-4 text-yellow-400"
                                       fill="currentColor"
                                       viewBox="0 0 20 20"
                                     >
@@ -1066,15 +1030,17 @@ const Mentorias: React.FC = () => {
                                   ))}
                                 </div>
                                 
-                                {/* Mini descripción */}
-                                <p className="text-gray-600 text-sm md:text-base leading-relaxed mb-6 flex-grow line-clamp-3">
-                                  {testimonial.testimonial}
-                                </p>
+                                {/* Mini descripción con altura flexible */}
+                                <div className="flex-grow flex items-center mb-4">
+                                  <p className="text-gray-600 text-xs md:text-sm leading-relaxed line-clamp-4">
+                                    {testimonial.testimonial}
+                                  </p>
+                                </div>
                                 
                                 {/* Botón Conocer más */}
                                 <button
                                   onClick={() => setSelectedTestimonial(testimonial.id)}
-                                  className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group-hover:scale-105"
+                                  className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white font-semibold px-5 py-2.5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-sm"
                                 >
                                   Conocer más
                                 </button>
@@ -1088,22 +1054,6 @@ const Mentorias: React.FC = () => {
                 })}
               </div>
             </div>
-
-            {/* Botones de Navegación */}
-            <button
-              onClick={goToTestimonialPrevious}
-              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 bg-white/95 hover:bg-white text-teal-600 p-3 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 z-30 border-2 border-teal-200 backdrop-blur-sm"
-              aria-label="Anterior"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <button
-              onClick={goToTestimonialNext}
-              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 bg-white/95 hover:bg-white text-teal-600 p-3 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 z-30 border-2 border-teal-200 backdrop-blur-sm"
-              aria-label="Siguiente"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
 
             {/* Indicadores tipo dots */}
             <div className="flex justify-center gap-2 mt-8">
@@ -1203,13 +1153,31 @@ const Mentorias: React.FC = () => {
                       </div>
                     </div>
                     
-                    {/* Galería de Fotos de la Sesión */}
+                    {/* Galería de Medios (Fotos y Video) */}
                     <div>
                       <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
                         <span className="w-1 h-6 bg-gradient-to-b from-teal-500 to-cyan-500 rounded-full"></span>
-                        Fotos de la Sesión
+                        {testimonial.videoUrl ? 'Fotos y Video de la Sesión' : 'Fotos de la Sesión'}
                       </h4>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {/* Video (si existe) */}
+                        {testimonial.videoUrl && (
+                          <div className="relative group overflow-hidden rounded-lg border-2 border-teal-300 hover:border-teal-500 transition-all duration-300 shadow-md hover:shadow-xl transform hover:scale-105 col-span-2 md:col-span-2">
+                            <video
+                              controls
+                              className="w-full h-32 md:h-40 object-cover"
+                              src={testimonial.videoUrl}
+                            >
+                              Tu navegador no soporta el elemento de video.
+                            </video>
+                            <div className="absolute top-2 left-2 bg-teal-500/90 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                              <PlayCircle className="w-3 h-3" />
+                              Video
+                            </div>
+                          </div>
+                        )}
+                        
+                        {/* Fotos */}
                         {testimonial.sessionPhotos.map((photo, index) => (
                           <div
                             key={index}

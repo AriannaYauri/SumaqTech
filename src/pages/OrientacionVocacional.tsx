@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CareerCard } from '../components/CareerCard';
-import { ProfessionalCard } from '../components/ProfessionalCard';
+import { OrientacionCard } from '../components/OrientacionCard';
 import { VideoModal } from '../components/VideoModal';
 import IntroCarousel from '../components/IntroCarousel';
 
@@ -31,34 +31,15 @@ const categories: Category[] = [
     description:
       'La Ingeniería de Telecomunicaciones abarca el diseño, implementación y gestión de sistemas que permiten la comunicación de voz, datos e información a nivel global. Aprende sobre redes, transmisión de datos, telefonía, internet, radiofrecuencia y tecnologías emergentes, preparándote para conectar personas y dispositivos en un mundo interconectado.',
     icon: '📡',
-    professionals: [
+    professionals: [          
       {
         id: '1',
-        name: 'Lita Diaz',
-        role: 'Project Manager',
-        field: 'Ingeniería de Telecomunicaciones',
-        image: 'src/components/profesionales/fotos/lita_Diaz.jpg',
-        videoSrc: '/videos/lita_diaz.mp4',
-        bio: 'Lita Diaz es una experimentada Project Manager en telecomunicaciones, liderando proyectos innovadores que conectan comunidades a nivel global.'
-      },
-      {
-        id: '2',
-        name: 'Juan Quillas',
-        role: 'Project Manager',
-        field: 'Ingeniería de Telecomunicaciones',
-        image: 'src/components/profesionales/fotos/juan_quillas.jpg',
-        videoSrc: 'src/components/profesionales/videos/juan_quillas.mp4',
-        bio: 'Juan Quillas lidera proyectos de infraestructura y conectividad, con foco en zonas rurales y solución de acceso.'
-      }
-      ,
-      {
-        id: '3',
         name: 'Watson Ramirez',
         role: 'Jefe de Ciberseguridad',
         field: 'Ingeniería de Telecomunicaciones',
         image: 'src/components/profesionales/fotos/wattson_ramirez.jpg',
         videoSrc: 'src/components/profesionales/videos/wattson_ramirez.mp4',
-        bio: 'Watson Ramirez es jefe de ciberseguridad en Telefónica, brindando protección avanzada a infraestructuras críticas.'
+        bio: 'Wattson es un Ingeniero de Telecomunicaciones con una trayectoria de más de 20 años especializado en áreas críticas de TI: Redes IP, Seguridad de la Información/Informática, Centro de Datos y Virtualización. Actualmente se desempeña como Jefe de Ciberseguridad en Telefónica, rol en el que aplica su vasta experiencia en la administración, operación y gestión de redes y plataformas críticas. Su conocimiento abarca una amplia gama de sectores, incluyendo Telecomunicaciones, Retail, Farmacéutica, Agroindustrial, Servicios e Infraestructura TI. Esto le permite tener una visión integral de cómo la seguridad y la infraestructura de red impactan en diferentes tipos de negocios.'
       }
     ]
   },
@@ -71,7 +52,7 @@ const categories: Category[] = [
     icon: '🛡️',
     professionals: [
       {
-        id: '3',
+        id: '2',
         name: 'Roger Menendez',
         role: 'Gerente de Seguridad',
         field: 'Ingeniería de Ciberseguridad',
@@ -90,6 +71,16 @@ const categories: Category[] = [
     icon: '🔌',
     professionals: [
       {
+        id: '3',
+        name: 'Juan Quillas',
+        role: 'Jefe de Preventa en ON Empresas',
+        field: 'Ingeniería Electrónica',
+        image: 'src/components/profesionales/fotos/juan_quillas.jpg',
+        videoSrc: 'src/components/profesionales/videos/juan_quillas.mp4',
+        bio: 'Juan es un profesional con más de 15 años de experiencia en TI, redes y ciberseguridad. Actualmente, se desempeña como Jefe de Preventa, donde lidera el diseño e integración de soluciones tecnológicas complejas para empresas. En paralelo, es docente universitario en la UNI (especializado en Redes y Ciberseguridad) y formador acreditado Cisco. Su trayectoria destaca la combinación de liderazgo estratégico en la industria y un profundo compromiso con la formación de la próxima generación de ingenieros.'
+      }
+      ,
+      {
         id: '4',
         name: 'Wilfredo Fanola',
         role: 'Ingeniero Electrónico',
@@ -97,25 +88,6 @@ const categories: Category[] = [
         image: 'src/components/profesionales/fotos/wilfredo_fanola.jpg',
         videoSrc: '/videos/wilfredo_fanola.mp4',
         bio: 'Wilfredo es un ingeniero electrónico apasionado por crear soluciones tecnológicas escalables y eficientes.'
-      }
-    ]
-  },
-  {
-    id: 'ai',
-    name: 'Inteligencia Artificial',
-    cta: '¡Construye el futuro con IA!',
-    description:
-      'La Inteligencia Artificial estudia cómo crear máquinas inteligentes capaces de aprender y tomar decisiones. Aprende sobre machine learning, visión por computadora y procesamiento de lenguaje natural para construir soluciones inteligentes.',
-    icon: '🤖',
-    professionals: [
-      {
-        id: '5',
-        name: 'Lucia Martinez',
-        role: 'AI Researcher',
-        field: 'Inteligencia Artificial',
-        image: '/images/profesionales/lucia_martinez.jpg',
-        videoSrc: '/videos/lucia_martinez.mp4',
-        bio: 'Lucia investiga nuevas técnicas de inteligencia artificial aplicadas a la salud y la industria.'
       }
     ]
   }
@@ -288,7 +260,7 @@ const OrientacionVocacional: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {selectedCategory.professionals.map((pro) => (
                 <div key={pro.id} className="h-full">
-                  <ProfessionalCard
+                  <OrientacionCard
                     name={pro.name}
                     role={pro.role}
                     field={pro.field}
