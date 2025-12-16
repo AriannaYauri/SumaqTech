@@ -1,0 +1,59 @@
+[33m4e46b1c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: reset: moving to origin/main
+[33m6e511e4[m HEAD@{1}: commit: Actualizacion de estudiantes
+[33m5463550[m HEAD@{2}: commit: Actualizacion de estudiantes
+[33m4e46b1c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{3}: pull: Fast-forward
+[33m0113d42[m HEAD@{4}: commit (merge): HOLI
+[33m33ef915[m HEAD@{5}: commit: aa
+[33m4f54a83[m HEAD@{6}: pull: Fast-forward
+[33mf99bdfd[m HEAD@{7}: checkout: moving from f99bdfd22e0cc3f930751ce875263f9a60952df9 to main
+[33mf99bdfd[m HEAD@{8}: checkout: moving from SumaqIA to origin
+[33me120608[m[33m ([m[1;32mSumaqIA[m[33m)[m HEAD@{9}: checkout: moving from main to SumaqIA
+[33mf99bdfd[m HEAD@{10}: commit: vIDEOS
+[33m1137fbf[m HEAD@{11}: commit: feat: agregar portadas de módulos, perfil de instructor y mejoras de UI
+[33m5ad843d[m HEAD@{12}: commit: FORMATO MD PARA CURSOS Y SE MOVIÓ ARCHIVO FIREBASE A UNA CARPETA
+[33m9416be6[m HEAD@{13}: checkout: moving from SumaqIA to main
+[33me120608[m[33m ([m[1;32mSumaqIA[m[33m)[m HEAD@{14}: reset: moving to HEAD
+[33me120608[m[33m ([m[1;32mSumaqIA[m[33m)[m HEAD@{15}: checkout: moving from main to SumaqIA
+[33m9416be6[m HEAD@{16}: commit: Actualizacion en nosotros
+[33m01ab30a[m HEAD@{17}: commit: Actualizacion de modulos
+[33md004737[m HEAD@{18}: commit: Actualizacion de profesionales
+[33m925d1ec[m HEAD@{19}: pull: Fast-forward
+[33m9d68be1[m HEAD@{20}: commit (merge): Aceptando cambios remotos de Curso_Python.tsx
+[33mff52dad[m HEAD@{21}: commit: ACTUALIZACION DE PROFESIONALES
+[33mbb75768[m HEAD@{22}: pull: Fast-forward
+[33mda22b17[m HEAD@{23}: commit: Creación del dashboard
+[33mf7e1b8e[m HEAD@{24}: commit: integración de Firebase para login, solo falta arreglar el error al momento de entrar al curso de python, se bugea
+[33m858f90d[m HEAD@{25}: pull: Fast-forward
+[33m57570c9[m HEAD@{26}: pull: Fast-forward
+[33meb481ee[m HEAD@{27}: commit: se actualizó modulos
+[33m22695c9[m HEAD@{28}: pull: Fast-forward
+[33m84adcf9[m HEAD@{29}: commit: se actualizó los errores en nosotros, se eliminó variables que no se usaban y se agregó el scroll to top en todas las páginas
+[33mb331324[m HEAD@{30}: pull: Fast-forward
+[33mdce6690[m HEAD@{31}: pull: Fast-forward
+[33m13cf214[m HEAD@{32}: commit: correccion del foro
+[33m0fac569[m HEAD@{33}: commit: holi
+[33m748358f[m HEAD@{34}: commit: correcion de foro 2
+[33m563753f[m HEAD@{35}: commit: corrección foro
+[33mb55966a[m HEAD@{36}: pull: Fast-forward
+[33mc81e01d[m HEAD@{37}: commit: Cambios en la página de inicio (carrusel en historias y mensaje de inicio, además se cambió la sección de video
+[33m051320d[m HEAD@{38}: commit: primeros cambios del carrusel en página de inicio
+[33medf17db[m HEAD@{39}: commit: actualización de botones comienza en inicio
+[33m7a91d26[m HEAD@{40}: pull: Merge made by the 'ort' strategy.
+[33m4d76ab7[m HEAD@{41}: commit: Primera actualización del diseño en log in y sign up
+[33m16d2b55[m HEAD@{42}: commit: Refactor de autenticación y rutas: unifica las páginas de ingreso y registro en un solo componente Auth con ruta dinámica /auth/:type; actualiza el Navbar para que los botones apunten a la nueva ruta
+[33mb52d7d1[m HEAD@{43}: commit: Añadí el footer en las páginas con layout y actualicé los archivos layout.tsx, footer.tsx, app.tsx
+[33m0643f68[m HEAD@{44}: commit: Actualización de página de inicio, pie de página, íconos svg y fotos de los testimonios.
+[33mf420be0[m HEAD@{45}: commit: Primer avance de página de inicio
+[33m839aec2[m HEAD@{46}: pull: Fast-forward
+[33m356a762[m HEAD@{47}: commit: actualicé carpeta bot en component
+[33m8be1ec5[m HEAD@{48}: commit: añadí carpeta bot en components
+[33m4a0aa3f[m HEAD@{49}: pull: Fast-forward
+[33m4d78471[m HEAD@{50}: pull: Fast-forward
+[33m74a8cb7[m HEAD@{51}: pull: Fast-forward
+[33m94bf046[m HEAD@{52}: pull: Fast-forward
+[33ma5281d5[m HEAD@{53}: commit: Actualicé el robot
+[33m6c92f75[m HEAD@{54}: commit: Actualicé el título de la página de incio
+[33m12c6170[m HEAD@{55}: pull: Fast-forward
+[33mcb87c15[m HEAD@{56}: pull: Fast-forward
+[33m0305c02[m HEAD@{57}: pull: Fast-forward
+[33mc16ee2c[m HEAD@{58}: clone: from https://github.com/AriannaYauri/SumaqTech.git
