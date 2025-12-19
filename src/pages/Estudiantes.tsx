@@ -100,8 +100,8 @@ const categories: Category[] = [
         institution: 'Universidad Nacional de Ingeniería',
         image: 'src/components/estudiantes/fotos/daniela_chanta.jpg',
         videoSrc: 'src/components/estudiantes/videos/daniela_chanta.mp4',
-        bio: 'Daniela construyó un robot autónomo para reciclaje que clasifica residuos automáticamente y participa en competencias internacionales.',
-        project: 'Robot clasificador de residuos con IA'
+        bio: "Daniela actualmente está estudiando en Francia gracias a una beca que obtuvo"
+        
       }
     ]
   }
